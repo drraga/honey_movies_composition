@@ -16,8 +16,8 @@ import MainBottom from './MainBottom.vue'
 
 <style lang="scss">
 .main-content {
-  width: 870px;
-  height: 858px;
+  max-width: 870px;
+  width: 100%;
   padding: {
     left: 68px;
     right: 32px;
