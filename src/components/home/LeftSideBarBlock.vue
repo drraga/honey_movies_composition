@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 export default {
   name: 'LeftSideBarBlock',
   props: {
@@ -37,6 +37,40 @@ export default {
     }
   }
 }
+</script> -->
+<script setup>
+import { ref, computed } from 'vue';
+
+const props = defineProps({
+  elementsArray: {
+    type: Array,
+    default: () => ([]),
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  visibility: {
+    type: String,
+    default: 'visible',
+  },
+})
+
+const display = ref(false);
+const displayText = computed(() => {return display.value ? 'Свернуть' : 'Показать еще'});
+
+const displayElementList = computed(() => {
+  const listLimit = 3;
+  return display.value
+        ? props.elementsArray
+        : props.elementsArray.slice(0, listLimit);
+})
+
+const categoryPath = computed(() => {
+  return props.title !== 'Menu'
+        ? props.title.toLowerCase()
+        : 'top'
+})
 </script>
 
 <template>

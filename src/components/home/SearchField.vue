@@ -1,23 +1,15 @@
-<script>
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-export default {
-  name: 'SearchField',
-  components: {
-  },
-  data() {
-    return {
-      searchInput: '',
-      feedBack: [],
-    }
-  },
-  methods: {
-    fetchSearch(request) {
-      this.$router.push({
-        path: `/films/search/${request.toLowerCase()}`,
-      })
-    }
-  }
+const searchInput = ref('');
 
+const router = useRouter();
+
+function fetchSearch(request) {
+  router.push({
+    path: `/films/search/${request.toLowerCase()}`,
+  });
 }
 </script>
 
@@ -35,7 +27,8 @@ export default {
 <style scoped lang="scss">
   .search-field{
     height: 56px;
-    width: 315px;
+    max-width: 315px;
+    width: 100%;
     padding: 25px;
     background-color: #21242D;
     color: #F9F9F9AB;

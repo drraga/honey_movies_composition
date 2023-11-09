@@ -1,34 +1,15 @@
-<script>
-import { mapGetters } from 'vuex'
-import RightSideBarElement from './RightSideBarBlock.vue'
+<script setup>
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import RightSideBarElement from './RightSideBarBlock.vue';
 
-export default {
-  name: 'RightSideBar',
-  components: {
-    RightSideBarElement
-  },
-  data() {
-    return {
-      listLimit: 5,
-    }
-  },
-  computed: {
-    ...mapGetters('main_page', {
-      getMoviesTop250: 'getMoviesTop250',
-      getMoviesTop100: 'getMoviesTop100',
-      getMoviesTopAwait: 'getMoviesTopAwait'
-    }),
-    moviesTop250() {
-      return this.getMoviesTop250.slice(0, this.listLimit)
-    },
-    moviesTop100() {
-      return this.getMoviesTop100.slice(0, this.listLimit)
-    },
-    moviesTopAwait() {
-      return this.getMoviesTopAwait.slice(0, this.listLimit)
-    }
-  }
-}
+const listLimit = ref(5);
+
+const store = useStore();
+
+const moviesTop250 = computed(() => store.getters['main_page/getMoviesTop250']?.slice(0, listLimit.value));
+const moviesTop100 = computed(() => store.getters['main_page/getMoviesTop100']?.slice(0, listLimit.value));
+const moviesTopAwait = computed(() => store.getters['main_page/getMoviesTopAwait']?.slice(0, listLimit.value));
 </script>
 
 <template>
@@ -42,6 +23,6 @@ export default {
 <style scoped>
 .right-side-bar{
     max-width: 336px;
-    height: 858px;
+    width: 100%;
 }
 </style>
