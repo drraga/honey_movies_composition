@@ -1,44 +1,37 @@
-<script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-import BackHomeBlock from '../components/BackHomeBlock.vue'
-import MoviesCardList from '../components/movies/MoviesCardList.vue'
-import PreLoader from '../components/PreLoader.vue'
+<script setup>
+import { computed, onMounted, onBeforeUnmount } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
-export default {
-  name: 'SearchResults',
-  components: {
-    BackHomeBlock,
-    MoviesCardList,
-    PreLoader,
-  },
-  computed: {
-    queryGenre() {
-      return this.$route.params.id
-    },
-    ...mapGetters('movies_catalog', {
-      isLoading: 'isLoading',
-      movies: 'getSearchResults'
-    })
-  },
-  mounted() {
-    this.fetchSearch(this.queryGenre)
-  },
-  beforeUnmount() {
-    this.resetCurrentPageState();
-    this.resetMainPageState();
-  },
-  methods: {
-    ...mapMutations('movies_catalog', {
-      resetCurrentPageState: 'RESET_STATE'
-    }),
-    ...mapMutations('main_page', {
-      resetMainPageState: 'RESET_STATE'
-    }),
-    ...mapActions('movies_catalog', {
-      fetchSearch: 'fetchSearch'
-    })
-  }
-}
+import BackHomeBlock from '../components/BackHomeBlock.vue';
+import MoviesCardList from '../components/movies/MoviesCardList.vue';
+import PreLoader from '../components/PreLoader.vue';
+
+const store = useStore();
+const route = useRoute();
+
+const isLoading = computed(() => store.getters['movies_catalog/isLoading']);
+const movies = computed(() => store.getters['movies_catalog/getSearchResults']);
+
+const queryGenre = computed(() => route.params.id);
+function fetchSearch(queryGenre) {
+  store.dispatch('movies_catalog/fetchSearch', queryGenre)
+};
+onMounted(() => 
+  fetchSearch(queryGenre.value),
+);
+
+function resetCurrentPageState() {
+  store.commit('movies_catalog/RESET_STATE');
+};
+function resetMainPageState() {
+  store.commit('main_page/RESET_STATE');
+};
+onBeforeUnmount(() => 
+  resetMainPageState(),
+  resetCurrentPageState(),
+);
+
 </script>
 
 <template>

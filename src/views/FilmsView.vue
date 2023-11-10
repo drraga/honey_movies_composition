@@ -1,80 +1,66 @@
-<script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-import BackHomeBlock from '../components/BackHomeBlock.vue'
-import MoviesCardList from '../components/movies/MoviesCardList.vue'
-import PreLoader from '../components/PreLoader.vue'
+<script setup>
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
-export default {
-  name: 'FilmsView',
-  components: {
-    BackHomeBlock,
-    MoviesCardList,
-    PreLoader,
-  },
-  data() {
-    return {
-      dictionary: {
-        250: {
-          title: 'Top 250',
-          paramObject: {
-            type: 'TOP_250_BEST_FILMS',
-            page: 1,
-          }
-        },
-        100: {
-          title: 'Top 100',
-          paramObject: {
-            type: 'TOP_100_POPULAR_FILMS',
-            page: 1,
-          }
-        },
-        await: {
-          title: 'Top Await',
-          paramObject: {
-            type: 'TOP_AWAIT_FILMS',
-            page: 1,
-          }
-        }
-      }
+import BackHomeBlock from '../components/BackHomeBlock.vue';
+import MoviesCardList from '../components/movies/MoviesCardList.vue';
+import PreLoader from '../components/PreLoader.vue';
+
+const store = useStore();
+const route = useRoute();
+
+const dictionary = ref({
+  250: {
+    title: 'Top 250',
+    paramObject: {
+      type: 'TOP_250_BEST_FILMS',
+      page: 1,
     }
   },
-  computed: {
-    title() {
-      return this.dictionary[this.id].title
-    },
-    category() {
-      return this.$route.params.category
-    },
-    id() {
-      return this.$route.params.id
-    },
-    query() {
-      return this.dictionary[this.id].paramObject
-    },
-    ...mapGetters('movies_catalog', {
-      movies: 'getTopMoviesSelected',
-      isLoading: 'isLoading',
-    })
+  100: {
+    title: 'Top 100',
+    paramObject: {
+      type: 'TOP_100_POPULAR_FILMS',
+      page: 1,
+    }
   },
-  mounted() {
-    this.fetchTopSpecific(this.query)
-  },
-  beforeUnmount() {
-    this.resetCurrentPageState();
-    this.resetMainPageState();
-  },
-  methods: {
-    ...mapActions('movies_catalog', {
-      fetchTopSpecific: 'fetchTopSpecific',
-    }),
-    ...mapMutations('main_page', {
-      resetMainPageState: 'RESET_STATE'
-    }),
-    ...mapMutations('movies_catalog', {
-      resetCurrentPageState: 'RESET_STATE',
-    })
+  await: {
+    title: 'Top Await',
+    paramObject: {
+      type: 'TOP_AWAIT_FILMS',
+      page: 1,
+    }
   }
-}
+})
+
+const title = computed(() => dictionary.value[id.value].title);
+const id = computed(() => route.params.id);
+const category = computed(() => route.params.category);
+const query = computed(() => dictionary.value[id.value].paramObject);
+
+const movies = computed(() => store.getters['movies_catalog/getTopMoviesSelected']);
+const isLoading = computed(() => store.getters['movies_catalog/isLoading']);
+
+function fetchTopSpecific() {
+  store.dispatch('movies_catalog/fetchTopSpecific');
+};
+onMounted(() => 
+  fetchTopSpecific(query.value),
+)
+
+function resetMainPageState(){
+  store.commit('main_page/RESET_STATE');
+};
+function resetCurrentPageState(){
+  store.commit('movies_catalog/RESET_STATE');
+};
+onBeforeUnmount(() =>
+  resetCurrentPageState(),
+  resetMainPageState(),
+)
+
+
 </script>
 
 <template>
@@ -109,8 +95,8 @@ export default {
 
 .request-top{
   &__wrapper{
-  width: 1440px;
-  min-height: 1024px;
+  max-width: 1440px;
+  width: 100%;
     padding: {
       top: 68px;
       left: 58px;

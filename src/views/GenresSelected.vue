@@ -1,51 +1,40 @@
-<script>
-import { mapGetters, mapActions, mapMutations } from 'vuex'
-import BackHomeBlock from '../components/BackHomeBlock.vue'
-import MoviesCardList from '../components/movies/MoviesCardList.vue'
-import PreLoader from '../components/PreLoader.vue'
+<script setup>
+import { computed, onMounted, onBeforeUnmount } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
+import BackHomeBlock from '../components/BackHomeBlock.vue';
+import MoviesCardList from '../components/movies/MoviesCardList.vue';
+import PreLoader from '../components/PreLoader.vue';
 
-export default {
-  name: 'GenresSelected',
-  components: {
-    BackHomeBlock,
-    MoviesCardList,
-    PreLoader,
-  },
-  computed: {
-    ...mapGetters('movies_catalog', {
-      isLoading: 'isLoading',
-      movies: 'getGenresSelected',
-    }),
-    ...mapGetters('main_page', {
-      genreSelectedName: 'getGenreSelectedName',
-    }),
-    queryGenre() {
-      return +this.$route.params.id
-    },
-  },
-  mounted() {
-    this.fetchGenres(this.queryGenre);
-    this.fetchFilters();
-  },
-  beforeUnmount() {
-    this.resetCurrentPageState();
-    this.resetMainPageState();
-  },
-  methods: {
-    ...mapActions('movies_catalog', {
-      fetchGenres: 'fetchGenres'
-    }),
-    ...mapActions('main_page', {
-      fetchFilters: 'fetchFilters',
-    }),
-    ...mapMutations('main_page', {
-      resetMainPageState: 'RESET_STATE'
-    }),
-    ...mapMutations('movies_catalog', {
-      resetCurrentPageState: 'RESET_STATE',
-    })
-  }
+const store = useStore();
+const route = useRoute();
+
+const isLoading = computed(() => store.getters['movies_catalog/isLoading']);
+const movies = computed(() => store.getters['movies_catalog/getGenresSelected']);
+const genreSelectedName = computed(() => store.getters['main_page/getGenreSelectedName']);
+const queryGenre = computed(() => route.params.id);
+
+function fetchGenres(queryGenre) {
+  store.dispatch('movies_catalog/fetchGenres', queryGenre);
 }
+function fetchFilters() {
+  store.dispatch('main_page/fetchFilters');
+};
+onMounted(() =>
+  fetchGenres(queryGenre.value),
+  fetchFilters(),
+);
+
+function resetMainPageState() {
+  store.commit('main_page/RESET_STATE');
+};
+function resetCurrentPageState() {
+  store.commit('movies_catalog/RESET_STATE');
+};
+onBeforeUnmount(() =>
+  resetCurrentPageState(),
+  resetMainPageState(),
+);
 </script>
 
 <template>
@@ -78,8 +67,8 @@ export default {
 
 .genre-search{
   &__wrapper{
-  width: 1440px;
-  min-height: 1024px;
+  max-width: 1440px;
+  width: 100%;
     padding: {
       top: 68px;
       left: 58px;

@@ -1,42 +1,36 @@
-<script>
-export default {
-  name: 'LeftSideBarBlock',
-  props: {
-    elementsArray: {
-      type: Array,
-      default: () => ([]),
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    visibility: {
-      type: String,
-      default: 'visible',
-    }
+<script setup>
+import { ref, computed } from 'vue';
+
+const props = defineProps({
+  elementsArray: {
+    type: Array,
+    default: () => ([]),
   },
-  data() {
-    return {
-      display: false,
-    }
+  title: {
+    type: String,
+    required: true,
   },
-  computed: {
-    displayText() {
-      return this.display ? 'Свернуть' : 'Показать еще';
-    },
-    displayElementList() {
-      const listLimit = 3
-      return this.display
-        ? this.elementsArray
-        : this.elementsArray.slice(0, listLimit);
-    },
-    categoryPath() {
-      return this.title !== 'Menu'
-        ? this.title.toLowerCase()
+  visibility: {
+    type: String,
+    default: 'visible',
+  },
+})
+
+const display = ref(false);
+const displayText = computed(() => { return display.value ? 'Свернуть' : 'Показать еще' });
+
+const displayElementList = computed(() => {
+  const listLimit = 3;
+  return display.value
+        ? props.elementsArray
+        : props.elementsArray.slice(0, listLimit);
+})
+
+const categoryPath = computed(() => {
+  return props.title !== 'Menu'
+        ? props.title.toLowerCase()
         : 'top'
-    }
-  }
-}
+})
 </script>
 
 <template>

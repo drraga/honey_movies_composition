@@ -1,18 +1,12 @@
-<script>
-import MoviesCardItem from './MoviesCardItem.vue'
+<script setup>
+import MoviesCardItem from './MoviesCardItem.vue';
 
-export default {
-  name: 'MoviesCardList',
-  components: {
-    MoviesCardItem
-  },
-  props: {
-    movies: {
-      type: Array,
-      default: () => ([])
-    }
+const props = defineProps({
+  movies: {
+    type: Array,
+    default: () => ({}),
   }
-}
+})
 </script>
 
 <template>

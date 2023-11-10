@@ -1,8 +1,8 @@
 <script setup>
-import CarouselMain from './Carousel.vue'
-import MainBottom from './MainBottom.vue'
-
+import CarouselMain from './Carousel.vue';
+import MainBottom from './MainBottom.vue';
 </script>
+
 <template>
   <section class="main-content">
     <section class="main-content__carousel">

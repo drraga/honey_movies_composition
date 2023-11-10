@@ -1,38 +1,30 @@
-<script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-import Vue3StarRatings from 'vue3-star-ratings'
-import BackHomeBlock from '../components/BackHomeBlock.vue'
-import PreLoader from '../components/PreLoader.vue'
+<script setup>
+import { computed, onMounted, onBeforeUnmount } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
+import Vue3StarRatings from 'vue3-star-ratings';
+import BackHomeBlock from '../components/BackHomeBlock.vue';
+import PreLoader from '../components/PreLoader.vue';
 
-export default {
-  name: 'MoviePageSingle',
-  components: {
-    BackHomeBlock,
-    Vue3StarRatings,
-    PreLoader,
-  },
-  computed: {
-    ...mapGetters('movie_single', {
-      isLoading: 'isLoading',
-      getMovie: 'getMovie'
-    })
-  },
-  mounted() {
-    this.fetchMovie(this.$route.params.id)
-  },
-  beforeUnmount() {
-    this.resetCurrentPageState();
-  },
-  methods: {
-    ...mapMutations('movie_single', {
-      resetCurrentPageState: 'RESET_STATE'
-    }),
-    ...mapActions('movie_single', {
-      fetchMovie: 'fetchMovieSingle'
-    })
-  }
-}
+const store = useStore();
+const route = useRoute();
 
+const isLoading = computed(() => store.getters['movie_single/isLoading']);
+const getMovie = computed(() => store.getters['movie_single/getMovie']);
+
+function fetchMovie(params) {
+  store.dispatch('movie_single/fetchMovieSingle', params);
+};
+onMounted(() => 
+  fetchMovie(route.params.id),
+);
+
+function resetCurrentPageState() {
+  store.commit('movie_single/RESET_STATE');
+};
+onBeforeUnmount(() => 
+  resetCurrentPageState(),
+)
 </script>
 
 <template>
@@ -90,8 +82,8 @@ $primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 3
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    width: 1440px;
-    height: 1024px;
+    max-width: 1440px;
+    width: 100%;
     margin: {
       left: auto;
       right: auto;
@@ -101,8 +93,8 @@ $primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 3
   &__wrapper{
     background-repeat: no-repeat;
     background-size: cover;
-    width: 1440px;
-    height: 1024px;
+    max-width: 1440px;
+    width: 100%;
     padding-top: 150px;
     position: relative;
     margin: {
@@ -152,8 +144,8 @@ $primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 3
   }
   &__poster-preview{
     position: relative;
-    height: 594px;
-    width: 300px;
+    max-width: 300px;
+    width: 100%;
     background-repeat: no-repeat;
     background-size: contain;
     margin-left: 100px;
@@ -164,8 +156,8 @@ $primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 3
       size: 30px;
       weight: 600px;
     }
-    width: 652px;
-    max-height: 198px;
+    max-width: 652px;
+    width: 100%;
     overflow-y: scroll;
   }
   &__rating{

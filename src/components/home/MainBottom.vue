@@ -1,25 +1,16 @@
-<script>
-import { mapGetters } from 'vuex'
-import { RouterLink } from 'vue-router'
-import Vue3StarRatings from 'vue3-star-ratings'
+<script setup>
+import { RouterLink } from 'vue-router';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import Vue3StarRatings from 'vue3-star-ratings';
 
-export default {
-  name: 'MainBottom',
-  components: {
-    RouterLink,
-    Vue3StarRatings,
-  },
-  computed: {
-    ...mapGetters('main_page', {
-      moviesTop250Random: 'getMoviesTop250Random'
-    })
-  },
-  methods: {
-    convertRating(rating) {
-      return Math.round(rating) / 2
-    },
-  }
-}
+const store = useStore();
+
+const moviesTop250Random = computed(() => store.getters['main_page/getMoviesTop250Random']);
+
+function convertRating(rating) {
+  return Math.round(rating) / 2
+};
 </script>
 
 <template>
@@ -42,7 +33,7 @@ export default {
         >
           <div class="main-bottom-block__overlay">
             <div class="main-bottom-block__card-title">
-              {{ slide.nameRu }}
+              {{ slide.nameRu.slice(0, 20) }}
               <div class="rate">
                 <Vue3StarRatings
                   :model-value="convertRating(slide.rating)"

@@ -1,20 +1,13 @@
-<script>
-import { RouterLink } from 'vue-router'
-import Vue3StarRatings from 'vue3-star-ratings'
+<script setup>
+import { RouterLink } from 'vue-router';
+import Vue3StarRatings from 'vue3-star-ratings';
 
-export default {
-  name: 'MoviesCardItem',
-  components: {
-    RouterLink,
-    Vue3StarRatings
-  },
-  props: {
-    movieData: {
-      type: Object,
-      default: () => ({})
-    }
+const prop= defineProps({
+  movieData: {
+    type: Object,
+    default: () => ({}),
   }
-}
+});
 </script>
 
 <template>

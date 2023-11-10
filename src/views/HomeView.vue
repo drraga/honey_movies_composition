@@ -1,64 +1,56 @@
-<script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-import NavHome from '../components/home/NavHome.vue'
-import LeftSideBar from '../components/home/LeftSideBar.vue'
-import MainContent from '../components/home/MainContent.vue'
-import RightSideBar from '../components/home/RightSidebar.vue'
-import PreLoader from '../components/PreLoader.vue'
+<script setup>
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useStore } from 'vuex';
+import NavHome from '../components/home/NavHome.vue';
+import LeftSideBar from '../components/home/LeftSideBar.vue';
+import MainContent from '../components/home/MainContent.vue';
+import RightSideBar from '../components/home/RightSidebar.vue';
+import PreLoader from '../components/PreLoader.vue';
 
-export default {
-  components: {
-    NavHome,
-    LeftSideBar,
-    MainContent,
-    RightSideBar,
-    PreLoader,
-  },
-  data() {
-    return {
-      monthArray:
-      ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER']
-    }
-  },
-  computed: {
-    ...mapGetters('movies_catalog', {
-      isLoading: 'isLoading'
-    }),
-    currentMonth() {
-      return this.monthArray[new Date().getMonth()]
-    }
-  },
-  mounted() {
-    this.setLoading(true);
-    this.getPromiseAll();
-  },
-  beforeUnmount() {
-    this.resetMainPageState();
-    this.resetCurrentPageState()
-  },
-  methods: {
-    ...mapMutations('main_page', {
-      resetMainPageState: 'RESET_STATE',
-    }),
-    ...mapMutations('movies_catalog', {
-      resetCurrentPageState: 'RESET_STATE',
-      setLoading: 'SET_LOADING',
-    }),
-    ...mapActions('main_page', {
-      fetchTop: 'fetchTop',
-      fetchPremiers: 'fetchPremiers',
-      fetchFilters: 'fetchFilters'
-    }),
-    getPromiseAll() {
-      this.setLoading(true);
-      Promise.all([this.fetchTop(), this.fetchPremiers(this.currentMonth), this.fetchFilters(),])
-        .then(() => {
-          this.setLoading(false)
-        })
-    }
-  }
+const store = useStore();
+
+const monthArray = ref([
+  'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL',
+  'MAY', 'JUNE', 'JULY', 'AUGUST',
+  'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+])
+const isLoading = computed(() => store.getters['movies_catalog/isLoading']);
+const currentMonth = computed(() => monthArray.value[new Date().getMonth()]);
+
+function setLoading(state){
+  store.commit('movies_catalog/SET_LOADING', state);
+};
+function fetchTop() {
+  store.dispatch('main_page/fetchTop');
+};
+function fetchPremiers(selectedMonth) {
+  store.dispatch('main_page/fetchPremiers', selectedMonth);
+};
+function fetchFilters() {
+  store.dispatch('main_page/fetchFilters');
+};
+function getPromiseAll() {
+  setLoading(true);
+  Promise.all([fetchTop(), fetchPremiers(currentMonth.value), fetchFilters(),])
+    .then(() => {
+      setLoading(false);
+    });
 }
+onMounted(() => 
+  setLoading(true),
+  getPromiseAll(),
+)
 
+function resetMainPageState() {
+  store.commit('main_page/RESET_STATE');
+};
+function resetCurrentPageState() {
+  store.commit('movies_catalog/RESET_STATE');
+};
+onBeforeUnmount(() =>
+  resetMainPageState(),
+  resetCurrentPageState(),
+)
 </script>
 
 <template>
@@ -89,8 +81,8 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    width: 1440px;
-    min-height: 1024px;
+    width: 100vw;
+    height: 100vh;
     margin: {
       left: auto;
       right: auto;
@@ -110,5 +102,4 @@ export default {
     display: flex;
   }
 }
-
 </style>

@@ -1,10 +1,3 @@
-<script>
-
-export default {
-  name: 'BackHomeBlock'
-}
-</script>
-
 <template>
   <div class="page-navigation">
     <router-link to="/">
