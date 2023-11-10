@@ -1,5 +1,5 @@
-import getFilms from '../../API/modules/films'
-import getRandomNums from '../../utils/RandomNums'
+import getFilms from '../../API/modules/films';
+import getRandomNums from '../../utils/RandomNums';
 
 export default {
   namespaced: true,

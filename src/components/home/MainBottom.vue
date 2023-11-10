@@ -33,7 +33,7 @@ function convertRating(rating) {
         >
           <div class="main-bottom-block__overlay">
             <div class="main-bottom-block__card-title">
-              {{ slide.nameRu }}
+              {{ slide.nameRu.slice(0, 20) }}
               <div class="rate">
                 <Vue3StarRatings
                   :model-value="convertRating(slide.rating)"

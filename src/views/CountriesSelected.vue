@@ -1,51 +1,44 @@
-<script>
-import { mapGetters, mapActions, mapMutations } from 'vuex'
-import BackHomeBlock from '../components/BackHomeBlock.vue'
-import MoviesCardList from '../components/movies/MoviesCardList.vue'
-import PreLoader from '../components/PreLoader.vue'
+<script setup>
+import { computed, onMounted, onBeforeUnmount }  from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
-export default {
-  name: 'CountriesSelected',
-  components: {
-    BackHomeBlock,
-    MoviesCardList,
-    PreLoader,
-  },
-  computed: {
-    ...mapGetters('movies_catalog', {
-      movies: 'getCountriesSelected',
-      isLoading: 'isLoading'
-    }),
-    ...mapGetters('main_page', {
-      countryRequestedName: 'getCountriesSelectedName',
-    }),
-    queryCountryId() {
-      return +this.$route.params.id
-    }
-  },
-  mounted() {
-    this.fetchCountries(this.queryCountryId);
-    this.fetchFilters();
-  },
-  beforeUnmount() {
-    this.resetCurrentPageState();
-    this.resetMainPageState();
-  },
-  methods: {
-    ...mapActions('movies_catalog', {
-      fetchCountries: 'fetchCountries'
-    }),
-    ...mapActions('main_page', {
-      fetchFilters: 'fetchFilters'
-    }),
-    ...mapMutations('main_page', {
-      resetMainPageState: 'RESET_STATE',
-    }),
-    ...mapMutations('movies_page', {
-      resetCurrentPageState: 'RESET_STATE',
-    })
-  }
-}
+import PreLoader from '../components/PreLoader.vue';
+import MoviesCardList from '../components/movies/MoviesCardList.vue';
+import BackHomeBlock from '../components/BackHomeBlock.vue'
+
+const store = useStore();
+
+const movies = computed(() => store.getters['movies_catalog/getCountriesSelected']);
+const countryRequestedName = computed(() => store.getters['main_page/getCountriesSelectedName']);
+const isLoading = computed(() => store.getters['movies_catalog/isLoading']);
+
+const route = useRoute();
+const queryCountryId = computed(() => +route.params.id);
+
+function fetchCountries(countryId) {
+  store.dispatch('movies_catalog/fetchCountries', countryId)
+};
+function fetchFilters() {
+  store.dispatch('main_page/fetchFilters')
+};
+
+onMounted(() => 
+  fetchCountries(queryCountryId.value),
+  fetchFilters(),
+  );
+
+function resetMainPageState() {
+  store.commit('main_page/RESET_STATE')
+};
+function resetCurrentPageState() {
+  store.commit('movies_catalog/RESET_STATE')
+};
+
+onBeforeUnmount(() => 
+  resetCurrentPageState(),
+  resetMainPageState(),
+);
 </script>
 
 <template>
@@ -80,8 +73,9 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    width: 1440px;
-    height: 1024px;
+    max-width: 1440px;
+    width: 100%;
+    // height: 1024px;
     margin: {
       left: auto;
       right: auto;

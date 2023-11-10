@@ -1,11 +1,6 @@
-<script>
-import SearchField from './SearchField.vue'
+<script setup>
+import SearchField from './SearchField.vue';
 
-export default {
-  components: {
-    SearchField,
-  }
-}
 </script>
 
 <template>

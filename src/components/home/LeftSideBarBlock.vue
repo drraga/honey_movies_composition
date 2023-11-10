@@ -17,7 +17,7 @@ const props = defineProps({
 })
 
 const display = ref(false);
-const displayText = computed(() => {return display.value ? 'Свернуть' : 'Показать еще'});
+const displayText = computed(() => { return display.value ? 'Свернуть' : 'Показать еще' });
 
 const displayElementList = computed(() => {
   const listLimit = 3;

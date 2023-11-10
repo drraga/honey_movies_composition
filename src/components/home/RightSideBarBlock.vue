@@ -1,19 +1,13 @@
-<!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
+<script setup>
+import { ref } from 'vue';
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide } from 'vue3-carousel';
+import { RouterLink } from 'vue-router';
 
-<script>
-import 'vue3-carousel/dist/carousel.css'
-import { Carousel, Slide } from 'vue3-carousel'
-import { RouterLink } from 'vue-router'
+const myCarousel = ref(null);
 
-export default {
-  name: 'RightSideBarElement',
-  components: {
-    Carousel,
-    Slide,
-    RouterLink,
-  },
-  props: {
-    catalogUrl: {
+const props = defineProps({
+  catalogUrl: {
       type: String,
       required: true,
     },
@@ -25,16 +19,9 @@ export default {
       type: Array,
       default: () => ([]),
     }
-  },
-  methods: {
-    toNextSlide() {
-      this.$refs.myCarousel.next()
-    },
-    toPrevSlide() {
-      this.$refs.myCarousel.prev()
-    },
-  }
-}
+});
+
+
 </script>
 
 <template>
@@ -47,13 +34,13 @@ export default {
             class="right-side-bar__btn-left"
             src="../../assets/icons/side-block__slider-left.svg"
             alt="prev"
-            @click="toPrevSlide"
+            @click="myCarousel.prev"
           />
           <img
             class="right-side-bar__btn-right"
             src="../../assets/icons/side-block__slider-right.svg"
             alt="next"
-            @click="toNextSlide"
+            @click="myCarousel.next"
           />
         </div>
       </div>

@@ -1,35 +1,21 @@
-<script>
-import { mapGetters } from 'vuex'
-import 'vue3-carousel/dist/carousel.css'
+<script setup>
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import { RouterLink } from 'vue-router';
+
+import 'vue3-carousel/dist/carousel.css';
 import {
   Carousel, Slide, Pagination, Navigation
-} from 'vue3-carousel'
-import { RouterLink } from 'vue-router'
+} from 'vue3-carousel';
 
-export default {
-  name: 'CarouselMain',
-  components: {
-    Carousel,
-    Slide,
-    Pagination,
-    Navigation,
-    RouterLink
-  },
-  data() {
-    return {
-      primaryOverlay: `linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 30, 0.7) 61.28%),
-  linear-gradient(0deg, rgba(22, 24, 30, 0.4), rgba(22, 24, 30, 0.4));`,
-    }
-  },
-  computed: {
-    ...mapGetters('main_page', {
-      getPremiers: 'getPremiers'
-    }),
-    premiers() {
-      return this.getPremiers.slice(0, 10)
-    }
-  }
-}
+const store = useStore();
+
+const premiers = computed(() => store.getters['main_page/getPremiers'].slice(0, 10));
+
+const primaryOverlay = ref(
+  `linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 30, 0.7) 61.28%),
+  linear-gradient(0deg, rgba(22, 24, 30, 0.4), rgba(22, 24, 30, 0.4));`
+);
 </script>
 
 <template>
