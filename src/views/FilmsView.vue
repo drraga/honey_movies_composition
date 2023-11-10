@@ -60,7 +60,6 @@ onBeforeUnmount(() =>
   resetMainPageState(),
 )
 
-
 </script>
 
 <template>

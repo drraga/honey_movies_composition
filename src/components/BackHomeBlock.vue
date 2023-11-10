@@ -12,24 +12,25 @@
 </template>
 
 <style lang="scss">
-$primary-background-color: rgba(249, 249, 249, 0.2);
+@import '../assets/styles/variables.scss';
 
 .page-navigation{
-  color: #FFFFFF;
+  color: $color-white;
   display: flex;
-  gap: 22px;
+  gap: 1.527vw;
   &__btn-control{
     background-color: $primary-background-color;
     border-radius: 15px;
     padding: 13px 20px;
     &:hover{
-      background-color: #F8B319;
+      background-color: $primary-color-yellow;
     }
   }
   &__text{
-     color: #FFFFFF;
+     color: $color-white;
+     align-self: center;
     font: {
-      size: 28px;
+      size: clamp( 0.5rem, 1.89vw, 1.75rem);
       weight: 800;
     }
   }

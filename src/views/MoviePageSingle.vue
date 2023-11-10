@@ -74,28 +74,28 @@ onBeforeUnmount(() =>
 </template>
 
 <style lang="scss">
-$text-color: #FFFFFF;
-$primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 30, 0.7) 61.28%),
-  linear-gradient(0deg, rgba(22, 24, 30, 0.4), rgba(22, 24, 30, 0.4));
-  .loader{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    max-width: 1440px;
-    width: 100%;
-    margin: {
-      left: auto;
-      right: auto;
-    }
+@import '../assets/styles/variables.scss';
+
+.loader{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  max-width: $max-width-page;
+  width: 100%;
+  margin: {
+    left: auto;
+    right: auto;
   }
+}
 .single-movie-card{
   &__wrapper{
     background-repeat: no-repeat;
     background-size: cover;
-    max-width: 1440px;
+    max-width: $max-width-page;
     width: 100%;
-    padding-top: 150px;
+    padding-top: 10.4167vw;
+    padding-bottom: 18.75vw;
     position: relative;
     margin: {
       left: auto;
@@ -114,33 +114,34 @@ $primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 3
   }
   &__navigation{
     position: relative;
-    margin-left: 50px;
-    margin-bottom: 50px;
+    margin-left: 3.472vw;
+    margin-bottom: 3.472vw;
     z-index: 1;
   }
   &__content{
     position: relative;
     display: flex;
-    margin-right: 100px;
-    color: $text-color;
-    padding-left: 100px;
+    margin-right: 3.472vw;
+    color: $color-white;
+    padding-left: 3.472vw;
     z-index: 1;
   }
   &__title{
     font: {
       weight: 800;
-      size: 68px;
+      size: clamp( 1.1875rem, 4.722vw, 4.25rem);
     }
   }
   &__star-rating{
-    margin-bottom: 28px;
+    margin-bottom: 1.944vw;
   }
   &__critic-rating{
     font: {
       weight: 600;
       size: 25px;
+      size: clamp(0.0938rem, 1.736vw, 1.5625rem);
     }
-    margin-bottom: 83px;
+    margin-bottom: 5.764vw;
   }
   &__poster-preview{
     position: relative;
@@ -148,14 +149,15 @@ $primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 3
     width: 100%;
     background-repeat: no-repeat;
     background-size: contain;
-    margin-left: 100px;
+    margin-left: 6.9444vw;
     border-radius: 12px 12px 0 0;
   }
   &__description{
     font: {
-      size: 30px;
-      weight: 600px;
+      size: clamp(0.5375rem ,2.083vw, 1.875rem);
+      weight: 600;
     }
+    max-height: 13.75vw;
     max-width: 652px;
     width: 100%;
     overflow-y: scroll;
@@ -166,8 +168,8 @@ $primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 3
     display: flex;
     justify-content: center;
     align-content: center;
-    background-color: #F8B319;
-    color: #000;
+    background-color: $primary-color-yellow;
+    color: $color-black;
     border-radius: 0px 12px;
     width: calc(100% / 3);
   }
