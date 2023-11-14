@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import Vue3StarRatings from 'vue3-star-ratings';
@@ -9,6 +9,15 @@ import PreLoader from '../components/PreLoader.vue';
 const store = useStore();
 const route = useRoute();
 
+
+const windowWidth = ref(window.innerWidth);
+const handleResize = () => windowWidth.value = window.innerWidth;
+// const starSize = computed(() => windowWidth.value * 100 / 1440);
+const computedStarSize = computed(() => {
+  let calculatedSize = windowWidth.value * 100 / 1440;
+  return calculatedSize = Math.max(8, Math.min(calculatedSize, 38));
+})
+
 const isLoading = computed(() => store.getters['movie_single/isLoading']);
 const getMovie = computed(() => store.getters['movie_single/getMovie']);
 
@@ -17,6 +26,7 @@ function fetchMovie(params) {
 };
 onMounted(() => 
   fetchMovie(route.params.id),
+  window.addEventListener('resize', handleResize),
 );
 
 function resetCurrentPageState() {
@@ -25,6 +35,9 @@ function resetCurrentPageState() {
 onBeforeUnmount(() => 
   resetCurrentPageState(),
 )
+onUnmounted(() => 
+window.removeEventListener('resize', handleResize)
+);
 </script>
 
 <template>
@@ -48,7 +61,7 @@ onBeforeUnmount(() =>
         </div>
         <Vue3StarRatings
           :model-value="getMovie.rating"
-          :star-size="38"
+          :star-size="computedStarSize"
           :number-of-stars="5"
           :show-control="false"
           :disable-click="true"
@@ -78,15 +91,9 @@ onBeforeUnmount(() =>
 
 .loader{
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   align-content: center;
   max-width: $max-width-page;
-  width: 100%;
-  margin: {
-    left: auto;
-    right: auto;
-  }
 }
 .single-movie-card{
   &__wrapper{
@@ -94,7 +101,7 @@ onBeforeUnmount(() =>
     background-size: cover;
     max-width: $max-width-page;
     width: 100%;
-    padding-top: 10.4167vw;
+    padding-top: clamp(2rem, 12vw, 10.75rem);
     padding-bottom: 18.75vw;
     position: relative;
     margin: {
@@ -114,7 +121,7 @@ onBeforeUnmount(() =>
   }
   &__navigation{
     position: relative;
-    margin-left: 3.472vw;
+    margin-left: clamp(1rem, 3.472vw, 3.125rem);
     margin-bottom: 3.472vw;
     z-index: 1;
   }
@@ -123,7 +130,8 @@ onBeforeUnmount(() =>
     display: flex;
     margin-right: 3.472vw;
     color: $color-white;
-    padding-left: 3.472vw;
+    // padding-left: 3.472vw;
+    padding-left: clamp(0.5rem, 6.944vw, 6.25rem);
     z-index: 1;
   }
   &__title{

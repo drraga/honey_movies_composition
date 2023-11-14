@@ -68,18 +68,13 @@ onBeforeUnmount(() =>
 </template>
 
 <style lang="scss">
+@import '../assets/styles/variables.scss';
+
 .loader{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    max-width: 1440px;
-    width: 100%;
-    // height: 1024px;
-    margin: {
-      left: auto;
-      right: auto;
-    }
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  max-width: $max-width-page;
 }
 
 .country-search{

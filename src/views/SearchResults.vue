@@ -60,17 +60,13 @@ onBeforeUnmount(() =>
 </template>
 
 <style lang="scss">
+@import '../assets/styles/variables.scss';
+
 .loader{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    width: 1440px;
-    height: 1024px;
-    margin: {
-      left: auto;
-      right: auto;
-    }
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  max-width: $max-width-page;
 }
 
 .back-navigation {
@@ -79,11 +75,13 @@ onBeforeUnmount(() =>
 
 .search-result{
   &__wrapper{
-  color: #000000;
-  padding-top: 68px;
-  padding-left: 48px;
-  width: 1440px;
-  min-height: 1024px;
+  color: $color-black;
+  // padding-top: 68px;
+  padding-top: 4.722vw;
+  // padding-left: 48px;
+  padding-left: 3.333vw;
+  max-width: $max-width-page;
+  // min-height: 1024px;
     margin: {
       left: auto;
       right: auto;
@@ -91,7 +89,7 @@ onBeforeUnmount(() =>
   }
   &__title{
     display: block;
-    color: #F9F9F9;
+    color: $primary-color-white;
        padding-bottom: 66px;
     font: {
       size: 48px;

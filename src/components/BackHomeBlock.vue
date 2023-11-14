@@ -17,11 +17,13 @@
 .page-navigation{
   color: $color-white;
   display: flex;
-  gap: 1.527vw;
+  gap: clamp(0.5rem, 1.4vw, 1.3125rem);
   &__btn-control{
     background-color: $primary-background-color;
-    border-radius: 15px;
-    padding: 13px 20px;
+    // border-radius: 15px;
+    border-radius: 30%;
+    // padding: 13px 20px;
+    padding: 0.9028vw 1.389vw;
     &:hover{
       background-color: $primary-color-yellow;
     }

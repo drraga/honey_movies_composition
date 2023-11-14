@@ -14,10 +14,11 @@ function fetchSearch(request) {
 </script>
 
 <template>
-  <label for="search-field" />
+  <label for="search-field-input" />
   <input
     v-model="searchInput"
     type="text"
+    id="search-field-input"
     class="search-field"
     placeholder="Search"
     @keyup.enter="fetchSearch(searchInput)"
