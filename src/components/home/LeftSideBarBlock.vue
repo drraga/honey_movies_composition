@@ -4,7 +4,7 @@ import { ref, computed } from 'vue';
 const props = defineProps({
   elementsArray: {
     type: Array,
-    default: () => ([]),
+    default: () => [],
   },
   title: {
     type: String,
@@ -14,23 +14,21 @@ const props = defineProps({
     type: String,
     default: 'visible',
   },
-})
+});
 
 const display = ref(false);
-const displayText = computed(() => { return display.value ? 'Свернуть' : 'Показать еще' });
+const displayText = computed(() => {
+  return display.value ? 'Свернуть' : 'Показать еще';
+});
 
 const displayElementList = computed(() => {
   const listLimit = 3;
-  return display.value
-        ? props.elementsArray
-        : props.elementsArray.slice(0, listLimit);
-})
+  return display.value ? props.elementsArray : props.elementsArray.slice(0, listLimit);
+});
 
 const categoryPath = computed(() => {
-  return props.title !== 'Menu'
-        ? props.title.toLowerCase()
-        : 'top'
-})
+  return props.title !== 'Menu' ? props.title.toLowerCase() : 'top';
+});
 </script>
 
 <template>
@@ -50,12 +48,7 @@ const categoryPath = computed(() => {
       </RouterLink>
     </div>
 
-    <div
-      class="left-side-bar-item__expand-button"
-      :style="{ visibility }"
-      @click="display = !display"
-      @keydown="bar"
-    >
+    <div class="left-side-bar-item__expand-button" :style="{ visibility }" @click="display = !display" @keydown="bar">
       {{ displayText }}
     </div>
   </section>
@@ -71,7 +64,7 @@ $secondary-color: #f8b319;
     display: inline-block;
     font-weight: 700;
     margin-bottom: 24px;
-    color: #F9F9F9AB;
+    color: #f9f9f9ab;
   }
   &__scroll {
     max-height: 214px;

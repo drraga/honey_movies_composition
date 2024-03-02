@@ -46,31 +46,33 @@ const prop = defineProps({
 
 <style lang="scss">
 .card-extended {
-  box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 25%);
-  border-radius: 18px 18px 0px 0px;
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 25%);
+
   &__image {
     position: relative;
     display: block;
     width: 296px;
     height: 418px;
-    border-radius: 18px 18px 0px 0px;
+    border-radius: 18px 18px 0 0;
     margin-bottom: 16px;
     background: {
       size: 100%;
       repeat: no-repeat;
     }
   }
+
   &__inner-rating {
     display: flex;
     justify-content: center;
-    align-content: center;
     position: absolute;
     right: 0;
+    align-content: center;
     width: 77px;
     height: 38px;
     color: #000;
+    border-radius: 0 18px;
     background-color: #f8b319;
-    border-radius: 0px 18px;
     font: {
       size: 23px;
       weight: 600;
@@ -87,6 +89,7 @@ const prop = defineProps({
       weight: 600;
     }
   }
+
   &__release-date {
     color: rgba(249, 249, 249, 70%);
     font: {
@@ -94,6 +97,7 @@ const prop = defineProps({
       weight: 700;
     }
   }
+
   &__genres {
     text-transform: capitalize;
     color: #fff;

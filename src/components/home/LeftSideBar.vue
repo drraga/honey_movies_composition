@@ -6,7 +6,7 @@ import LeftSideBarBlock from './LeftSideBarBlock.vue';
 const store = useStore();
 
 const genres = computed(() => store.getters['main_page/getGenres']);
-const countries  = computed(() => store.getters['main_page/getCountries']);
+const countries = computed(() => store.getters['main_page/getCountries']);
 
 const mainMenu = ref([
   { id: '', label: 'Home' },
@@ -25,14 +25,14 @@ const mainMenu = ref([
 </template>
 
 <style lang="scss">
-.left-side-bar{
+.left-side-bar {
   padding-left: 40px;
   max-width: 240px;
   width: 100%;
   height: 858px;
-    font: {
-      size: 18px;
-      weight: 600;
-    }
+  font: {
+    size: 18px;
+    weight: 600;
+  }
 }
 </style>

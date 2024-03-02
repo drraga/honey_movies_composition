@@ -14,29 +14,30 @@ function fetchSearch(request) {
 </script>
 
 <template>
-  <label for="search-field" />
+  <label for="search-field-input" />
   <input
+    id="search-field-input"
     v-model="searchInput"
     type="text"
     class="search-field"
     placeholder="Search"
     @keyup.enter="fetchSearch(searchInput)"
-  >
+  />
 </template>
 
 <style scoped lang="scss">
-  .search-field{
-    height: 56px;
-    max-width: 315px;
-    width: 100%;
-    padding: 25px;
-    background-color: #21242D;
-    color: #F9F9F9AB;
-    border: 1px solid #F9F9F91A;
-    border-radius: 12px;
-    font: {
-      size: 18px;
-      weight: 500;
-    }
+.search-field {
+  width: 100%;
+  height: 56px;
+  max-width: 315px;
+  padding: 25px;
+  color: #f9f9f9ab;
+  border: 1px solid #f9f9f91a;
+  border-radius: 12px;
+  background-color: #21242d;
+  font: {
+    size: 18px;
+    weight: 500;
   }
+}
 </style>

@@ -5,31 +5,32 @@
         <img src="@/assets/icons/previous.svg" alt="home" />
       </div>
     </router-link>
-    <router-link to="/" class="page-navigation__text">
-      Back home
-    </router-link>
+    <router-link to="/" class="page-navigation__text"> Back home </router-link>
   </div>
 </template>
 
 <style lang="scss">
-$primary-background-color: rgba(249, 249, 249, 0.2);
+@import '../assets/styles/variables.scss';
 
-.page-navigation{
-  color: #FFFFFF;
+.page-navigation {
+  color: $color-white;
   display: flex;
-  gap: 22px;
-  &__btn-control{
+  gap: clamp(0.5rem, 1.4vw, 1.3125rem);
+  &__btn-control {
     background-color: $primary-background-color;
-    border-radius: 15px;
-    padding: 13px 20px;
-    &:hover{
-      background-color: #F8B319;
+    // border-radius: 15px;
+    border-radius: 30%;
+    // padding: 13px 20px;
+    padding: 0.9028vw 1.389vw;
+    &:hover {
+      background-color: $primary-color-yellow;
     }
   }
-  &__text{
-     color: #FFFFFF;
+  &__text {
+    color: $color-white;
+    align-self: center;
     font: {
-      size: 28px;
+      size: clamp(0.5rem, 1.89vw, 1.75rem);
       weight: 800;
     }
   }

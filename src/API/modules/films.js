@@ -4,7 +4,7 @@ export default async function getFilms(version, paramObject, searchType) {
   const data = await axiosClient({
     method: 'get',
     url: `/${version}/films${searchType}`,
-    params: paramObject
-  })
-  return data
+    params: paramObject,
+  });
+  return data;
 }

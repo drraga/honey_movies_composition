@@ -1,7 +1,7 @@
 <script>
 export default {
   name: 'PreLoader',
-}
+};
 </script>
 <template>
   <div class="lds-spinner">
@@ -33,7 +33,7 @@ export default {
   animation: lds-spinner 1.2s linear infinite;
 }
 .lds-spinner div:after {
-  content: " ";
+  content: '';
   display: block;
   position: absolute;
   top: 3px;
@@ -41,7 +41,7 @@ export default {
   width: 6px;
   height: 18px;
   border-radius: 20%;
-  background: #F8B319;
+  background: #f8b319;
 }
 .lds-spinner div:nth-child(1) {
   transform: rotate(0deg);
@@ -99,5 +99,4 @@ export default {
     opacity: 0;
   }
 }
-
 </style>

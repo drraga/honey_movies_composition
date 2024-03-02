@@ -19,35 +19,24 @@ function fetchGenres(queryGenre) {
 }
 function fetchFilters() {
   store.dispatch('main_page/fetchFilters');
-};
-onMounted(() =>
-  fetchGenres(queryGenre.value),
-  fetchFilters(),
-);
+}
+onMounted(() => fetchGenres(queryGenre.value), fetchFilters());
 
 function resetMainPageState() {
   store.commit('main_page/RESET_STATE');
-};
+}
 function resetCurrentPageState() {
   store.commit('movies_catalog/RESET_STATE');
-};
-onBeforeUnmount(() =>
-  resetCurrentPageState(),
-  resetMainPageState(),
-);
+}
+onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
 </script>
 
 <template>
-  <main
-    v-if="isLoading"
-    class="loader"
-  >
+  <main v-if="isLoading" class="loader">
     <PreLoader />
   </main>
 
-  <main
-    class="genre-search__wrapper"
-  >
+  <main class="genre-search__wrapper">
     <nav class="back-navigation">
       <BackHomeBlock />
     </nav>
@@ -61,14 +50,14 @@ onBeforeUnmount(() =>
 </template>
 
 <style lang="scss">
-.back-navigation{
+.back-navigation {
   padding-bottom: 54px;
 }
 
-.genre-search{
-  &__wrapper{
-  max-width: 1440px;
-  width: 100%;
+.genre-search {
+  &__wrapper {
+    width: 100%;
+    max-width: 1440px;
     padding: {
       top: 68px;
       left: 58px;
@@ -78,22 +67,24 @@ onBeforeUnmount(() =>
       right: auto;
     }
   }
-  &__title{
-    color: #F9F9F9;
-       margin-bottom: 66px;
+
+  &__title {
+    color: #f9f9f9;
+    margin-bottom: 66px;
     font: {
       size: 48px;
       weight: 800;
     }
-    &:first-letter {
+
+    &::first-letter {
       text-transform: capitalize;
     }
   }
-  &__wrapper-cards{
+
+  &__wrapper-cards {
     display: flex;
+    gap: 24px 34px;
     flex-wrap: wrap;
-    column-gap: 34px;
-    row-gap: 24px;
   }
 }
 </style>
