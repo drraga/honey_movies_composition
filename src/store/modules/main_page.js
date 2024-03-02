@@ -9,58 +9,61 @@ export default {
     moviesTopAwait: [],
     moviesTop250Random: [],
     premiers: [],
-    genres: [{
-      id: 0,
-      label: null
-    }],
-    countries: [{
-      id: 0,
-      label: null
-    }],
+    genres: [
+      {
+        id: 0,
+        label: null,
+      },
+    ],
+    countries: [
+      {
+        id: 0,
+        label: null,
+      },
+    ],
   },
   getters: {
-    getMoviesTop250: (state) => state.moviesTop250,
-    getMoviesTop100: (state) => state.moviesTop100,
-    getMoviesTopAwait: (state) => state.moviesTopAwait,
-    getMoviesTop250Random: (state) => state.moviesTop250Random,
-    getPremiers: (state) => state.premiers,
-    getGenres: (state) => state.genres,
-    getCountries: (state) => state.countries,
-    getGenreSelectedName: (state) => (id) => state.genres.find((item) => item.id === id)?.label ?? '',
-    getCountriesSelectedName: (state) => (id) => state.countries
-      .find((item) => item.id === id)?.label ?? ''
+    getMoviesTop250: state => state.moviesTop250,
+    getMoviesTop100: state => state.moviesTop100,
+    getMoviesTopAwait: state => state.moviesTopAwait,
+    getMoviesTop250Random: state => state.moviesTop250Random,
+    getPremiers: state => state.premiers,
+    getGenres: state => state.genres,
+    getCountries: state => state.countries,
+    getGenreSelectedName: state => id => state.genres.find(item => item.id === id)?.label ?? '',
+    getCountriesSelectedName: state => id => state.countries.find(item => item.id === id)?.label ?? '',
   },
   mutations: {
     SET_TOP_250(state, payload) {
-      state.moviesTop250 = payload
+      state.moviesTop250 = payload;
     },
     SET_TOP_100(state, payload) {
-      state.moviesTop100 = payload
+      state.moviesTop100 = payload;
     },
     SET_TOP_AWAIT(state, payload) {
-      state.moviesTopAwait = payload
+      state.moviesTopAwait = payload;
     },
     SET_TOP_250_RANDOM(state, payload) {
       const listLimit = 3;
-      const random = getRandomNums(0, payload.length - 1, listLimit)
+      const random = getRandomNums(0, payload.length - 1, listLimit);
       for (let i = 0; i < random.length; i += 1) {
-        state.moviesTop250Random.push(payload[random[i]])
+        state.moviesTop250Random.push(payload[random[i]]);
       }
     },
     SET_PREMIERS(state, payload) {
-      state.premiers = payload
+      state.premiers = payload;
     },
     SET_GENRES(state, payload) {
-      state.genres = payload.map((item) => ({
+      state.genres = payload.map(item => ({
         id: item.id,
         label: item.genre,
-      }))
+      }));
     },
     SET_COUNTRIES(state, payload) {
-      state.countries = payload.map((item) => ({
+      state.countries = payload.map(item => ({
         id: item.id,
         label: item.country,
-      }))
+      }));
     },
     RESET_STATE(state) {
       state.moviesTop250 = [];
@@ -70,7 +73,7 @@ export default {
       state.premiers = [];
       state.genres = [];
       state.countries = [];
-    }
+    },
   },
   actions: {
     async fetchTop({ commit }) {
@@ -85,15 +88,15 @@ export default {
         const respAwait = await getFilms('v2.2', { type: 'TOP_AWAIT_FILMS', page: 1 }, '/top');
         commit('SET_TOP_AWAIT', respAwait.data.films);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     async fetchPremiers({ commit }, currentMonth) {
       try {
         const resp = await getFilms('v2.2', { year: new Date().getFullYear(), month: currentMonth }, '/premieres');
-        commit('SET_PREMIERS', resp.data.items)
+        commit('SET_PREMIERS', resp.data.items);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     async fetchFilters({ commit }) {
@@ -101,10 +104,10 @@ export default {
         const resp = await getFilms('v2.2', null, '/filters');
         commit('SET_GENRES', resp.data.genres);
 
-        commit('SET_COUNTRIES', resp.data.countries)
+        commit('SET_COUNTRIES', resp.data.countries);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-  }
-}
+    },
+  },
+};

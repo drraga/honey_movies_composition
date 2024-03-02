@@ -9,35 +9,28 @@ import PreLoader from '../components/PreLoader.vue';
 const store = useStore();
 const route = useRoute();
 
-
 const windowWidth = ref(window.innerWidth);
-const handleResize = () => windowWidth.value = window.innerWidth;
-// const starSize = computed(() => windowWidth.value * 100 / 1440);
+const handleResize = () => (windowWidth.value = window.innerWidth);
 const computedStarSize = computed(() => {
-  let calculatedSize = windowWidth.value * 100 / 1440;
-  return calculatedSize = Math.max(8, Math.min(calculatedSize, 38));
-})
+  let calculatedSize = (windowWidth.value * 100) / 1440;
+  return (calculatedSize = Math.max(8, Math.min(calculatedSize, 38)));
+});
 
 const isLoading = computed(() => store.getters['movie_single/isLoading']);
 const getMovie = computed(() => store.getters['movie_single/getMovie']);
 
 function fetchMovie(params) {
   store.dispatch('movie_single/fetchMovieSingle', params);
-};
-onMounted(() => 
-  fetchMovie(route.params.id),
-  window.addEventListener('resize', handleResize),
-);
+}
+
+onMounted(() => fetchMovie(route.params.id), window.addEventListener('resize', handleResize));
 
 function resetCurrentPageState() {
   store.commit('movie_single/RESET_STATE');
-};
-onBeforeUnmount(() => 
-  resetCurrentPageState(),
-)
-onUnmounted(() => 
-window.removeEventListener('resize', handleResize)
-);
+}
+
+onBeforeUnmount(() => resetCurrentPageState());
+onUnmounted(() => window.removeEventListener('resize', handleResize));
 </script>
 
 <template>
@@ -46,11 +39,7 @@ window.removeEventListener('resize', handleResize)
       <PreLoader />
     </div>
   </main>
-  <main
-    v-else
-    :style="{ backgroundImage: `url(${getMovie.posterUrl})` }"
-    class="single-movie-card__wrapper"
-  >
+  <main v-else :style="{ backgroundImage: `url(${getMovie.posterUrl})` }" class="single-movie-card__wrapper">
     <div class="single-movie-card__navigation">
       <BackHomeBlock />
     </div>
@@ -74,10 +63,7 @@ window.removeEventListener('resize', handleResize)
           {{ getMovie.description }}
         </div>
       </div>
-      <div
-        :style="{ backgroundImage: `url(${getMovie.posterUrlPreview})` }"
-        class="single-movie-card__poster-preview"
-      >
+      <div :style="{ backgroundImage: `url(${getMovie.posterUrlPreview})` }" class="single-movie-card__poster-preview">
         <div class="single-movie-card__rating">
           {{ getMovie.rating }}
         </div>
@@ -89,97 +75,102 @@ window.removeEventListener('resize', handleResize)
 <style lang="scss">
 @import '../assets/styles/variables.scss';
 
-.loader{
+.loader {
   display: flex;
-  justify-content: center;
-  align-content: center;
+  place-content: center;
   max-width: $max-width-page;
 }
-.single-movie-card{
-  &__wrapper{
-    background-repeat: no-repeat;
-    background-size: cover;
-    max-width: $max-width-page;
+
+.single-movie-card {
+  &__wrapper {
+    position: relative;
     width: 100%;
+    max-width: $max-width-page;
     padding-top: clamp(2rem, 12vw, 10.75rem);
     padding-bottom: 18.75vw;
-    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
     margin: {
       left: auto;
       right: auto;
     }
-    &:after{
-      display: block;
-      position: absolute;
+
+    &::after {
       content: '';
+      position: absolute;
+      inset: 0;
+      display: block;
       background-image: $primary-overlay;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
     }
   }
-  &__navigation{
+
+  &__navigation {
     position: relative;
-    margin-left: clamp(1rem, 3.472vw, 3.125rem);
+    z-index: 1;
     margin-bottom: 3.472vw;
-    z-index: 1;
+    margin-left: clamp(1rem, 3.472vw, 3.125rem);
   }
-  &__content{
+
+  &__content {
     position: relative;
-    display: flex;
-    margin-right: 3.472vw;
-    color: $color-white;
-    // padding-left: 3.472vw;
-    padding-left: clamp(0.5rem, 6.944vw, 6.25rem);
     z-index: 1;
+    display: flex;
+    padding-left: clamp(0.5rem, 6.944vw, 6.25rem);
+    color: $color-white;
+    margin-right: 3.472vw;
+    // padding-left: 3.472vw;
   }
-  &__title{
+
+  &__title {
     font: {
       weight: 800;
-      size: clamp( 1.1875rem, 4.722vw, 4.25rem);
+      size: clamp(1.1875rem, 4.722vw, 4.25rem);
     }
   }
-  &__star-rating{
+
+  &__star-rating {
     margin-bottom: 1.944vw;
   }
-  &__critic-rating{
+
+  &__critic-rating {
+    margin-bottom: 5.764vw;
     font: {
       weight: 600;
-      size: 25px;
       size: clamp(0.0938rem, 1.736vw, 1.5625rem);
     }
-    margin-bottom: 5.764vw;
   }
-  &__poster-preview{
+
+  &__poster-preview {
     position: relative;
-    max-width: 300px;
     width: 100%;
+    max-width: 300px;
+    border-radius: 12px 12px 0 0;
     background-repeat: no-repeat;
     background-size: contain;
     margin-left: 6.9444vw;
-    border-radius: 12px 12px 0 0;
   }
-  &__description{
+
+  &__description {
     font: {
-      size: clamp(0.5375rem ,2.083vw, 1.875rem);
+      size: clamp(0.5375rem, 2.083vw, 1.875rem);
       weight: 600;
     }
-    max-height: 13.75vw;
-    max-width: 652px;
+
     width: 100%;
+    max-width: 652px;
+    max-height: 13.75vw;
     overflow-y: scroll;
   }
-  &__rating{
+
+  &__rating {
     position: absolute;
     right: 0;
     display: flex;
-    justify-content: center;
-    align-content: center;
-    background-color: $primary-color-yellow;
-    color: $color-black;
-    border-radius: 0px 12px;
+    place-content: center;
     width: calc(100% / 3);
+    color: $color-black;
+    border-radius: 0 12px;
+    background-color: $primary-color-yellow;
   }
 }
 </style>

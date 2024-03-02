@@ -21,8 +21,8 @@ const moviesTopAwait = computed(() => store.getters['main_page/getMoviesTopAwait
 </template>
 
 <style scoped>
-.right-side-bar{
-    max-width: 336px;
-    width: 100%;
+.right-side-bar {
+  max-width: 336px;
+  width: 100%;
 }
 </style>

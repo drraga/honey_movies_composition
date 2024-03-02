@@ -8,20 +8,18 @@ const myCarousel = ref(null);
 
 const props = defineProps({
   catalogUrl: {
-      type: String,
-      required: true,
-    },
-    blockName: {
-      type: String,
-      required: true,
-    },
-    elementsArray: {
-      type: Array,
-      default: () => ([]),
-    }
+    type: String,
+    required: true,
+  },
+  blockName: {
+    type: String,
+    required: true,
+  },
+  elementsArray: {
+    type: Array,
+    default: () => [],
+  },
 });
-
-
 </script>
 
 <template>
@@ -44,21 +42,14 @@ const props = defineProps({
           />
         </div>
       </div>
-      <RouterLink
-        :to="`${catalogUrl}`"
-        class="right-side-bar__top-container_right"
-      >
+      <RouterLink :to="`${catalogUrl}`" class="right-side-bar__top-container_right">
         <span class="right-side-bar__see-more">See more</span>
         <div class="right-side-bar__btn-link">
           <img src="../../assets/icons/side-block__see-more.svg" alt="" />
         </div>
       </RouterLink>
     </div>
-    <Carousel
-      ref="myCarousel"
-      class="side-carousel"
-      :items-to-show="1.25"
-    >
+    <Carousel ref="myCarousel" class="side-carousel" :items-to-show="1.25">
       <Slide v-for="slide in elementsArray" :key="slide.filmId">
         <RouterLink
           :to="`films/${slide.filmId}`"
@@ -155,15 +146,16 @@ $secondary-color: #f8b319;
     }
   }
   &__overlay {
-  background-image: $primary-overlay;
-  height: 100%;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  border-radius: 12px;
-}
+    background-image: $primary-overlay;
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border-radius: 12px;
+  }
+
   &__content-title {
     color: $primary-color;
     font: {
@@ -183,5 +175,4 @@ $secondary-color: #f8b319;
     }
   }
 }
-
 </style>

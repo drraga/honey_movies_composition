@@ -1,12 +1,11 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { RouterLink } from 'vue-router';
 
 import 'vue3-carousel/dist/carousel.css';
-import {
-  Carousel, Slide, Pagination, Navigation
-} from 'vue3-carousel';
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
 
 const store = useStore();
 

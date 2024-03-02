@@ -12,12 +12,12 @@
 a,
 .green {
   text-decoration: none;
-  color: #FFFFFF;
+  color: #ffffff;
   transition: 0.4s;
 }
 
 @media (hover: hover) {
   a:hover {
-    color: #F8B319;
+    color: #f8b319;
   }
 }

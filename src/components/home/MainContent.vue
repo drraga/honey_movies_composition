@@ -16,17 +16,16 @@ import MainBottom from './MainBottom.vue';
 
 <style lang="scss">
 .main-content {
-  max-width: 870px;
   width: 100%;
+  max-width: 870px;
   padding: {
+    bottom: 90px;
     left: 68px;
     right: 32px;
-    bottom: 90px;
   }
 
   &__carousel {
     padding-bottom: 60px;
   }
 }
-
 </style>

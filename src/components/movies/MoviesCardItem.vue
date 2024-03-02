@@ -2,11 +2,11 @@
 import { RouterLink } from 'vue-router';
 import Vue3StarRatings from 'vue3-star-ratings';
 
-const prop= defineProps({
+const prop = defineProps({
   movieData: {
     type: Object,
     default: () => ({}),
-  }
+  },
 });
 </script>
 
@@ -14,12 +14,10 @@ const prop= defineProps({
   <div class="card-extended">
     <RouterLink
       :to="`/films/${movieData.id}`"
-      :style=" { backgroundImage: `url(${movieData.posterUrlPreview})` } "
+      :style="{ backgroundImage: `url(${movieData.posterUrlPreview})` }"
       class="card-extended__image"
     >
-      <div
-        class="card-extended__inner-rating"
-      >
+      <div class="card-extended__inner-rating">
         {{ movieData.rating }}
       </div>
     </RouterLink>
@@ -47,10 +45,10 @@ const prop= defineProps({
 </template>
 
 <style lang="scss">
-.card-extended{
-  box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.25);
+.card-extended {
+  box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 25%);
   border-radius: 18px 18px 0px 0px;
-    &__image{
+  &__image {
     position: relative;
     display: block;
     width: 296px;
@@ -62,7 +60,7 @@ const prop= defineProps({
       repeat: no-repeat;
     }
   }
-  &__inner-rating{
+  &__inner-rating {
     display: flex;
     justify-content: center;
     align-content: center;
@@ -71,7 +69,7 @@ const prop= defineProps({
     width: 77px;
     height: 38px;
     color: #000;
-    background-color: #F8B319;
+    background-color: #f8b319;
     border-radius: 0px 18px;
     font: {
       size: 23px;
@@ -81,28 +79,28 @@ const prop= defineProps({
   // &__bottom{
   //   padding-left: 34px;
   // }
-  &__title{
+  &__title {
     width: 262px;
-    color: #FFF;
+    color: #fff;
     font: {
       size: 24px;
       weight: 600;
     }
   }
-  &__release-date{
-    color: rgba(249, 249, 249, 0.70);
+  &__release-date {
+    color: rgba(249, 249, 249, 70%);
     font: {
       size: 18px;
       weight: 700;
     }
   }
-  &__genres{
+  &__genres {
     text-transform: capitalize;
-      color: #FFF;
-      font: {
-        size: 14px;
-        weight: 600px;
-      }
+    color: #fff;
+    font: {
+      size: 14px;
+      weight: 600px;
     }
+  }
 }
 </style>
