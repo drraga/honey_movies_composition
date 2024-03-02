@@ -76,8 +76,8 @@ const props = defineProps({
 </template>
 
 <style lang="scss">
-$primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 30, 0.7) 61.28%),
-  linear-gradient(0deg, rgba(22, 24, 30, 0.4), rgba(22, 24, 30, 0.4));
+$primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0%) 0%, rgba(22, 24, 30, 70%) 61.28%),
+  linear-gradient(0deg, rgba(22, 24, 30, 40%), rgba(22, 24, 30, 40%));
 $primary-color: #f9f9f9;
 $secondary-color: #f8b319;
 
@@ -89,55 +89,64 @@ $secondary-color: #f8b319;
       margin-bottom: 60px;
     }
   }
+
   &__top-container {
     display: flex;
-    margin-bottom: 30px;
-    align-items: center;
-    justify-items: center;
     justify-content: space-between;
+    margin-bottom: 30px;
+    place-items: center;
   }
+
   &__container-left {
     display: flex;
     align-items: center;
   }
+
   &__block-name {
+    color: $primary-color;
+    margin-right: 20px;
     font: {
       size: 24px;
       weight: 800;
     }
-    color: $primary-color;
-    margin-right: 20px;
   }
+
   &__carousel-nav {
     cursor: pointer;
   }
+
   &__btn-left {
     margin-right: 20px;
   }
+
   &__top-container_right {
     display: flex;
   }
+
   &__see-more {
+    display: inline-block;
+    margin-right: 10px;
     font: {
       size: 15px;
       weight: 600;
     }
-    display: inline-block;
-    margin-right: 10px;
   }
+
   &__btn-link {
-    cursor: pointer;
     color: $primary-color;
+    cursor: pointer;
   }
 }
+
 .side-carousel {
   width: auto;
   max-width: 100%;
   border-radius: 12px;
+
   &__content {
-    border-radius: 12px;
     width: 100%;
     height: 130px;
+    border-radius: 12px;
     margin-right: 30px;
     background: {
       position: 50%;
@@ -145,30 +154,31 @@ $secondary-color: #f8b319;
       size: contain;
     }
   }
+
   &__overlay {
-    background-image: $primary-overlay;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
     height: 100%;
     padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-wrap: wrap;
     border-radius: 12px;
+    background-image: $primary-overlay;
   }
 
   &__content-title {
+    text-align: left;
     color: $primary-color;
     font: {
       size: 16px;
       weight: 800;
     }
-    text-align: left;
   }
+
   &__content-bottom {
     display: flex;
     justify-content: space-between;
-    color: #f9f9f9b2;
     text-transform: capitalize;
+    color: #f9f9f9b2;
     font: {
       size: 14px;
       weight: 700;

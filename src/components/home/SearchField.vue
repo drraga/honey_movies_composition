@@ -27,14 +27,14 @@ function fetchSearch(request) {
 
 <style scoped lang="scss">
 .search-field {
+  width: 100%;
   height: 56px;
   max-width: 315px;
-  width: 100%;
   padding: 25px;
-  background-color: #21242d;
   color: #f9f9f9ab;
   border: 1px solid #f9f9f91a;
   border-radius: 12px;
+  background-color: #21242d;
   font: {
     size: 18px;
     weight: 500;
