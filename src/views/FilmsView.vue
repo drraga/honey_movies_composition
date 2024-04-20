@@ -65,12 +65,14 @@ onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
   </main>
 
   <main v-else class="request-top__wrapper">
-    <nav class="back-navigation">
+    <nav class="request-top__back-navigation">
       <BackHomeBlock />
     </nav>
-    <div class="request-top__title">
+
+    <h1 class="request-top__title">
       {{ title }}
-    </div>
+    </h1>
+
     <div class="request-top__wrapper-cards">
       <MoviesCardList :movies="movies" />
     </div>
@@ -78,40 +80,53 @@ onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
 </template>
 
 <style lang="scss">
-.back-navigation {
-  padding-bottom: 54px;
-}
+@import '@/assets/styles/variables';
+@import '@/assets/styles/_mixins';
 
 .request-top {
   &__wrapper {
     max-width: 1440px;
-    width: 100%;
-    padding: {
-      top: 68px;
-      left: 58px;
-    }
+    padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) clamp(12px, (38 * 100 / 1440) * 1vw, 38px);
     margin: {
-      right: auto;
       left: auto;
+      right: auto;
     }
   }
 
   &__title {
-    color: #f9f9f9;
-    margin-bottom: 66px;
+    color: $primary-color-white;
+    margin-bottom: clamp(24px, 4.58vw, 66px);
     font: {
-      size: 48px;
+      size: clamp(22px, 3.33vw, 48px);
       weight: 800;
     }
-    &:first-letter {
+
+    &::first-letter {
       text-transform: capitalize;
     }
   }
+
   &__wrapper-cards {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px 34px;
     flex-wrap: wrap;
-    column-gap: 34px;
-    row-gap: 24px;
+    justify-content: center;
+
+    @include mq(1151) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    @include mq(767) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(12px, (24 * 100 / 1440) * 1vw, 24px);
+    }
+
+    @include mq(350) {
+      grid-template-columns: 1fr;
+      justify-content: center;
+    }
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide } from 'vue3-carousel';
 import { RouterLink } from 'vue-router';
@@ -20,6 +20,7 @@ const props = defineProps({
     default: () => [],
   },
 });
+// TODO получить значение текущего слайда и количесва слайдов, чтобы отключить кнопки навигации в крайних позициях
 </script>
 
 <template>
@@ -27,28 +28,33 @@ const props = defineProps({
     <div class="right-side-bar__top-container">
       <div class="right-side-bar__container-left">
         <span class="right-side-bar__block-name">{{ blockName }}</span>
+
         <div class="right-side-bar__carousel-nav">
-          <img
-            class="right-side-bar__btn-left"
-            src="../../assets/icons/side-block__slider-left.svg"
-            alt="prev"
-            @click="myCarousel.prev"
-          />
-          <img
-            class="right-side-bar__btn-right"
-            src="../../assets/icons/side-block__slider-right.svg"
-            alt="next"
-            @click="myCarousel.next"
-          />
+          <i @click="myCarousel.prev">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 8L10 12L14 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </i>
+
+          <i class="right-side-bar__slide-next" @click="myCarousel.next">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 8L10 12L14 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </i>
         </div>
       </div>
+
       <RouterLink :to="`${catalogUrl}`" class="right-side-bar__top-container_right">
         <span class="right-side-bar__see-more">See more</span>
-        <div class="right-side-bar__btn-link">
-          <img src="../../assets/icons/side-block__see-more.svg" alt="" />
-        </div>
+
+        <i class="right-side-bar__btn-link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 8L10 12L14 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </i>
       </RouterLink>
     </div>
+
     <Carousel ref="myCarousel" class="side-carousel" :items-to-show="1.25">
       <Slide v-for="slide in elementsArray" :key="slide.filmId">
         <RouterLink
@@ -60,10 +66,12 @@ const props = defineProps({
             <div class="side-carousel__content-title">
               {{ slide.nameRu }}
             </div>
+
             <div class="side-carousel__content-bottom">
               <div class="side-carousel__info">
                 {{ slide.year }}
               </div>
+
               <div class="side-carousel__genre">
                 {{ slide.genres[0].genre }}
               </div>
@@ -76,10 +84,8 @@ const props = defineProps({
 </template>
 
 <style lang="scss">
-$primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0%) 0%, rgba(22, 24, 30, 70%) 61.28%),
-  linear-gradient(0deg, rgba(22, 24, 30, 40%), rgba(22, 24, 30, 40%));
-$primary-color: #f9f9f9;
-$secondary-color: #f8b319;
+@import '@/assets/styles/variables';
+@import '@/assets/styles/_mixins';
 
 .right-side-bar {
   &__block {
@@ -103,7 +109,7 @@ $secondary-color: #f8b319;
   }
 
   &__block-name {
-    color: $primary-color;
+    color: $primary-color-white;
     margin-right: 20px;
     font: {
       size: 24px;
@@ -112,19 +118,67 @@ $secondary-color: #f8b319;
   }
 
   &__carousel-nav {
+    display: flex;
+    gap: 10px;
     cursor: pointer;
-  }
 
-  &__btn-left {
-    margin-right: 20px;
+    > i {
+      display: flex;
+      align-items: center;
+      transform: translate3d(0, 0, 0);
+      transition: transform 0.35s ease;
+
+      &:last-child {
+        svg {
+          transform: rotate(180deg);
+        }
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          transform: scale(1.2);
+
+          svg {
+            path {
+              stroke: $primary-color-yellow;
+            }
+          }
+        }
+      }
+
+      svg {
+        width: 24px;
+
+        path {
+          stroke: $primary-color-white;
+          transition: stroke 0.35s ease;
+        }
+      }
+    }
   }
 
   &__top-container_right {
     display: flex;
+    transition: color 0.25s ease;
+
+    @media (hover: hover) {
+      &:hover {
+        color: $primary-color-yellow;
+
+        svg {
+          transform: scale(1.2) rotate(180deg);
+
+          path {
+            stroke: $primary-color-yellow;
+          }
+        }
+      }
+    }
   }
 
   &__see-more {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     margin-right: 10px;
     font: {
       size: 15px;
@@ -133,8 +187,21 @@ $secondary-color: #f8b319;
   }
 
   &__btn-link {
-    color: $primary-color;
+    display: flex;
+    align-items: center;
+    color: $primary-color-white;
     cursor: pointer;
+
+    svg {
+      width: 24px;
+      transform: rotate(180deg);
+      transition: transform 0.25s ease;
+
+      path {
+        stroke: $primary-color-white;
+        transition: stroke 0.25s ease;
+      }
+    }
   }
 }
 
@@ -167,7 +234,7 @@ $secondary-color: #f8b319;
 
   &__content-title {
     text-align: left;
-    color: $primary-color;
+    color: $primary-color-white;
     font: {
       size: 16px;
       weight: 800;

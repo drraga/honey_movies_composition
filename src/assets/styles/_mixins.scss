@@ -1,0 +1,93 @@
+/* stylelint-disable at-rule-empty-line-before */
+/* stylelint-disable media-query-no-invalid */
+@use 'sass:map';
+@use 'sass:list';
+@use 'sass:string';
+@use 'sass:math';
+@use 'sass:color';
+
+// mixins
+@mixin mq($from, $to: false) {
+    @if $to {
+        @media (min-width: #{$from}px) and (max-width: #{$to}px) {
+            @content;
+        }
+    } @else {
+        @media (max-width: #{$from}px) {
+            @content;
+        }
+    }
+}
+
+@mixin mqh($from, $to: false) {
+    @if $to {
+        @media (min-height: #{$from}px) and (max-height: #{$to}px) {
+            @content;
+        }
+    } @else {
+        @media (max-height: #{$from}px) {
+            @content;
+        }
+    }
+}
+
+@mixin fontface($family, $filename, $weight, $style: normal) {
+    @font-face {
+        font-display: swap;
+        font-family: $family;
+        src: url('/fonts/#{$filename}.woff2') format('woff2');
+        font-weight: $weight;
+        font-style: $style;
+    }
+
+    @font-face {
+        font-family: '#{$family} fallback';
+        src: local('Arial'), local('Roboto'), local('Noto Sans');
+        font-weight: $weight;
+        font-style: $style;
+
+        // данные взял из библиотеки гугла
+        // https://github.com/khempenius/font-fallbacks-dataset/blob/main/font-metric-overrides.csv
+        // пруф https://developer.chrome.com/blog/font-fallbacks/
+        ascent-override: 96.8%;
+        descent-override: 25.1%;
+        line-gap-override: 0%;
+        size-adjust: 109%; // подогнал на глаз
+    }
+
+    @font-face {
+        font-family: '#{$family} fallback2';
+        src: local('BlinkMacSystemFont'), local('Helvetica Neue');
+        font-weight: $weight;
+        font-style: $style;
+        ascent-override: 96.8%;
+        descent-override: 25.1%;
+        line-gap-override: 0%;
+    }
+}
+
+// functions
+@function getcolor($str, $opacity: 1) {
+    $color-array: string.split($str, '.');
+    @if $opacity != 1 {
+        @return color.change(map.get(map.get($colors, list.nth($color-array, 1)), list.nth($color-array, 2)), $alpha: $opacity);
+    } @else {
+        @return map.get(map.get($colors, list.nth($color-array, 1)), list.nth($color-array, 2));
+    }
+}
+
+@function percent($a, $b) {
+    @return math.percentage(math.div($a, $b));
+}
+
+@function coef($a, $b) {
+    @return math.div($a, $b);
+}
+
+@function color-lighten($a, $b) {
+    @return color.scale($a, $lightness: $b);
+}
+
+@function mixcolor($a, $b, $i) {
+    @return color.mix($a, $b, $i);
+}

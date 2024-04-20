@@ -116,9 +116,8 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
     z-index: 1;
     display: flex;
     padding-left: clamp(0.5rem, 6.944vw, 6.25rem);
-    color: $color-white;
+    color: #fff;
     margin-right: 3.472vw;
-    // padding-left: 3.472vw;
   }
 
   &__title {
@@ -168,7 +167,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
     display: flex;
     place-content: center;
     width: calc(100% / 3);
-    color: $color-black;
+    color: #fff;
     border-radius: 0 12px;
     background-color: $primary-color-yellow;
   }

@@ -1,5 +1,7 @@
 <script setup>
+import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
+import { useWindowSize } from '@vueuse/core';
 import Vue3StarRatings from 'vue3-star-ratings';
 
 const prop = defineProps({
@@ -7,6 +9,17 @@ const prop = defineProps({
     type: Object,
     default: () => ({}),
   },
+});
+
+const { width } = useWindowSize();
+const starSize = computed(() => {
+  if (width.value > 1151) {
+    return 21;
+  } else if (width.value <= 350) {
+    return 18;
+  } else {
+    return 16;
+  }
 });
 </script>
 
@@ -22,13 +35,13 @@ const prop = defineProps({
       </div>
     </RouterLink>
     <section class="card-extended__bottom">
-      <div class="card-extended__title">
+      <p class="card-extended__title">
         {{ movieData.nameRu }}
-      </div>
+      </p>
       <figure>
         <Vue3StarRatings
           :model-value="movieData.rating"
-          :star-size="21"
+          :star-size="starSize"
           :number-of-stars="5"
           :show-control="false"
           :disable-click="true"
@@ -37,69 +50,105 @@ const prop = defineProps({
       <time class="card-extended__release-date">
         {{ movieData.year }}
       </time>
-      <div class="card-extended__genres">
+      <p class="card-extended__genres">
         {{ movieData.genre }}
-      </div>
+      </p>
     </section>
   </div>
 </template>
 
 <style lang="scss">
+@import '@/assets/styles/colors';
+@import '@/assets/styles/_mixins';
+
 .card-extended {
-  box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 25%);
-  border-radius: 18px 18px 0px 0px;
+  max-width: 296px;
+  border-radius: 18px 18px 0 0;
+  box-shadow:
+    rgba(0, 0, 0, 19%) 0 10px 20px,
+    rgba(0, 0, 0, 23%) 0 6px 6px;
+
   &__image {
     position: relative;
     display: block;
-    width: 296px;
-    height: 418px;
-    border-radius: 18px 18px 0px 0px;
+    aspect-ratio: 3/4 auto;
+    border-radius: 18px 18px 0 0;
     margin-bottom: 16px;
     background: {
       size: 100%;
       repeat: no-repeat;
     }
   }
+
   &__inner-rating {
-    display: flex;
-    justify-content: center;
-    align-content: center;
     position: absolute;
     right: 0;
-    width: 77px;
-    height: 38px;
+    display: flex;
+    justify-content: center;
+    padding: 1px 23px;
     color: #000;
-    background-color: #f8b319;
-    border-radius: 0px 18px;
+    border-radius: 0 18px;
+    background-color: $primary-color-yellow;
     font: {
-      size: 23px;
+      size: clamp(11px, (23 * 100 / 1440) * 1vw, 23px);
       weight: 600;
     }
+
+    @include mq(350) {
+      font-size: 15px;
+    }
   }
-  // &__bottom{
-  //   padding-left: 34px;
-  // }
+
   &__title {
-    width: 262px;
     color: #fff;
     font: {
       size: 24px;
       weight: 600;
     }
+
+    @include mq(1151) {
+      font-size: 20px;
+    }
+
+    @include mq(767) {
+      font-size: 16px;
+    }
+
+    @include mq(350) {
+      font-size: 19px;
+    }
   }
+
   &__release-date {
     color: rgba(249, 249, 249, 70%);
     font: {
       size: 18px;
       weight: 700;
     }
+
+    @include mq(767) {
+      font-size: 13px;
+    }
+
+    @include mq(350) {
+      font-size: 15px;
+    }
   }
+
   &__genres {
     text-transform: capitalize;
     color: #fff;
     font: {
       size: 14px;
-      weight: 600px;
+      weight: 600;
+    }
+
+    @include mq(767) {
+      font-size: 11px;
+    }
+
+    @include mq(350) {
+      font-size: 13px;
     }
   }
 }

@@ -36,12 +36,14 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
   </main>
 
   <main v-else class="search-result__wrapper">
-    <nav class="back-navigation">
+    <nav class="search-result__back-navigation">
       <BackHomeBlock />
     </nav>
-    <span class="search-result__title">
+
+    <h1 class="search-result__title">
       {{ `Search results "${queryGenre}":` }}
-    </span>
+    </h1>
+
     <section class="search-result__wrapper-cards">
       <MoviesCardList :movies="movies" />
     </section>
@@ -49,24 +51,13 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
 </template>
 
 <style lang="scss">
-@import '../assets/styles/variables.scss';
-
-.loader {
-  display: flex;
-  place-content: center;
-  max-width: $max-width-page;
-}
-
-.back-navigation {
-  padding-bottom: 64px;
-}
+@import '@/assets/styles/variables';
+@import '@/assets/styles/_mixins';
 
 .search-result {
   &__wrapper {
-    max-width: $max-width-page;
-    padding-top: 4.722vw;
-    padding-left: 3.333vw;
-    color: $color-black;
+    max-width: 1440px;
+    padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) clamp(12px, (38 * 100 / 1440) * 1vw, 38px);
     margin: {
       left: auto;
       right: auto;
@@ -74,11 +65,10 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
   }
 
   &__title {
-    display: block;
-    padding-bottom: 66px;
     color: $primary-color-white;
+    margin-bottom: clamp(24px, 4.58vw, 66px);
     font: {
-      size: 48px;
+      size: clamp(22px, 3.33vw, 48px);
       weight: 800;
     }
 
@@ -88,9 +78,26 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
   }
 
   &__wrapper-cards {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px 34px;
     flex-wrap: wrap;
+    justify-content: center;
+
+    @include mq(1151) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    @include mq(767) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(12px, (24 * 100 / 1440) * 1vw, 24px);
+    }
+
+    @include mq(350) {
+      grid-template-columns: 1fr;
+      justify-content: center;
+    }
   }
 }
 </style>

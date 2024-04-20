@@ -1,0 +1,26 @@
+@import '@/assets/base.css';
+@import '@/assets/styles/colors.scss';
+@import '@/assets/styles/reset.scss';
+
+#app {
+  margin: 0 auto;
+  font-weight: normal;
+  font-family: Lato, sans-serif;
+  padding: 0;
+  margin: 0;
+  background-color: var(--vt-c-black-soft);
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+}
+
