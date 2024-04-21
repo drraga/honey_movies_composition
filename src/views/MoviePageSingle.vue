@@ -97,6 +97,8 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
 .single-movie {
   &__wrapper {
     padding: clamp(32px, (172 * 100 / 1440) * 1vw, 172px) clamp(25px, (50 * 100 / 1440) * 1vw, 50px);
+    // min-height: 100vh;
+    // min-height: 100dvh;
     background: no-repeat center / cover;
 
     &::after {
@@ -116,14 +118,22 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
   &__content {
     position: relative;
     z-index: 1;
-    display: flex;
+    display: grid;
+    grid-template-areas: 'description card';
+    grid-template-columns: 2fr 1fr;
     gap: clamp(8px, (100 * 100 / 1440) * 1vw, 100px);
     justify-content: center;
     color: #fff;
+
+    @include mq(853) {
+      grid-template:
+        'card' auto
+        'description' auto / 1fr;
+    }
   }
 
   &__summary {
-    flex-basis: 65%;
+    grid-area: description;
 
     &--title {
       font: {
@@ -152,11 +162,15 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
 
       max-height: 23.75vw;
       overflow-y: scroll;
+
+      @include mq(853) {
+        max-height: unset;
+      }
     }
   }
 
   &__card {
-    flex-basis: 35%;
+    grid-area: card;
     max-width: 300px;
 
     > div {
