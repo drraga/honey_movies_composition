@@ -26,10 +26,7 @@ const mainMenu = ref([
 
 <style lang="scss">
 .left-side-bar {
-  padding-left: 40px;
-  max-width: 240px;
-  width: 100%;
-  height: 858px;
+  flex-basis: 15%;
   font: {
     size: 18px;
     weight: 600;

@@ -20,7 +20,7 @@
 .page-navigation {
   display: flex;
   gap: clamp(12px, 1.4vw, 21px);
-  padding-bottom: clamp(24px, 3.75vw, 54px);
+  padding: 0 0 clamp(24px, 3.75vw, 54px);
   color: #fff;
 
   &__btn-control {

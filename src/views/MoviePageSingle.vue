@@ -12,8 +12,17 @@ const route = useRoute();
 const windowWidth = ref(window.innerWidth);
 const handleResize = () => (windowWidth.value = window.innerWidth);
 const computedStarSize = computed(() => {
-  let calculatedSize = (windowWidth.value * 100) / 1440;
-  return (calculatedSize = Math.max(8, Math.min(calculatedSize, 38)));
+  const starSizeMax = 29;
+  const starSizeMin = 13;
+  const oneViewportWidth = windowWidth.value / 100;
+
+  if (windowWidth.value >= 1440) {
+    return starSizeMax;
+  } else if (windowWidth.value < 600) {
+    return starSizeMin;
+  } else {
+    return ((starSizeMax * 100) / 1440) * oneViewportWidth;
+  }
 });
 
 const isLoading = computed(() => store.getters['movie_single/isLoading']);
@@ -31,6 +40,7 @@ function resetCurrentPageState() {
 
 onBeforeUnmount(() => resetCurrentPageState());
 onUnmounted(() => window.removeEventListener('resize', handleResize));
+//TODO добаивть переход на сам фильм или его просмотр в кинопоиске
 </script>
 
 <template>
@@ -39,33 +49,41 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
       <PreLoader />
     </div>
   </main>
-  <main v-else :style="{ backgroundImage: `url(${getMovie.posterUrl})` }" class="single-movie-card__wrapper">
-    <div class="single-movie-card__navigation">
+
+  <main v-else :style="{ backgroundImage: `url(${getMovie.posterUrl})` }" class="single-movie__wrapper">
+    <div class="single-movie__navigation">
       <BackHomeBlock />
     </div>
-    <section class="single-movie-card__content">
-      <div class="single-movie-card__summary">
-        <div class="single-movie-card__title">
+
+    <section class="single-movie__content">
+      <div class="single-movie__summary">
+        <p class="single-movie__summary--title">
           {{ getMovie.nameRu }}
-        </div>
+        </p>
+
         <Vue3StarRatings
           :model-value="getMovie.rating"
           :star-size="computedStarSize"
           :number-of-stars="5"
           :show-control="false"
           :disable-click="true"
-          class="single-movie-card__star-rating"
+          class="single-movie__summary--star-rating"
         />
-        <div class="single-movie-card__critic-rating">
+
+        <div class="single-movie__summary--critic-rating">
           {{ getMovie.ratingText }}
         </div>
-        <div class="single-movie-card__description">
+
+        <div class="single-movie__summary--description">
           {{ getMovie.description }}
         </div>
       </div>
-      <div :style="{ backgroundImage: `url(${getMovie.posterUrlPreview})` }" class="single-movie-card__poster-preview">
-        <div class="single-movie-card__rating">
-          {{ getMovie.rating }}
+
+      <div class="single-movie__card">
+        <div :style="{ backgroundImage: `url(${getMovie.posterUrlPreview})` }">
+          <div class="single-movie__card--rating">
+            {{ getMovie.rating }}
+          </div>
         </div>
       </div>
     </section>
@@ -73,31 +91,17 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
 </template>
 
 <style lang="scss">
-@import '../assets/styles/variables.scss';
+@import '@/assets/styles/variables';
+@import '@/assets/styles/_mixins';
 
-.loader {
-  display: flex;
-  place-content: center;
-  max-width: $max-width-page;
-}
-
-.single-movie-card {
+.single-movie {
   &__wrapper {
-    position: relative;
-    width: 100%;
-    max-width: $max-width-page;
-    padding-top: clamp(2rem, 12vw, 10.75rem);
-    padding-bottom: 18.75vw;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: {
-      left: auto;
-      right: auto;
-    }
+    padding: clamp(32px, (172 * 100 / 1440) * 1vw, 172px) clamp(25px, (50 * 100 / 1440) * 1vw, 50px);
+    background: no-repeat center / cover;
 
     &::after {
       content: '';
-      position: absolute;
+      position: fixed;
       inset: 0;
       display: block;
       background-image: $primary-overlay;
@@ -107,69 +111,74 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
   &__navigation {
     position: relative;
     z-index: 1;
-    margin-bottom: 3.472vw;
-    margin-left: clamp(1rem, 3.472vw, 3.125rem);
   }
 
   &__content {
     position: relative;
     z-index: 1;
     display: flex;
-    padding-left: clamp(0.5rem, 6.944vw, 6.25rem);
+    gap: clamp(8px, (100 * 100 / 1440) * 1vw, 100px);
+    justify-content: center;
     color: #fff;
-    margin-right: 3.472vw;
   }
 
-  &__title {
-    font: {
-      weight: 800;
-      size: clamp(1.1875rem, 4.722vw, 4.25rem);
+  &__summary {
+    flex-basis: 65%;
+
+    &--title {
+      font: {
+        weight: 800;
+        size: clamp(22px, (68 * 100 / 1440) * 1vw, 68px);
+      }
+    }
+
+    &--star-rating {
+      margin-bottom: 1.944vw;
+    }
+
+    &--critic-rating {
+      margin-bottom: 5.764vw;
+      font: {
+        weight: 600;
+        size: clamp(12px, (25 * 100 / 1440) * 1vw, 25px);
+      }
+    }
+
+    &--description {
+      font: {
+        size: clamp(13px, (30 * 100 / 1440) * 1vw, 30px);
+        weight: 600;
+      }
+
+      max-height: 23.75vw;
+      overflow-y: scroll;
     }
   }
 
-  &__star-rating {
-    margin-bottom: 1.944vw;
-  }
-
-  &__critic-rating {
-    margin-bottom: 5.764vw;
-    font: {
-      weight: 600;
-      size: clamp(0.0938rem, 1.736vw, 1.5625rem);
-    }
-  }
-
-  &__poster-preview {
-    position: relative;
-    width: 100%;
+  &__card {
+    flex-basis: 35%;
     max-width: 300px;
-    border-radius: 12px 12px 0 0;
-    background-repeat: no-repeat;
-    background-size: contain;
-    margin-left: 6.9444vw;
-  }
 
-  &__description {
-    font: {
-      size: clamp(0.5375rem, 2.083vw, 1.875rem);
-      weight: 600;
+    > div {
+      position: relative;
+      width: 100%;
+      padding: calc((300 / 200) * 100%) 0 0;
+      border-radius: 12px 12px 0 0;
+      background: no-repeat center / cover;
     }
 
-    width: 100%;
-    max-width: 652px;
-    max-height: 13.75vw;
-    overflow-y: scroll;
-  }
-
-  &__rating {
-    position: absolute;
-    right: 0;
-    display: flex;
-    place-content: center;
-    width: calc(100% / 3);
-    color: #fff;
-    border-radius: 0 12px;
-    background-color: $primary-color-yellow;
+    &--rating {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: calc(100% / 3);
+      color: #fff;
+      border-radius: 0 12px;
+      background-color: $primary-color-yellow;
+    }
   }
 }
 </style>
