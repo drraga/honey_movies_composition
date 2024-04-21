@@ -36,15 +36,19 @@
 
     @media (hover: hover) {
       &:hover {
-        background: $primary-color-yellow;
-        transform: scale(1.05);
+        svg {
+          fill: $primary-color-yellow;
+          transform: scale(1.2);
+        }
       }
     }
 
     @media (hover: none) {
       &:active {
-        background: $primary-color-yellow;
-        transform: scale(0.95);
+        svg {
+          background: $primary-color-yellow;
+          transform: scale(0.95);
+        }
       }
     }
 
@@ -64,17 +68,22 @@
       size: clamp(22px, 1.89vw, 28px);
       weight: 800;
     }
-    transition: color 0.25s ease;
+
+    transition:
+      color 0.25s ease,
+      transform 0.25s ease;
 
     @media (hover: hover) {
       &:hover {
         color: $primary-color-yellow;
+        transform: scale(1.05);
       }
     }
 
     @media (hover: none) {
       &:active {
         color: $primary-color-yellow;
+        transform: scale(0.95);
       }
     }
   }
