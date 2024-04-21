@@ -89,7 +89,7 @@ const props = defineProps({
 
 .right-side-bar {
   &__block {
-    width: 336px;
+    // width: 336px;
 
     &:not(:last-child) {
       margin-bottom: 60px;
@@ -146,6 +146,18 @@ const props = defineProps({
         }
       }
 
+      @media (hover: none) {
+        &:active {
+          transform: scale(0.8);
+
+          svg {
+            path {
+              stroke: $primary-color-yellow;
+            }
+          }
+        }
+      }
+
       svg {
         width: 24px;
 
@@ -167,6 +179,18 @@ const props = defineProps({
 
         svg {
           transform: scale(1.2) rotate(180deg);
+
+          path {
+            stroke: $primary-color-yellow;
+          }
+        }
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        svg {
+          transform: scale(0.8) rotate(180deg);
 
           path {
             stroke: $primary-color-yellow;

@@ -33,9 +33,9 @@ const categoryPath = computed(() => {
 
 <template>
   <section class="left-side-bar-item">
-    <span class="left-side-bar-item__header">
+    <h3>
       {{ title }}
-    </span>
+    </h3>
 
     <div class="left-side-bar-item__scroll">
       <RouterLink
@@ -55,38 +55,54 @@ const categoryPath = computed(() => {
 </template>
 
 <style lang="scss">
-$primary-color: #f9f9f9;
-$secondary-color: #f8b319;
+@import '@/assets/styles/variables';
+@import '@/assets/styles/_mixins';
 
 .left-side-bar-item {
-  padding-bottom: 60px;
-  &__header {
-    display: inline-block;
+  padding-bottom: clamp(20px, (60 * 100 / 1440) * 1vw, 60px);
+
+  h3 {
     font-weight: 700;
-    margin-bottom: 24px;
     color: #f9f9f9ab;
+    margin-bottom: clamp(12px, (24 * 100 / 1440) * 1vw, 24px);
   }
+
   &__scroll {
     max-height: 214px;
-    overflow: auto;
+    overflow-y: auto;
   }
 
   &__nav-link {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    font-weight: 600;
     text-decoration: none;
     text-transform: capitalize;
-    display: flex;
-    height: 42px;
-    color: $primary-color;
-    transition: all 3ms;
-    align-items: center;
+    color: $primary-color-white;
+    transform: translate3d(0, 0, 0);
+    transition:
+      color 0.35s ease,
+      transform 0.35s ease;
+
+    // &:after {
+    //   content: '';
+    //   width: 2px;
+    //   background: $primary-color-white;
+    //   position: absolute;
+    //   right: 0;
+    //   top: 0;
+    //   bottom: 0;
+    //   // transform: translateX(200%);
+    // }
 
     &:hover {
-      border-right-style: solid;
-      border-right-color: $secondary-color;
-      border-right-width: 2px;
-      color: $secondary-color;
+      color: $primary-color-yellow;
+      transform: scale(1.05);
+      // box-shadow: 0 -2px 0 $primary-color-yellow;
     }
   }
+
   &__expand-button {
     cursor: pointer;
   }

@@ -65,9 +65,8 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
   </main>
 
   <main v-else class="home-page__wrapper">
-    <nav>
-      <NavHome />
-    </nav>
+    <NavHome />
+
     <section class="home-page__content">
       <LeftSideBar />
       <MainContent />
@@ -92,8 +91,9 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
 
 .home-page {
   &__wrapper {
-    max-width: 1440px;
     width: 100%;
+    max-width: 1440px;
+    padding: 0 0 0 40px;
     margin: {
       left: auto;
       right: auto;

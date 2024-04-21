@@ -8,6 +8,7 @@ import MainBottom from './MainBottom.vue';
     <section class="main-content__carousel">
       <CarouselMain />
     </section>
+
     <section class="main-content__cards">
       <MainBottom />
     </section>
@@ -15,11 +16,12 @@ import MainBottom from './MainBottom.vue';
 </template>
 
 <style lang="scss">
+// TODO padding bottom вернуть и записать адекватно, возможно перенести в другой блок
 .main-content {
   width: 100%;
   max-width: 870px;
   padding: {
-    bottom: 90px;
+    // bottom: 90px;
     left: 68px;
     right: 32px;
   }
