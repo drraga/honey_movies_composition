@@ -1,38 +1,36 @@
 <script setup>
 import { computed, onMounted, onBeforeUnmount } from 'vue';
-import { useStore } from 'vuex';
+
+import { storeToRefs } from 'pinia';
+import { useMoviesCatalog } from '@/store/movies_catalog';
+import { useMainPage } from '@/store/main_page';
+
 import { useRoute } from 'vue-router';
 
-import PreLoader from '../components/PreLoader.vue';
-import MoviesCardList from '../components/movies/MoviesCardList.vue';
-import BackHomeBlock from '../components/BackHomeBlock.vue';
+const moviesCatalog = useMoviesCatalog();
+const { isLoading, countriesSelected: movies } = storeToRefs(moviesCatalog);
+const { fetchCountries, resetState: resetCurrentPageState } = moviesCatalog;
 
-const store = useStore();
+const mainPage = useMainPage();
+const { getCountriesSelectedName: countryRequestedName } = storeToRefs(mainPage);
+const { fetchFilters, resetState: resetMainPageState } = mainPage;
 
-const movies = computed(() => store.getters['movies_catalog/getCountriesSelected']);
-const countryRequestedName = computed(() => store.getters['main_page/getCountriesSelectedName']);
-const isLoading = computed(() => store.getters['movies_catalog/isLoading']);
+import PreLoader from '@/components/PreLoader.vue';
+import MoviesCardList from '@/components/movies/MoviesCardList.vue';
+import BackHomeBlock from '@/components/BackHomeBlock.vue';
 
 const route = useRoute();
-const queryCountryId = computed(() => +route.params.id);
+const queryCountryId = computed(() => parseInt(route.params.id));
 
-function fetchCountries(countryId) {
-  store.dispatch('movies_catalog/fetchCountries', countryId);
-}
-function fetchFilters() {
-  store.dispatch('main_page/fetchFilters');
-}
+onMounted(() => {
+  fetchCountries(queryCountryId.value);
+  fetchFilters();
+});
 
-onMounted(() => fetchCountries(queryCountryId.value), fetchFilters());
-
-function resetMainPageState() {
-  store.commit('main_page/RESET_STATE');
-}
-function resetCurrentPageState() {
-  store.commit('movies_catalog/RESET_STATE');
-}
-
-onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
+onBeforeUnmount(() => {
+  resetCurrentPageState();
+  resetMainPageState();
+});
 </script>
 
 <template>
@@ -40,51 +38,36 @@ onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
     <PreLoader />
   </main>
 
-  <main v-else class="country-search__wrapper">
+  <main v-else class="country-search">
     <nav class="country-search__navigation">
       <BackHomeBlock />
     </nav>
-    <span class="country-search__header">
+
+    <h1>
       {{ `Made in : ${countryRequestedName(queryCountryId)}` }}
-    </span>
-    <section class="country-search__wrapper-cards">
+    </h1>
+
+    <section class="country-search__cards">
       <MoviesCardList :movies="movies" />
     </section>
   </main>
 </template>
 
 <style lang="scss">
-@import '../assets/styles/variables.scss';
-
-.loader {
-  display: flex;
-  place-content: center;
-  max-width: $max-width-page;
-}
+@import '@/assets/styles/variables';
+@import '@/assets/styles/_mixins';
 
 .country-search {
-  &__wrapper {
-    width: 1440px;
-    min-height: 1024px;
-    padding-top: 68px;
-    padding-left: 58px;
-    color: #000;
-    margin: {
-      left: auto;
-      right: auto;
-    }
-  }
+  max-width: 1440px;
+  padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) clamp(12px, (38 * 100 / 1440) * 1vw, 38px);
+  margin: 0 auto;
 
-  &__navigation {
-    padding-bottom: 54px;
-  }
-
-  &__header {
+  & h1 {
     display: block;
-    padding-bottom: 66px;
-    color: #f9f9f9;
+    margin: 0 0 clamp(24px, 4.58vw, 66px);
+    color: $grey;
     font: {
-      size: 48px;
+      size: clamp(22px, 3.33vw, 48px);
       weight: 800;
     }
 
@@ -93,10 +76,26 @@ onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
     }
   }
 
-  &__wrapper-cards {
-    display: flex;
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px 34px;
-    flex-wrap: wrap;
+    justify-content: center;
+
+    @include mq(1151) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    @include mq(767) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(12px, (24 * 100 / 1440) * 1vw, 24px);
+    }
+
+    @include mq(350) {
+      grid-template-columns: 1fr;
+      justify-content: center;
+    }
   }
 }
 </style>

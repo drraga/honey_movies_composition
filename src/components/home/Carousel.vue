@@ -1,44 +1,43 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+
+import { storeToRefs } from 'pinia';
+import { useMainPage } from '@/store/main_page';
 
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
 
-const store = useStore();
+const mainPage = useMainPage();
 
-const premiers = computed(() => store.getters['main_page/getPremiers'].slice(0, 10));
+const { premiers } = storeToRefs(mainPage);
 
 const primaryOverlay = ref(
-  `linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 30, 0.7) 61.28%),
-  linear-gradient(0deg, rgba(22, 24, 30, 0.4), rgba(22, 24, 30, 0.4));`
+  `linear-gradient(180deg, rgba(22, 24, 30, 0%) 0%, rgba(22, 24, 30, 7%) 61.28%),
+  linear-gradient(0deg, rgba(22, 24, 30, 4%), rgba(22, 24, 30, 4%));`
 );
 </script>
 
 <template>
-  <Carousel class="main-carousel">
-    <Slide v-for="slide in premiers" :key="slide.kinopoiskId">
+  <Carousel class="main-carousel" :wrap-around="true">
+    <Slide v-for="slide in premiers.slice(0, 10)" :key="slide.kinopoiskId">
       <RouterLink
         :to="`films/${slide.kinopoiskId}`"
-        class="main-carousel__content"
+        class="main-carousel__card"
         :style="[{ backgroundImage: `url(${slide.posterUrl})` }, primaryOverlay]"
       >
-        <div class="main-carousel__overlay">
-          <p class="main-carousel__title">
-            {{ slide.nameRu }}
-          </p>
-        </div>
+        <div class="main-carousel__card--overlay" />
+
+        <p class="main-carousel__card--title">
+          {{ slide.nameRu }}
+        </p>
       </RouterLink>
     </Slide>
 
     <template #addons>
       <Navigation>
         <template #prev>
-          <!-- <div class="main-carousel__btn-control">
-            <img src="@/assets/icons/next.svg" alt="next" />
-          </div> -->
           <div class="main-carousel__btn-control">
             <svg viewBox="-128 0 512 512" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -56,10 +55,6 @@ const primaryOverlay = ref(
               />
             </svg>
           </div>
-
-          <!-- <div class="main-carousel__btn-control">
-            <img src="@/assets/icons/previous.svg" alt="prev" />
-          </div> -->
         </template>
       </Navigation>
 
@@ -69,39 +64,49 @@ const primaryOverlay = ref(
 </template>
 
 <style lang="scss">
-// TODO удалить лишние перменные
+// TODO удалить лишние переменные
 @import '@/assets/styles/variables';
 @import '@/assets/styles/_mixins';
-$primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0%) 0, rgba(22, 24, 30, 70%) 61.28%),
-  linear-gradient(0deg, rgba(22, 24, 30, 40%), rgba(22, 24, 30, 40%));
-$primary-background-color: rgba(249, 249, 249, 20%);
-$primary-color: #f9f9f9;
-// $primary-color-yellow: #f8b319;
 
 .main-carousel {
   width: auto;
   max-width: 100%;
-  height: 350px;
+  aspect-ratio: 740/350;
   border-radius: 20px;
   overflow: hidden;
 
-  &__content {
-    width: 100%;
+  & .carousel__track {
     height: 100%;
-    border-radius: 20px;
-    background: {
-      position: 50%;
-      repeat: no-repeat;
-      size: contain;
-    }
   }
 
-  // &__btn-control {
-  //   display: flex;
-  //   padding: 17px 20px;
-  //   border-radius: 15px;
-  //   background-color: $primary-background-color;
-  // }
+  .carousel__viewport {
+    height: 100%;
+  }
+
+  &__card {
+    display: flex;
+    width: 100%;
+    position: relative;
+    height: 100%;
+    padding: clamp(20px, (40 / 1440) * 100vw, 40px);
+    border-radius: 20px;
+    background: 50% / contain no-repeat;
+
+    &--overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      background: $primary-overlay;
+    }
+
+    &--title {
+      position: relative;
+      z-index: 1;
+      color: $primary-color-white;
+      font-weight: 800;
+      font-size: clamp(21px, (48 / 1440) * 100vw, 48px);
+    }
+  }
 
   &__btn-control {
     display: flex;
@@ -111,19 +116,34 @@ $primary-color: #f9f9f9;
     border-radius: clamp(12px, 1.04vw, 15px);
     background-color: $primary-background-color;
     transition:
-      transform 0.25s ease,
+      transform 0.15s ease,
       background 0.25s ease;
-
-    &.next {
-      svg {
-        transform: rotate(180deg);
-      }
-    }
 
     @media (hover: hover) {
       &:hover {
-        background: $primary-color-yellow;
-        transform: scale(1.05);
+        svg {
+          fill: $primary-color-yellow;
+          transform: scale(1.1) translate3d(0, 0, 0);
+        }
+
+        &.next {
+          svg {
+            transform: scale(1.1) translate3d(0, 0, 0) rotate(180deg);
+          }
+        }
+
+        &:active {
+          svg {
+            fill: $primary-color-yellow;
+            transform: scale(0.98) translate3d(0, 0, 0);
+          }
+
+          &.next {
+            svg {
+              transform: scale(0.98) translate3d(0, 0, 0) rotate(180deg);
+            }
+          }
+        }
       }
     }
 
@@ -134,9 +154,16 @@ $primary-color: #f9f9f9;
       }
     }
 
+    &.next {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+
     svg {
       width: clamp(18px, 1.74vw, 25px);
       fill: #fff;
+      transform: translate3d(0, 0, 0);
       transition:
         transform 0.25s ease,
         fill 0.25s ease;
@@ -145,19 +172,20 @@ $primary-color: #f9f9f9;
 
   .carousel {
     &__prev {
-      left: 20px;
+      left: 3%;
     }
 
     &__next {
-      right: 20px;
+      right: 3%;
     }
 
     &__pagination {
       position: absolute;
-      bottom: 36px;
-      left: 283px;
+      bottom: 10%;
+      left: 50%;
       padding: 8px 12px;
       border-radius: 5px;
+      transform: translateX(-50%);
       background-color: $primary-background-color;
 
       &-button {
@@ -165,7 +193,7 @@ $primary-color: #f9f9f9;
           width: 10px;
           height: 10px;
           border-radius: 50em;
-          background-color: $primary-color;
+          background-color: $primary-color-white;
         }
 
         &--active {
@@ -174,25 +202,6 @@ $primary-color: #f9f9f9;
           }
         }
       }
-    }
-  }
-
-  &__overlay {
-    height: 350px;
-    border-radius: 20px;
-    background: $primary-overlay;
-  }
-
-  &__title {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    line-height: 48px;
-    text-align: left;
-    color: $primary-color;
-    font: {
-      weight: 800;
-      size: 48px;
     }
   }
 }

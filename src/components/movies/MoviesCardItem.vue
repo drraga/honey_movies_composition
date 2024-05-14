@@ -1,7 +1,9 @@
 <script setup>
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
+
 import { useWindowSize } from '@vueuse/core';
+
 import Vue3StarRatings from 'vue3-star-ratings';
 
 const prop = defineProps({
@@ -34,10 +36,12 @@ const starSize = computed(() => {
         {{ movieData.rating }}
       </div>
     </RouterLink>
+
     <section class="card-extended__bottom">
       <p class="card-extended__title">
         {{ movieData.nameRu }}
       </p>
+
       <figure>
         <Vue3StarRatings
           :model-value="movieData.rating"
@@ -47,9 +51,11 @@ const starSize = computed(() => {
           :disable-click="true"
         />
       </figure>
+
       <time class="card-extended__release-date">
         {{ movieData.year }}
       </time>
+
       <p class="card-extended__genres">
         {{ movieData.genre }}
       </p>
@@ -58,7 +64,7 @@ const starSize = computed(() => {
 </template>
 
 <style lang="scss">
-@import '@/assets/styles/colors';
+@import '@/assets/styles/variables';
 @import '@/assets/styles/_mixins';
 
 .card-extended {
@@ -73,7 +79,7 @@ const starSize = computed(() => {
     display: block;
     aspect-ratio: 3/4 auto;
     border-radius: 18px 18px 0 0;
-    margin-bottom: 16px;
+    margin: 0 0 16px;
     background: {
       size: 100%;
       repeat: no-repeat;

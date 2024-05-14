@@ -1,48 +1,52 @@
 <script setup>
-import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { RouterLink } from 'vue-router';
+
+import { storeToRefs } from 'pinia';
+import { useMainPage } from '@/store/main_page';
+
 import Vue3StarRatings from 'vue3-star-ratings';
 
-const store = useStore();
+import { useWindowSize } from '@vueuse/core';
+const { width } = useWindowSize();
 
-const moviesTop250Random = computed(() => store.getters['main_page/getMoviesTop250Random']);
+const mainPage = useMainPage();
+const { moviesTop250Random } = storeToRefs(mainPage);
 
-function convertRating(rating) {
-  return Math.round(rating) / 2;
-}
+const convertRating = rating => Math.round(rating) / 2;
+
+const amountOfMoviesToShow = computed(() =>
+  width.value < 1152 ? moviesTop250Random.value.slice(0, 2) : moviesTop250Random.value
+);
 </script>
 
 <template>
   <div class="main-bottom-block">
-    <div class="main-bottom-block__title">Top Random</div>
-    <div class="main-bottom-block__card-wrapper">
-      <div v-for="slide in moviesTop250Random" :key="slide.filmId" class="main-bottom-block__card">
+    <h3>Top Random</h3>
+
+    <div class="main-bottom-block__cards">
+      <div v-for="slide in amountOfMoviesToShow" :key="slide.filmId" class="main-bottom-block__card">
         <RouterLink
           :to="`films/${slide.filmId}`"
-          class="main-bottom-block__image"
+          class="main-bottom-block__card-link"
           :style="{ backgroundImage: `url(${slide.posterUrlPreview})` }"
         >
-          <div class="main-bottom-block__overlay">
-            <div class="main-bottom-block__card-title">
-              {{ slide.nameRu.slice(0, 20) }}
-              <div class="rate">
-                <Vue3StarRatings
-                  :model-value="convertRating(slide.rating)"
-                  :star-size="15"
-                  :number-of-stars="5"
-                  :show-control="false"
-                />
-              </div>
-            </div>
+          <div class="main-bottom-block__card-overlay" />
 
-            <div class="main-bottom-block__bottom">
-              <div class="main-bottom-block__info">
-                {{ slide.year }}
-              </div>
-              <div class="main-bottom-block__genre">
-                {{ slide.genres[0].genre }}
-              </div>
+          <div class="main-bottom-block__card-wrapper">
+            <p>{{ slide.nameRu }}</p>
+
+            <Vue3StarRatings
+              :model-value="convertRating(slide.rating)"
+              :star-size="15"
+              :number-of-stars="5"
+              :show-control="false"
+            />
+
+            <div class="main-bottom-block__details">
+              <p>{{ slide.year }}</p>
+
+              <p>{{ slide.genres[0].genre }}</p>
             </div>
           </div>
         </RouterLink>
@@ -52,74 +56,76 @@ function convertRating(rating) {
 </template>
 
 <style lang="scss">
-$primary-overlay: linear-gradient(180deg, rgba(22, 24, 30, 0) 0%, rgba(22, 24, 30, 0.7) 61.28%),
-  linear-gradient(0deg, rgba(22, 24, 30, 0.4), rgba(22, 24, 30, 4%));
-$primary-color: #f9f9f9;
-$secondary-color: #f8b319;
+@import '@/assets/styles/_mixins';
+@import '@/assets/styles/variables';
 
 .main-bottom-block {
-  &__title {
-    color: $primary-color;
+  & h3 {
+    color: $primary-color-white;
     font: {
       size: 30px;
       weight: 800;
     }
+
     margin-bottom: 30px;
   }
 
-  &__card-wrapper {
-    display: flex;
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(12px, (24 * 100 / 1440) * 1vw, 24px);
     justify-content: space-between;
-  }
 
-  &__overlay {
-    background-image: $primary-overlay;
-    height: 100%;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    @include mq(1152) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   &__card {
-    height: 300px;
-    width: 238px;
+    position: relative;
+    overflow: hidden;
   }
 
-  &__image {
+  &__card-link {
     display: block;
-    height: 100%;
-    width: 238px;
     border-radius: 20px;
-    background: {
-      size: cover;
-      repeat: no-repeat;
-      position: 50%;
-    }
+    background: 50% / cover no-repeat;
   }
 
-  &__card-title {
+  &__card-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: $primary-overlay;
+  }
+
+  &__card-wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 237/300; // TODO венуться к соотношению сторон, количеству карточек, отображение текста внутри, размеры шритов
+    height: 100%;
     padding: 22px;
-    color: $primary-color;
-    overflow: clip;
-    text-align: left;
-    font: {
-      size: 24px;
-      weight: 800;
+
+    & > p {
+      font-size: clamp(18px, (24 / 1440) * 100vw, 24px);
+      font-weight: 800;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: $primary-color-white;
+      overflow: hidden;
     }
   }
 
-  &__bottom {
+  &__details {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    font-size: clamp(14px, (18 / 1440) * 100vw, 18px);
+    font-weight: 700;
     text-transform: capitalize;
-    color: $primary-color;
-    font: {
-      weight: 700;
-      size: 18px;
-    }
+    color: $primary-color-white;
+    margin-top: auto;
   }
 }
 </style>

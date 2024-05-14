@@ -1,5 +1,5 @@
 <script setup>
-import SearchField from './SearchField.vue';
+import SearchField from '@/components/home/SearchField.vue';
 </script>
 
 <template>
@@ -31,8 +31,6 @@ import SearchField from './SearchField.vue';
 @import '@/assets/styles/variables';
 @import '@/assets/styles/_mixins';
 
-$text-color: #f9f9f9;
-
 .home-navigation {
   &__wrapper {
     display: flex;
@@ -40,7 +38,7 @@ $text-color: #f9f9f9;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) 0 clamp(12px, (46 * 100 / 1440) * 1vw, 46px) 0;
+    padding: 0 0 clamp(12px, (46 * 100 / 1440) * 1vw, 46px);
   }
 
   &__logo {
@@ -57,7 +55,7 @@ $text-color: #f9f9f9;
     display: flex;
     align-items: center;
     font-weight: 800;
-    color: $text-color;
+    color: $primary-color-white;
     border: none;
     background: none;
     transform: translate3d(0, 0, 0);

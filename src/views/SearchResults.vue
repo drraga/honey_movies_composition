@@ -1,30 +1,27 @@
 <script setup>
 import { computed, onMounted, onBeforeUnmount } from 'vue';
-import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
-import BackHomeBlock from '../components/BackHomeBlock.vue';
-import MoviesCardList from '../components/movies/MoviesCardList.vue';
-import PreLoader from '../components/PreLoader.vue';
+import { storeToRefs } from 'pinia';
+import { useMoviesCatalog } from '@/store/movies_catalog';
+import { useMainPage } from '@/store/main_page';
 
-const store = useStore();
+import BackHomeBlock from '@/components/BackHomeBlock.vue';
+import MoviesCardList from '@/components/movies/MoviesCardList.vue';
+import PreLoader from '@/components/PreLoader.vue';
+
+const moviesCatalog = useMoviesCatalog();
+const mainPage = useMainPage();
+
+const { isLoading, searchResults: movies } = storeToRefs(moviesCatalog);
+const { fetchSearch, resetState: resetCurrentPageState } = moviesCatalog;
+const { resetState: resetMainPageState } = mainPage;
+
 const route = useRoute();
 
-const isLoading = computed(() => store.getters['movies_catalog/isLoading']);
-const movies = computed(() => store.getters['movies_catalog/getSearchResults']);
-
 const queryGenre = computed(() => route.params.id);
-function fetchSearch(queryGenre) {
-  store.dispatch('movies_catalog/fetchSearch', queryGenre);
-}
-onMounted(() => fetchSearch(queryGenre.value));
 
-function resetCurrentPageState() {
-  store.commit('movies_catalog/RESET_STATE');
-}
-function resetMainPageState() {
-  store.commit('main_page/RESET_STATE');
-}
+onMounted(() => fetchSearch(queryGenre.value));
 onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
 </script>
 

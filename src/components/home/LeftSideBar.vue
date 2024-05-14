@@ -1,12 +1,14 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
-import LeftSideBarBlock from './LeftSideBarBlock.vue';
+import { ref } from 'vue';
 
-const store = useStore();
+import { storeToRefs } from 'pinia';
+import { useMainPage } from '@/store/main_page';
 
-const genres = computed(() => store.getters['main_page/getGenres']);
-const countries = computed(() => store.getters['main_page/getCountries']);
+import LeftSideBarBlock from '@/components/home/LeftSideBarBlock.vue';
+
+const mainPage = useMainPage();
+
+const { genres, countries } = storeToRefs(mainPage);
 
 const mainMenu = ref([
   { id: '', label: 'Home' },
@@ -17,19 +19,9 @@ const mainMenu = ref([
 </script>
 
 <template>
-  <aside class="left-side-bar">
-    <LeftSideBarBlock :title="'Menu'" :elements-array="mainMenu" :visibility="`collapse`" />
+  <aside>
+    <LeftSideBarBlock :title="'Menu'" :elements-array="mainMenu" :visibility="false" />
     <LeftSideBarBlock :title="'Genres'" :elements-array="genres" />
     <LeftSideBarBlock :title="'Countries'" :elements-array="countries" />
   </aside>
 </template>
-
-<style lang="scss">
-.left-side-bar {
-  flex-basis: 15%;
-  font: {
-    size: 18px;
-    weight: 600;
-  }
-}
-</style>

@@ -1,14 +1,12 @@
-@import '@/assets/base.css';
-@import '@/assets/styles/colors.scss';
-@import '@/assets/styles/reset.scss';
+@import '@/assets/base';
+@import '@/assets/styles/reset';
 
 #app {
-  margin: 0 auto;
-  font-weight: normal;
-  font-family: Lato, sans-serif;
   padding: 0;
-  margin: 0;
+  font-family: Lato, sans-serif;
+  font-weight: 400;
   background-color: var(--vt-c-black-soft);
+  margin: 0 auto;
 }
 
 a {
@@ -21,6 +19,11 @@ a {
 
 .loader {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  align-content: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
 }
 

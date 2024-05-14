@@ -1,33 +1,25 @@
 <script setup>
-import CarouselMain from './Carousel.vue';
-import MainBottom from './MainBottom.vue';
+import CarouselMain from '@/components/home/Carousel.vue';
+import MainBottom from '@/components/home/MainBottom.vue';
 </script>
 
 <template>
   <section class="main-content">
-    <section class="main-content__carousel">
+    <div class="main-content__carousel">
       <CarouselMain />
-    </section>
+    </div>
 
-    <section class="main-content__cards">
-      <MainBottom />
-    </section>
+    <MainBottom />
   </section>
 </template>
 
 <style lang="scss">
 // TODO padding bottom вернуть и записать адекватно, возможно перенести в другой блок
 .main-content {
-  width: 100%;
-  max-width: 870px;
-  padding: {
-    // bottom: 90px;
-    left: 68px;
-    right: 32px;
-  }
+  padding: 0 clamp(30px, ((68 / 1440) * 100vw), 68px) 0 clamp(10px, ((30 / 1440) * 100vw), 30px);
 
   &__carousel {
-    padding-bottom: 60px;
+    margin: 0 0 clamp(30px, ((60 / 1440) * 100vw), 60px);
   }
 }
 </style>

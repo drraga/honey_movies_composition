@@ -1,13 +1,23 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { useStore } from 'vuex';
-import NavHome from '../components/home/NavHome.vue';
-import LeftSideBar from '../components/home/LeftSideBar.vue';
-import MainContent from '../components/home/MainContent.vue';
-import RightSideBar from '../components/home/RightSidebar.vue';
-import PreLoader from '../components/PreLoader.vue';
 
-const store = useStore();
+import { storeToRefs } from 'pinia';
+import { useMoviesCatalog } from '@/store/movies_catalog';
+import { useMainPage } from '@/store/main_page';
+
+import NavHome from '@/components/home/NavHome.vue';
+import LeftSideBar from '@/components/home/LeftSideBar.vue';
+import MainContent from '@/components/home/MainContent.vue';
+import RightSideBar from '@/components/home/RightSidebar.vue';
+import PreLoader from '@/components/PreLoader.vue';
+
+const moviesCatalog = useMoviesCatalog();
+const mainPage = useMainPage();
+
+const { isLoading } = storeToRefs(moviesCatalog);
+const { setLoading: setLoading, resetState: resetCurrentPageState } = moviesCatalog;
+
+const { fetchTop, fetchPremiers, fetchFilters, resetState: resetMainPageState } = mainPage;
 
 const monthArray = ref([
   'JANUARY',
@@ -23,21 +33,9 @@ const monthArray = ref([
   'NOVEMBER',
   'DECEMBER',
 ]);
-const isLoading = computed(() => store.getters['movies_catalog/isLoading']);
+
 const currentMonth = computed(() => monthArray.value[new Date().getMonth()]);
 
-function setLoading(state) {
-  store.commit('movies_catalog/SET_LOADING', state);
-}
-function fetchTop() {
-  store.dispatch('main_page/fetchTop');
-}
-function fetchPremiers(selectedMonth) {
-  store.dispatch('main_page/fetchPremiers', selectedMonth);
-}
-function fetchFilters() {
-  store.dispatch('main_page/fetchFilters');
-}
 function getPromiseAll() {
   setLoading(true);
   Promise.all([fetchTop(), fetchPremiers(currentMonth.value), fetchFilters()]).then(() => {
@@ -45,14 +43,6 @@ function getPromiseAll() {
   });
 }
 onMounted(() => setLoading(true), getPromiseAll());
-
-function resetMainPageState() {
-  store.commit('main_page/RESET_STATE');
-}
-
-function resetCurrentPageState() {
-  store.commit('movies_catalog/RESET_STATE');
-}
 
 onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
 </script>
@@ -64,44 +54,28 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
     </div>
   </main>
 
-  <main v-else class="home-page__wrapper">
+  <main v-else class="home-page">
     <NavHome />
 
     <section class="home-page__content">
       <LeftSideBar />
+
       <MainContent />
+
       <RightSideBar />
     </section>
   </main>
 </template>
 
 <style lang="scss">
-.loader {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  width: 100vw;
-  height: 100vh;
-  margin: {
-    left: auto;
-    right: auto;
-  }
-}
-
 .home-page {
-  &__wrapper {
-    width: 100%;
-    max-width: 1440px;
-    padding: 0 0 0 40px;
-    margin: {
-      left: auto;
-      right: auto;
-    }
-  }
+  padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) 0 clamp(24px, (64 * 100 / 1440) * 1vw, 64px)
+    clamp(20px, (50 * 100 / 1440) * 1vw, 40px);
+  margin: 0 auto;
 
   &__content {
-    display: flex;
+    display: grid;
+    grid-template-columns: [left] 1fr [center] 3fr [right]1fr;
   }
 }
 </style>

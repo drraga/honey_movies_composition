@@ -39,6 +39,18 @@ function fetchSearch(request) {
 @import '@/assets/styles/_mixins';
 
 .search-field {
+  &:focus-within {
+    svg {
+      path {
+        stroke: $primary-color-yellow;
+      }
+    }
+
+    input {
+      border: 1px solid $primary-color-yellow;
+    }
+  }
+
   label {
     position: relative;
 
@@ -46,7 +58,7 @@ function fetchSearch(request) {
       position: absolute;
       top: 50%;
       left: 24px;
-      widows: 24px;
+      width: 24px;
       height: 24px;
       fill: none;
       transform: translateY(-50%);
@@ -56,10 +68,11 @@ function fetchSearch(request) {
       }
 
       path {
-        stroke: #aeafb2;
+        stroke: $grey-light2;
         stroke-linecap: round;
         stroke-linejoin: round;
         stroke-width: 2;
+        transition: color 0.25s ease;
       }
     }
   }
@@ -67,10 +80,11 @@ function fetchSearch(request) {
   input {
     max-width: 315px;
     padding: 16px 24px 16px 64px;
-    color: #f9f9f9ab;
-    border: 1px solid #f9f9f91a;
+    color: $grey-light;
+    border: 1px solid $grey-medium;
     border-radius: 12px;
-    background-color: #21242d;
+    background-color: $grey-dark;
+    transition: border 0.25s ease;
     font: {
       size: 18px;
       weight: 500;

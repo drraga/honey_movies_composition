@@ -1,5 +1,5 @@
 <script setup>
-import MoviesCardItem from './MoviesCardItem.vue';
+import MoviesCardItem from '@/components/movies/MoviesCardItem.vue';
 
 const props = defineProps({
   movies: {
@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div v-for="movieData in movies" :key="movieData.id" class="cards-extended-list">
+  <div v-for="movieData in movies" :key="movieData?.id">
     <MoviesCardItem :movie-data="movieData" />
   </div>
 </template>
