@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import FilmsView from '../views/FilmsView.vue';
+import HomeView from '@/views/HomeView.vue';
+import FilmsView from '@/views/FilmsView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,19 +21,19 @@ const router = createRouter({
     },
     {
       path: '/films/:id/',
-      component: () => import('../views/MoviePageSingle.vue'),
+      component: () => import('@/views/MoviePageSingle.vue'),
     },
     {
       path: '/films/search/:id',
-      component: () => import('../views/SearchResults.vue'),
+      component: () => import('@/views/SearchResults.vue'),
     },
     {
       path: '/films/genres/:id',
-      component: () => import('../views/GenresSelected.vue'),
+      component: () => import('@/views/GenresSelected.vue'),
     },
     {
       path: '/films/countries/:id',
-      component: () => import('../views/CountriesSelected.vue'),
+      component: () => import('@/views/CountriesSelected.vue'),
     },
   ],
 });

@@ -1,8 +1,16 @@
 export default function getRandomNums(min, max, n) {
-  const random = [];
-  const difference = max - min;
-  for (let i = 0; i < n; i += 1) {
-    random.push(Math.floor(Math.random() * difference) + min);
+  if (n > max - min) {
+    throw new Error('Range is too smal to generate unique numbers');
   }
-  return random;
+
+  const random = new Set();
+  const difference = max - min;
+
+  while (random.size < n) {
+    const number = Math.floor(Math.random() * difference) + min;
+
+    random.add(number);
+  }
+
+  return Array.from(random);
 }

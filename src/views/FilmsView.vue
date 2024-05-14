@@ -1,13 +1,23 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { useStore } from 'vuex';
+
+import { storeToRefs } from 'pinia';
+import { useMoviesCatalog } from '@/store/movies_catalog';
+import { useMainPage } from '@/store/main_page';
+
 import { useRoute } from 'vue-router';
 
-import BackHomeBlock from '../components/BackHomeBlock.vue';
-import MoviesCardList from '../components/movies/MoviesCardList.vue';
-import PreLoader from '../components/PreLoader.vue';
+import BackHomeBlock from '@/components/BackHomeBlock.vue';
+import MoviesCardList from '@/components/movies/MoviesCardList.vue';
+import PreLoader from '@/components/PreLoader.vue';
 
-const store = useStore();
+const moviesCatalog = useMoviesCatalog();
+const mainPage = useMainPage();
+
+const { isLoading, topMoviesSelected: movies } = storeToRefs(moviesCatalog);
+const { fetchTopSpecific, resetState: resetCurrentPageState } = moviesCatalog;
+const { resetState: resetMainPageState } = mainPage;
+
 const route = useRoute();
 
 const dictionary = ref({
@@ -36,25 +46,19 @@ const dictionary = ref({
 
 const title = computed(() => dictionary.value[id.value].title);
 const id = computed(() => route.params.id);
-const category = computed(() => route.params.category);
 const query = computed(() => dictionary.value[id.value].paramObject);
 
-const movies = computed(() => store.getters['movies_catalog/getTopMoviesSelected']);
-const isLoading = computed(() => store.getters['movies_catalog/isLoading']);
+onMounted(() => {
+  fetchTopSpecific(query.value);
+});
 
-function fetchTopSpecific() {
-  store.dispatch('movies_catalog/fetchTopSpecific');
-}
-onMounted(() => fetchTopSpecific(query.value));
+// TODO если карточка не пришла и на нее нажали. там undefined
+// пушит в url undefuned. Исправить
 
-function resetMainPageState() {
-  store.commit('main_page/RESET_STATE');
-}
-function resetCurrentPageState() {
-  store.commit('movies_catalog/RESET_STATE');
-}
-
-onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
+onBeforeUnmount(() => {
+  resetCurrentPageState();
+  resetMainPageState();
+});
 </script>
 
 <template>
@@ -64,7 +68,7 @@ onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
     </div>
   </main>
 
-  <main v-else class="request-top__wrapper">
+  <main v-else class="request-top">
     <nav class="request-top__back-navigation">
       <BackHomeBlock />
     </nav>
@@ -84,18 +88,13 @@ onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
 @import '@/assets/styles/_mixins';
 
 .request-top {
-  &__wrapper {
-    max-width: 1440px;
-    padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) clamp(12px, (38 * 100 / 1440) * 1vw, 38px);
-    margin: {
-      left: auto;
-      right: auto;
-    }
-  }
+  max-width: 1440px;
+  padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) clamp(12px, (38 * 100 / 1440) * 1vw, 38px);
+  margin: 0 auto;
 
   &__title {
     color: $primary-color-white;
-    margin-bottom: clamp(24px, 4.58vw, 66px);
+    margin: 0 0 clamp(24px, 4.58vw, 66px);
     font: {
       size: clamp(22px, 3.33vw, 48px);
       weight: 800;
@@ -110,7 +109,6 @@ onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px 34px;
-    flex-wrap: wrap;
     justify-content: center;
 
     @include mq(1151) {

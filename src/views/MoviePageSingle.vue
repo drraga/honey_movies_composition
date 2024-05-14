@@ -1,12 +1,19 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, onUnmounted } from 'vue';
-import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
-import Vue3StarRatings from 'vue3-star-ratings';
-import BackHomeBlock from '../components/BackHomeBlock.vue';
-import PreLoader from '../components/PreLoader.vue';
 
-const store = useStore();
+import { storeToRefs } from 'pinia';
+import { useMovieSingle } from '@/store/movie_single';
+
+import { useRoute } from 'vue-router';
+
+import Vue3StarRatings from 'vue3-star-ratings';
+import BackHomeBlock from '@/components/BackHomeBlock.vue';
+import PreLoader from '@/components/PreLoader.vue';
+
+const movieSingle = useMovieSingle();
+const { isLoading, movieData: getMovie } = storeToRefs(movieSingle);
+const { fetchMovieSingle: fetchMovie, resetState: resetCurrentPageState } = movieSingle;
+
 const route = useRoute();
 
 const windowWidth = ref(window.innerWidth);
@@ -25,22 +32,11 @@ const computedStarSize = computed(() => {
   }
 });
 
-const isLoading = computed(() => store.getters['movie_single/isLoading']);
-const getMovie = computed(() => store.getters['movie_single/getMovie']);
-
-function fetchMovie(params) {
-  store.dispatch('movie_single/fetchMovieSingle', params);
-}
-
 onMounted(() => fetchMovie(route.params.id), window.addEventListener('resize', handleResize));
-
-function resetCurrentPageState() {
-  store.commit('movie_single/RESET_STATE');
-}
 
 onBeforeUnmount(() => resetCurrentPageState());
 onUnmounted(() => window.removeEventListener('resize', handleResize));
-//TODO добаивть переход на сам фильм или его просмотр в кинопоиске
+//TODO добавить переход на сам фильм или его просмотр в кинопоиске
 </script>
 
 <template>
@@ -96,10 +92,11 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
 
 .single-movie {
   &__wrapper {
-    padding: clamp(32px, (172 * 100 / 1440) * 1vw, 172px) clamp(25px, (50 * 100 / 1440) * 1vw, 50px);
-    // min-height: 100vh;
-    // min-height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) clamp(25px, (50 * 100 / 1440) * 1vw, 50px);
     background: no-repeat center / cover;
+    margin: 0 auto;
 
     &::after {
       content: '';
@@ -161,6 +158,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
       }
 
       max-height: 23.75vw;
+      text-wrap: balance;
       overflow-y: scroll;
 
       @include mq(853) {

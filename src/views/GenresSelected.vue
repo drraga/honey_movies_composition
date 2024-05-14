@@ -1,33 +1,34 @@
 <script setup>
 import { computed, onMounted, onBeforeUnmount } from 'vue';
-import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
-import BackHomeBlock from '../components/BackHomeBlock.vue';
-import MoviesCardList from '../components/movies/MoviesCardList.vue';
-import PreLoader from '../components/PreLoader.vue';
 
-const store = useStore();
+import { storeToRefs } from 'pinia';
+import { useMoviesCatalog } from '@/store/movies_catalog';
+import { useMainPage } from '@/store/main_page';
+
+import BackHomeBlock from '@/components/BackHomeBlock.vue';
+import MoviesCardList from '@/components/movies/MoviesCardList.vue';
+import PreLoader from '@/components/PreLoader.vue';
+
+const moviesCatalog = useMoviesCatalog();
+const { isLoading, genresSelected: movies } = storeToRefs(moviesCatalog);
+const { resetState: resetCurrentPageState, fetchGenres } = moviesCatalog;
+
+const mainPage = useMainPage();
+const { getGenreSelectedName } = storeToRefs(mainPage);
+const { resetState: resetMainPageState, fetchFilters } = mainPage;
+
 const route = useRoute();
 
-const isLoading = computed(() => store.getters['movies_catalog/isLoading']);
-const movies = computed(() => store.getters['movies_catalog/getGenresSelected']);
-const genreSelectedName = computed(() => store.getters['main_page/getGenreSelectedName']);
-const queryGenre = computed(() => route.params.id);
+const queryGenre = computed(() => parseInt(route.params.id));
+const genreSelectedName = computed(() => getGenreSelectedName.value(queryGenre.value));
 
-function fetchGenres(queryGenre) {
-  store.dispatch('movies_catalog/fetchGenres', queryGenre);
-}
-function fetchFilters() {
-  store.dispatch('main_page/fetchFilters');
-}
-onMounted(() => fetchGenres(queryGenre.value), fetchFilters());
+onMounted(() => {
+  // Запрос фильмов по выбранному жанру
+  fetchGenres(queryGenre.value);
+  fetchFilters();
+});
 
-function resetMainPageState() {
-  store.commit('main_page/RESET_STATE');
-}
-function resetCurrentPageState() {
-  store.commit('movies_catalog/RESET_STATE');
-}
 onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
 </script>
 
@@ -36,43 +37,35 @@ onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
     <PreLoader />
   </main>
 
-  <main class="genre-search__wrapper">
+  <main v-else class="genre-search">
     <nav class="back-navigation">
       <BackHomeBlock />
     </nav>
-    <div class="genre-search__title">
-      {{ genreSelectedName(queryGenre) }}
-    </div>
-    <div class="genre-search__wrapper-cards">
+
+    <h1>
+      {{ genreSelectedName }}
+    </h1>
+
+    <div class="genre-search__cards">
       <MoviesCardList :movies="movies" />
     </div>
   </main>
 </template>
 
 <style lang="scss">
-.back-navigation {
-  padding-bottom: 54px;
-}
+@import '@/assets/styles/variables';
+@import '@/assets/styles/_mixins';
 
 .genre-search {
-  &__wrapper {
-    width: 100%;
-    max-width: 1440px;
-    padding: {
-      top: 68px;
-      left: 58px;
-    }
-    margin: {
-      left: auto;
-      right: auto;
-    }
-  }
+  max-width: 1440px;
+  padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) clamp(12px, (38 * 100 / 1440) * 1vw, 38px);
+  margin: 0 auto;
 
-  &__title {
-    color: #f9f9f9;
-    margin-bottom: 66px;
+  & h1 {
+    color: $primary-color-white;
+    margin: 0 0 clamp(24px, 4.58vw, 66px);
     font: {
-      size: 48px;
+      size: clamp(22px, 3.33vw, 48px);
       weight: 800;
     }
 
@@ -81,10 +74,26 @@ onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
     }
   }
 
-  &__wrapper-cards {
-    display: flex;
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px 34px;
-    flex-wrap: wrap;
+    justify-content: center;
+
+    @include mq(1151) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    @include mq(767) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(12px, (24 * 100 / 1440) * 1vw, 24px);
+    }
+
+    @include mq(350) {
+      grid-template-columns: 1fr;
+      justify-content: center;
+    }
   }
 }
 </style>
