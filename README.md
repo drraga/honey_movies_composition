@@ -1,4 +1,4 @@
-# HoneyMovies wepapp.
+# HoneyMovies webapp.
 
 Review of the fresh released movies on Kinopoisk.
 
