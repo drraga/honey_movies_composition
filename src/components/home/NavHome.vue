@@ -1,6 +1,7 @@
 <script setup>
 import SearchField from '@/components/home/SearchField.vue';
 import IconAccount from '@/assets/icons/IconAccount.vue';
+import IconBurger from '@/assets/icons/IconBurger.vue';
 </script>
 
 <template>
@@ -9,7 +10,9 @@ import IconAccount from '@/assets/icons/IconAccount.vue';
       <img src="@/assets/icons/Logo.svg" alt="Logo" />
     </div>
 
-    <SearchField />
+    <div class="home-navigation__search">
+      <SearchField />
+    </div>
 
     <div class="home-navigation__user">
       <span class="home-navigation__account-text">User</span>
@@ -17,6 +20,10 @@ import IconAccount from '@/assets/icons/IconAccount.vue';
       <button type="button" class="home-navigation__account-icon" aria-label="account">
         <IconAccount />
       </button>
+    </div>
+
+    <div class="home-navigation__burger">
+      <IconBurger />
     </div>
   </nav>
 </template>
@@ -27,21 +34,53 @@ import IconAccount from '@/assets/icons/IconAccount.vue';
 
 .home-navigation {
   &__wrapper {
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
+    display: grid;
+    grid-template-areas: 'logo search user-icon';
+    grid-template-columns: 1fr 3fr 1.26fr;
+    gap: 0.5rem;
     align-items: center;
-    width: 100%;
-    padding: 0 0 clamp(12px, (46 * 100 / 1440) * 1vw, 46px);
+    padding: 0 1.13rem clamp(0.75rem, 0.75rem + 2.3611vi, 2.875rem) 0;
+
+    @include mq(767) {
+      grid-template-areas:
+        'logo logo user-icon user-icon'
+        'burger burger search search';
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    @include mq(457) {
+      grid-template-areas:
+        'logo logo user-icon user-icon'
+        'burger search search search';
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   &__logo {
-    flex-basis: 22%;
+    grid-area: logo;
+    display: grid;
+    align-content: center;
+
+    & img {
+      max-inline-size: 100%;
+      block-size: auto;
+      aspect-ratio: 176 / 74;
+      object-fit: cover;
+    }
+  }
+
+  &__search {
+    grid-area: search;
+    justify-self: center;
+
+    @include mq(767) {
+      justify-self: stretch;
+    }
   }
 
   &__user {
+    grid-area: user-icon;
     display: flex;
-    flex-basis: 26%;
     justify-content: flex-end;
   }
 
@@ -56,7 +95,7 @@ import IconAccount from '@/assets/icons/IconAccount.vue';
     transition:
       transform 0.35s ease,
       color 0.35s ease;
-    margin-right: 16px;
+    margin-inline-end: 1rem;
     cursor: pointer;
 
     @media (hover: hover) {
@@ -72,17 +111,12 @@ import IconAccount from '@/assets/icons/IconAccount.vue';
         transform: scale(0.9);
       }
     }
-
-    @include mq(767) {
-      display: none;
-    }
   }
 
   &__account-icon {
-    padding: 12px 14px;
-    border-radius: 12px;
-    background-color: rgba(249, 249, 249, 20%);
-    margin-right: 36px;
+    padding: 0.75rem 0.875rem;
+    border-radius: 0.75rem;
+    background-color: $primary-background-color;
     cursor: pointer;
 
     @media (hover: hover) {
@@ -107,6 +141,19 @@ import IconAccount from '@/assets/icons/IconAccount.vue';
           }
         }
       }
+    }
+  }
+
+  &__burger {
+    grid-area: burger;
+    display: grid;
+    justify-content: center;
+    justify-self: start;
+    align-items: center;
+    padding: 0.375rem;
+
+    @include mq(768, 9999) {
+      display: none;
     }
   }
 }

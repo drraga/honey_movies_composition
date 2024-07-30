@@ -48,26 +48,30 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
 </script>
 
 <template>
-  <main v-if="isLoading">
+  <template v-if="isLoading">
     <div class="loader">
       <PreLoader />
     </div>
-  </main>
+  </template>
 
-  <main v-else class="home-page">
+  <div v-else class="home-page">
     <NavHome />
 
-    <section class="home-page__content">
-      <LeftSideBar />
+    <!-- <main class="home-page__content">
+      <aside class="home-page__content--menu">
+        <LeftSideBar />
+      </aside>
 
       <MainContent />
 
       <RightSideBar />
-    </section>
-  </main>
+    </main> -->
+  </div>
 </template>
 
 <style lang="scss">
+@import '@/assets/styles/_mixins';
+
 .home-page {
   padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) 0 clamp(24px, (64 * 100 / 1440) * 1vw, 64px)
     clamp(20px, (50 * 100 / 1440) * 1vw, 40px);
@@ -76,6 +80,20 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
   &__content {
     display: grid;
     grid-template-columns: [left] 1fr [center] 3fr [right]1fr;
+
+    @include mq(767) {
+      grid-template-columns: 2fr 1fr;
+    }
+
+    @include mq(565) {
+      display: unset;
+    }
+
+    &--menu {
+      @include mq(767) {
+        display: none;
+      }
+    }
   }
 }
 </style>

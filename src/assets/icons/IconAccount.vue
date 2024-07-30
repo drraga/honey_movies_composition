@@ -11,8 +11,8 @@
 
 <style lang="scss">
 .icon-account {
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   fill: none;
   transition: transform 0.35s ease;
 

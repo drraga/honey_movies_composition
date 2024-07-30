@@ -30,11 +30,13 @@ function fetchSearch(request) {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '@/assets/styles/variables';
 @import '@/assets/styles/_mixins';
 
 .search-field {
+  font-size: clamp(0.8rem, 0.9rem + 0.25vi, 1.25rem);
+
   &:focus-within {
     svg {
       path {
@@ -43,7 +45,7 @@ function fetchSearch(request) {
     }
 
     input {
-      border: 1px solid $primary-color-yellow;
+      border: 0.06rem solid $primary-color-yellow;
     }
   }
 
@@ -53,25 +55,25 @@ function fetchSearch(request) {
     & > svg {
       position: absolute;
       top: 50%;
-      left: 24px;
+      left: 1.33em;
 
-      @include mq(767) {
+      @include mq(457) {
         display: none;
       }
     }
   }
 
   input {
-    max-inline-size: 32ch;
+    width: 100%;
     padding: 0.89em 1.33em 0.89em 3.56em;
-    font-size: clamp(0.8rem, calc(0.9rem + 0.25vw), 1.25rem);
+    font-size: clamp(0.8rem, calc(0.9rem + 0.25vi), 1.25rem);
     color: $grey-light;
     border: 1px solid $grey-medium;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     background-color: $grey-dark;
     transition: border 0.25s ease;
 
-    @include mq(767) {
+    @include mq(457) {
       padding: 0.89em 1.33em;
     }
   }

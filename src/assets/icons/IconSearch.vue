@@ -11,12 +11,12 @@
 @import '@/assets/styles/variables';
 
 .icon-search {
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   fill: none;
   transform: translateY(-50%);
 
-  path {
+  & path {
     stroke: $grey-light2;
     stroke-linecap: round;
     stroke-linejoin: round;
