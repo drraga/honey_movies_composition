@@ -39,7 +39,7 @@ import IconBurger from '@/assets/icons/IconBurger.vue';
     grid-template-columns: 1fr 3fr 1.26fr;
     gap: 0.5rem;
     align-items: center;
-    padding: 0 1.13rem clamp(0.75rem, 0.75rem + 2.3611vi, 2.875rem) 0;
+    padding: 0 clamp(1.25rem, 0.75rem + 1.9444vi, 2.5rem) clamp(0.75rem, 0.75rem + 2.3611vi, 2.875rem) 0;
 
     @include mq(767) {
       grid-template-areas:

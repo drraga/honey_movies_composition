@@ -83,7 +83,7 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
 
   &__content {
     display: grid;
-    grid-template: 'navigation main main main multi-carousels' auto / 1fr 1fr 1fr 1fr 1fr;
+    grid-template: 'navigation main main main multi-carousels' auto / calc(0.65rem + 15.56vi) 1fr 1fr 1fr 1fr;
 
     @include mq(767) {
       grid-template: 'main main multi-carousels' / 1fr 1fr 1fr;
