@@ -5,7 +5,7 @@ import IconBurger from '@/assets/icons/IconBurger.vue';
 </script>
 
 <template>
-  <nav class="home-navigation__wrapper">
+  <header class="home-navigation__wrapper">
     <div class="home-navigation__logo">
       <img src="@/assets/icons/Logo.svg" alt="Logo" />
     </div>
@@ -25,7 +25,7 @@ import IconBurger from '@/assets/icons/IconBurger.vue';
     <div class="home-navigation__burger">
       <IconBurger />
     </div>
-  </nav>
+  </header>
 </template>
 
 <style lang="scss">

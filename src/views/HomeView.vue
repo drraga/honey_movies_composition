@@ -57,15 +57,19 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
   <div v-else class="home-page">
     <NavHome />
 
-    <!-- <main class="home-page__content">
-      <aside class="home-page__content--menu">
+    <main class="home-page__content">
+      <nav class="home-page__content--navigation">
         <LeftSideBar />
+      </nav>
+
+      <section class="home-page__content--main">
+        <MainContent />
+      </section>
+
+      <aside class="home-page__content--multi-carousels">
+        <RightSideBar />
       </aside>
-
-      <MainContent />
-
-      <RightSideBar />
-    </main> -->
+    </main>
   </div>
 </template>
 
@@ -73,26 +77,39 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
 @import '@/assets/styles/_mixins';
 
 .home-page {
-  padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) 0 clamp(24px, (64 * 100 / 1440) * 1vw, 64px)
-    clamp(20px, (50 * 100 / 1440) * 1vw, 40px);
+  padding: clamp(1.5rem, 0.75rem + 3.6111vi, 4rem) 0 clamp(1.5rem, 0.75rem + 3.6111vi, 4rem)
+    clamp(1.25rem, 0.75rem + 1.9444vi, 2.5rem);
   margin: 0 auto;
 
   &__content {
     display: grid;
-    grid-template-columns: [left] 1fr [center] 3fr [right]1fr;
+    grid-template: 'navigation main main main multi-carousels' auto / 1fr 1fr 1fr 1fr 1fr;
 
     @include mq(767) {
-      grid-template-columns: 2fr 1fr;
+      grid-template: 'main main multi-carousels' / 1fr 1fr 1fr;
     }
 
     @include mq(565) {
       display: unset;
     }
 
-    &--menu {
+    &--navigation {
+      grid-area: navigation;
+      display: flex;
+      gap: clamp(1.25rem, 0.75rem + 1.944vi, 2.5rem);
+      flex-direction: column;
+
       @include mq(767) {
         display: none;
       }
+    }
+
+    &--main {
+      grid-area: main;
+    }
+
+    &--multi-carousels {
+      grid-area: multi-carousels;
     }
   }
 }

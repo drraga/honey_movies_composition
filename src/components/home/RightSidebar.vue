@@ -17,11 +17,11 @@ const moviesTopAwaitSliced = computed(() => moviesTopAwait.value.slice(0, listLi
 </script>
 
 <template>
-  <aside class="right-side-bar">
+  <div class="right-side-bar">
     <RightSideBarSlider :elements-array="moviesTop250Sliced" block-name="Top 250" catalog-url="/films/top/250" />
     <RightSideBarSlider :elements-array="moviesTop100Sliced" block-name="Top 100" catalog-url="/films/top/100" />
     <RightSideBarSlider :elements-array="moviesTopAwaitSliced" block-name="Top Await" catalog-url="/films/top/await" />
-  </aside>
+  </div>
 </template>
 
 <style scoped>

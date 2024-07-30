@@ -18,7 +18,7 @@ const props = defineProps({
 
 const display = ref(false);
 const displayText = computed(() => {
-  return display.value ? 'Свернуть' : 'Показать еще';
+  return display.value ? 'Свернуть' : 'Eщё';
 });
 
 const displayElementList = computed(() => {
@@ -32,7 +32,7 @@ const categoryPath = computed(() => {
 </script>
 
 <template>
-  <section class="left-side-bar-block">
+  <div class="left-side-bar-block">
     <h3>
       {{ title }}
     </h3>
@@ -48,7 +48,7 @@ const categoryPath = computed(() => {
     <div v-if="visibility" class="left-side-bar-block__expand-button" @click="display = !display" @keydown="bar">
       {{ displayText }}
     </div>
-  </section>
+  </div>
 </template>
 
 <style lang="scss">
@@ -56,17 +56,16 @@ const categoryPath = computed(() => {
 @import '@/assets/styles/_mixins';
 
 .left-side-bar-block {
-  padding-bottom: clamp(20px, (40 * 100 / 1440) * 1vw, 40px);
-  font-size: 18px;
+  font-size: clamp(0.75rem, 0.75rem + 0.417vi, 1.125rem);
 
   h3 {
     font-weight: 700;
     color: $grey;
-    margin-bottom: clamp(12px, (24 * 100 / 1440) * 1vw, 24px);
+    margin: 0 0 clamp(0.75rem, 0.75rem + 0.8333vi, 1.5rem);
   }
 
   &__items {
-    max-height: 214px;
+    max-block-size: 13.375rem;
     overflow-y: auto;
   }
 
@@ -79,7 +78,7 @@ const categoryPath = computed(() => {
       top: 0;
       bottom: 0;
       right: 0;
-      width: 2px;
+      width: 0.125rem;
       background: transparent;
       transition: background 0.25s ease;
     }
@@ -87,8 +86,7 @@ const categoryPath = computed(() => {
     & > a {
       display: flex;
       align-items: center;
-      max-width: calc((235 / 1440) * 100vw);
-      padding: 7px 0;
+      padding: 0.438rem 0;
       font-weight: 600;
       text-transform: capitalize;
       text-overflow: ellipsis;
@@ -114,7 +112,7 @@ const categoryPath = computed(() => {
   }
 
   &__expand-button {
-    padding: 7px 0;
+    padding: 0.435rem 0;
     cursor: pointer;
   }
 }

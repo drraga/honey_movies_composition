@@ -4,13 +4,13 @@ import MainBottom from '@/components/home/MainBottom.vue';
 </script>
 
 <template>
-  <section class="main-content">
+  <div class="main-content">
     <div class="main-content__carousel">
       <CarouselMain />
     </div>
 
     <MainBottom />
-  </section>
+  </div>
 </template>
 
 <style lang="scss">

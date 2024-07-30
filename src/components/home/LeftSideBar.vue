@@ -19,9 +19,7 @@ const mainMenu = ref([
 </script>
 
 <template>
-  <div>
-    <LeftSideBarBlock :title="'Menu'" :elements-array="mainMenu" :visibility="false" />
-    <LeftSideBarBlock :title="'Genres'" :elements-array="genres" />
-    <LeftSideBarBlock :title="'Countries'" :elements-array="countries" />
-  </div>
+  <LeftSideBarBlock :title="'Menu'" :elements-array="mainMenu" :visibility="false" />
+  <LeftSideBarBlock :title="'Genres'" :elements-array="genres" />
+  <LeftSideBarBlock :title="'Countries'" :elements-array="countries" />
 </template>
