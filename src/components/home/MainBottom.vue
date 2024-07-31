@@ -21,19 +21,13 @@ const amountOfMoviesToShow = computed(() =>
 </script>
 
 <template>
-  <div class="main-bottom-block">
+  <section class="main-bottom-block">
     <h3>Top Random</h3>
 
     <div class="main-bottom-block__cards">
       <div v-for="slide in amountOfMoviesToShow" :key="slide.filmId" class="main-bottom-block__card">
-        <RouterLink
-          :to="`films/${slide.filmId}`"
-          class="main-bottom-block__card-link"
-          :style="{ backgroundImage: `url(${slide.posterUrlPreview})` }"
-        >
-          <div class="main-bottom-block__card-overlay" />
-
-          <div class="main-bottom-block__card-wrapper">
+        <RouterLink :to="`films/${slide.filmId}`" :style="{ backgroundImage: `url(${slide.posterUrlPreview})` }">
+          <div class="main-bottom-block__card-content">
             <p>{{ slide.nameRu }}</p>
 
             <Vue3StarRatings
@@ -43,7 +37,7 @@ const amountOfMoviesToShow = computed(() =>
               :show-control="false"
             />
 
-            <div class="main-bottom-block__details">
+            <div class="main-bottom-block__card-details">
               <p>{{ slide.year }}</p>
 
               <p>{{ slide.genres[0].genre }}</p>
@@ -52,7 +46,7 @@ const amountOfMoviesToShow = computed(() =>
         </RouterLink>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style lang="scss">
@@ -61,19 +55,16 @@ const amountOfMoviesToShow = computed(() =>
 
 .main-bottom-block {
   & h3 {
+    font-size: clamp(1.5rem, 0.5rem + 1.736vi, 1.875rem);
+    font-weight: 800;
     color: $primary-color-white;
-    font: {
-      size: 30px;
-      weight: 800;
-    }
-
-    margin-bottom: 30px;
+    margin: 0 0 clamp(0.95rem, 0.5rem + 1.53vi, 1.875rem);
   }
 
   &__cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: clamp(12px, (24 * 100 / 1440) * 1vw, 24px);
+    gap: clamp(0.75rem, 0.75rem + 0.833vi, 1.5rem);
     justify-content: space-between;
 
     @include mq(1152) {
@@ -83,33 +74,39 @@ const amountOfMoviesToShow = computed(() =>
 
   &__card {
     position: relative;
+    border-radius: clamp(0.625rem, 0.5rem + 0.833vi, 1.25rem);
     overflow: hidden;
+    aspect-ratio: 237/300;
   }
 
-  &__card-link {
+  & a {
     display: block;
-    border-radius: 20px;
+    height: 100%;
+    border-radius: inherit;
     background: 50% / cover no-repeat;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: $primary-overlay;
+    }
   }
 
-  &__card-overlay {
-    position: absolute;
-    inset: 0;
-    border-radius: 20px;
-    background: $primary-overlay;
-  }
-
-  &__card-wrapper {
+  &__card-content {
     position: relative;
-    z-index: 1;
     display: flex;
     flex-direction: column;
-    aspect-ratio: 237/300; // TODO венуться к соотношению сторон, количеству карточек, отображение текста внутри, размеры шритов
     height: 100%;
-    padding: 22px;
+    padding: clamp(0.56rem, 0.25rem + 1.25vi, 1.375rem);
+
+    @include mq(390) {
+      padding: 0 clamp(0.56rem, 0.25rem + 1.25vi, 1.375rem);
+    }
 
     & > p {
-      font-size: clamp(18px, (24 / 1440) * 100vw, 24px);
+      font-size: clamp(1rem, 0.5rem + 1.11vi, 1.5rem);
       font-weight: 800;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -118,14 +115,21 @@ const amountOfMoviesToShow = computed(() =>
     }
   }
 
-  &__details {
+  &__card-details {
     display: flex;
+    gap: 0.125rem;
     justify-content: space-between;
-    font-size: clamp(14px, (18 / 1440) * 100vw, 18px);
+    font-size: clamp(0.813rem, 0.5rem + 0.694vi, 1.125rem);
     font-weight: 700;
     text-transform: capitalize;
-    color: $primary-color-white;
-    margin-top: auto;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-block-start: auto;
+
+    @include mq(490) {
+      display: unset;
+    }
   }
 }
 </style>

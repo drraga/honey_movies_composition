@@ -1,30 +1,31 @@
 <script setup>
 import SearchField from '@/components/home/SearchField.vue';
+import IconAccount from '@/assets/icons/IconAccount.vue';
+import IconBurger from '@/assets/icons/IconBurger.vue';
 </script>
 
 <template>
-  <nav class="home-navigation__wrapper">
+  <header class="home-navigation__wrapper">
     <div class="home-navigation__logo">
       <img src="@/assets/icons/Logo.svg" alt="Logo" />
     </div>
 
-    <SearchField />
+    <div class="home-navigation__search">
+      <SearchField />
+    </div>
 
     <div class="home-navigation__user">
       <span class="home-navigation__account-text">User</span>
 
-      <button type="button" class="home-navigation__account-icon">
-        <svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M1.40002 19.5124C1.40002 15.7369 4.55431 12.6762 11 12.6762C17.4457 12.6762 20.6 15.7369 20.6 19.5124C20.6 20.1131 20.1618 20.6 19.6212 20.6H2.37885C1.83826 20.6 1.40002 20.1131 1.40002 19.5124Z"
-          />
-          <path
-            d="M14.6 4.99999C14.6 6.98822 12.9882 8.59999 11 8.59999C9.0118 8.59999 7.40002 6.98822 7.40002 4.99999C7.40002 3.01177 9.0118 1.39999 11 1.39999C12.9882 1.39999 14.6 3.01177 14.6 4.99999Z"
-          />
-        </svg>
+      <button type="button" class="home-navigation__account-icon" aria-label="account">
+        <IconAccount />
       </button>
     </div>
-  </nav>
+
+    <div class="home-navigation__burger">
+      <IconBurger />
+    </div>
+  </header>
 </template>
 
 <style lang="scss">
@@ -33,21 +34,53 @@ import SearchField from '@/components/home/SearchField.vue';
 
 .home-navigation {
   &__wrapper {
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
+    display: grid;
+    grid-template-areas: 'logo search user-icon';
+    grid-template-columns: 1fr 3fr 1.26fr;
+    gap: 0.5rem;
     align-items: center;
-    width: 100%;
-    padding: 0 0 clamp(12px, (46 * 100 / 1440) * 1vw, 46px);
+    padding: 0 clamp(1.25rem, 0.75rem + 1.9444vi, 2.5rem) clamp(0.75rem, 0.75rem + 2.3611vi, 2.875rem) 0;
+
+    @include mq(767) {
+      grid-template-areas:
+        'logo logo user-icon user-icon'
+        'burger burger search search';
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    @include mq(457) {
+      grid-template-areas:
+        'logo logo user-icon user-icon'
+        'burger search search search';
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   &__logo {
-    flex-basis: 22%;
+    grid-area: logo;
+    display: grid;
+    align-content: center;
+
+    & img {
+      max-inline-size: 100%;
+      block-size: auto;
+      aspect-ratio: 176 / 74;
+      object-fit: cover;
+    }
+  }
+
+  &__search {
+    grid-area: search;
+    justify-self: center;
+
+    @include mq(767) {
+      justify-self: stretch;
+    }
   }
 
   &__user {
+    grid-area: user-icon;
     display: flex;
-    flex-basis: 26%;
     justify-content: flex-end;
   }
 
@@ -62,7 +95,7 @@ import SearchField from '@/components/home/SearchField.vue';
     transition:
       transform 0.35s ease,
       color 0.35s ease;
-    margin-right: 16px;
+    margin-inline-end: 1rem;
     cursor: pointer;
 
     @media (hover: hover) {
@@ -78,17 +111,12 @@ import SearchField from '@/components/home/SearchField.vue';
         transform: scale(0.9);
       }
     }
-
-    @include mq(767) {
-      display: none;
-    }
   }
 
   &__account-icon {
-    padding: 12px 14px;
-    border-radius: 12px;
-    background-color: rgba(249, 249, 249, 20%);
-    margin-right: 36px;
+    padding: 0.75rem 0.875rem;
+    border-radius: 0.75rem;
+    background-color: $primary-background-color;
     cursor: pointer;
 
     @media (hover: hover) {
@@ -114,18 +142,18 @@ import SearchField from '@/components/home/SearchField.vue';
         }
       }
     }
+  }
 
-    svg {
-      width: 24px;
-      height: 24px;
-      fill: none;
-      transition: transform 0.35s ease;
+  &__burger {
+    grid-area: burger;
+    display: grid;
+    justify-content: center;
+    justify-self: start;
+    align-items: center;
+    padding: 0.375rem;
 
-      path {
-        stroke: #fff;
-        stroke-width: 2;
-        transition: stroke 0.35s ease;
-      }
+    @include mq(768, 9999) {
+      display: none;
     }
   }
 }

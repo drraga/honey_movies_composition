@@ -21,10 +21,12 @@ const prop = defineProps({
         {{ movieData.rating }}
       </div>
     </RouterLink>
+
     <section class="card-extended__bottom">
       <div class="card-extended__title">
         {{ movieData.nameRu }}
       </div>
+
       <figure>
         <Vue3StarRatings
           :model-value="movieData.rating"
@@ -34,9 +36,11 @@ const prop = defineProps({
           :disable-click="true"
         />
       </figure>
+
       <time class="card-extended__release-date">
         {{ movieData.year }}
       </time>
+
       <div class="card-extended__genres">
         {{ movieData.genre }}
       </div>
@@ -78,9 +82,7 @@ const prop = defineProps({
       weight: 600;
     }
   }
-  // &__bottom{
-  //   padding-left: 34px;
-  // }
+
   &__title {
     width: 262px;
     color: #fff;
