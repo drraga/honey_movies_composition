@@ -51,7 +51,7 @@ const { premiers } = storeToRefs(mainPage);
 
 .main-carousel {
   aspect-ratio: 740/350;
-  border-radius: 1.25rem;
+  border-radius: clamp(0.625rem, 0.5rem + 0.833vi, 1.25rem);
   overflow: hidden;
 
   & .carousel__track {
