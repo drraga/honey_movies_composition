@@ -56,7 +56,7 @@ const props = defineProps({
       </RouterLink>
     </div>
 
-    <Carousel ref="myCarousel" class="side-slider__carousel" :items-to-show="1.25">
+    <Carousel ref="myCarousel" class="side-slider__carousel" :items-to-show="1" :wrap-around="true">
       <Slide v-for="slide in elementsArray" :key="slide.filmId">
         <RouterLink
           :to="`films/${slide.filmId}`"

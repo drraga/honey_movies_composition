@@ -26,24 +26,34 @@ const amountOfMoviesToShow = computed(() =>
 
     <div class="main-bottom-block__cards">
       <div v-for="slide in amountOfMoviesToShow" :key="slide.filmId" class="main-bottom-block__card">
-        <RouterLink :to="`films/${slide.filmId}`" :style="{ backgroundImage: `url(${slide.posterUrlPreview})` }">
-          <div class="main-bottom-block__card-content">
-            <p>{{ slide.nameRu }}</p>
-
-            <Vue3StarRatings
-              :model-value="convertRating(slide.rating)"
-              :star-size="15"
-              :number-of-stars="5"
-              :show-control="false"
-            />
-
-            <div class="main-bottom-block__card-details">
-              <p>{{ slide.year }}</p>
-
-              <p>{{ slide.genres[0].genre }}</p>
-            </div>
-          </div>
+        <RouterLink :to="`films/${slide.filmId}`" class="main-bottom-block__card-link">
+          <img
+            :src="slide.posterUrlPreview"
+            :alt="`${slide.nameRu}. ${slide.genres?.[0]?.genre}`"
+            width="360"
+            height="512"
+            loading="eager"
+            decoding="sync"
+            :srcset="`${slide.posterUrlPreview} 1x`"
+          />
         </RouterLink>
+
+        <div class="main-bottom-block__card-overlay">
+          <p>{{ slide.nameRu }}</p>
+
+          <Vue3StarRatings
+            :model-value="convertRating(slide.rating)"
+            :star-size="15"
+            :number-of-stars="5"
+            :show-control="false"
+          />
+
+          <div class="main-bottom-block__card-overlay--details">
+            <p>{{ slide.year }}</p>
+
+            <p>{{ slide.genres[0].genre }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -77,13 +87,6 @@ const amountOfMoviesToShow = computed(() =>
     border-radius: clamp(0.625rem, 0.5rem + 0.833vi, 1.25rem);
     overflow: hidden;
     aspect-ratio: 237/300;
-  }
-
-  & a {
-    display: block;
-    height: 100%;
-    border-radius: inherit;
-    background: 50% / cover no-repeat;
 
     &::before {
       content: '';
@@ -94,8 +97,23 @@ const amountOfMoviesToShow = computed(() =>
     }
   }
 
-  &__card-content {
-    position: relative;
+  &__card-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: inherit;
+
+    & img {
+      max-inline-size: 100%;
+      block-size: auto;
+      aspect-ratio: 237/300;
+      object-fit: cover;
+    }
+  }
+
+  &__card-overlay {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -115,7 +133,7 @@ const amountOfMoviesToShow = computed(() =>
     }
   }
 
-  &__card-details {
+  &__card-overlay--details {
     display: flex;
     gap: 0.125rem;
     justify-content: space-between;
