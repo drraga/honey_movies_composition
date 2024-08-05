@@ -94,6 +94,7 @@ const amountOfMoviesToShow = computed(() =>
       inset: 0;
       border-radius: inherit;
       background: $primary-overlay;
+      pointer-events: none;
     }
   }
 
@@ -118,6 +119,7 @@ const amountOfMoviesToShow = computed(() =>
     flex-direction: column;
     height: 100%;
     padding: clamp(0.56rem, 0.25rem + 1.25vi, 1.375rem);
+    pointer-events: none;
 
     @include mq(390) {
       padding: 0 clamp(0.56rem, 0.25rem + 1.25vi, 1.375rem);

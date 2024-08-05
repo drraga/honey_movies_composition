@@ -84,6 +84,7 @@ const { premiers } = storeToRefs(mainPage);
       position: absolute;
       inset: 0;
       background: $primary-overlay;
+      pointer-events: none;
     }
   }
 
@@ -103,6 +104,7 @@ const { premiers } = storeToRefs(mainPage);
     position: absolute;
     inset: 0;
     padding: clamp(0.56rem, 0.25rem + 2.5vi, 2.5rem);
+    pointer-events: none;
 
     @include mq(390) {
       padding: 0 clamp(0.56rem, 0.25rem + 2.5vi, 2.5rem);
