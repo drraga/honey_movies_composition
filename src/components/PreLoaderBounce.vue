@@ -60,7 +60,7 @@
 @keyframes loading-step {
   0% {
     box-shadow:
-      0 0.625rem 0 rgba(0, 0, 0, 0),
+      0 0.625rem 0 rgba(0, 0, 0, 0%),
       0 0.625rem 0 $primary-color-white,
       -2.188rem 3.125rem 0 $primary-color-white,
       -4.375rem 5.625rem 0 $primary-color-white;
@@ -71,7 +71,7 @@
       0 0.625rem 0 $primary-color-white,
       -2.188rem 3.125rem 0 $primary-color-white,
       -4.375rem 5.625rem 0 $primary-color-white,
-      -4.375rem 5.625rem 0 rgba(0, 0, 0, 0);
+      -4.375rem 5.625rem 0 rgba(0, 0, 0, 0%);
   }
 }
 </style>
