@@ -64,6 +64,10 @@ const amountOfMoviesToShow = computed(() =>
 @import '@/assets/styles/variables';
 
 .main-bottom-block {
+  @include mq(565) {
+    margin: 0 0 clamp(0.625rem, 0.75rem + 1.25vi, 1.875rem);
+  }
+
   & h3 {
     font-size: clamp(1.5rem, 0.5rem + 1.736vi, 1.875rem);
     font-weight: 800;

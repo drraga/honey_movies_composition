@@ -1,5 +1,6 @@
 @import '@/assets/base';
 @import '@/assets/styles/reset';
+@import '@/assets/styles/variables';
 
 #app {
   padding: 0;
@@ -15,6 +16,10 @@ a {
   transition:
     background 0.25s ease,
     transform 0.25s ease;
+
+  &:focus {
+    border-bottom: 1px solid $primary-color-yellow;
+  }
 }
 
 .loader {

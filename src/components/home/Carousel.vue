@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useMainPage } from '@/store/main_page';
 
-import IconDirections from '@/assets/icons/IconDirections.vue';
+import HTMLMainSLiderDirections from '@/assets/icons/HTMLMainSLiderDirections.vue';
 
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
@@ -32,7 +32,7 @@ const { premiers } = storeToRefs(mainPage);
           />
         </RouterLink>
 
-        <div class="main-carousel__card-overlay">
+        <div class="main-carousel__card-overlay" tabindex="-1">
           <p>
             {{ slide.nameRu }}
           </p>
@@ -43,11 +43,11 @@ const { premiers } = storeToRefs(mainPage);
     <template #addons>
       <Navigation>
         <template #prev>
-          <IconDirections />
+          <HTMLMainSLiderDirections />
         </template>
 
         <template #next>
-          <IconDirections :is-right="true" />
+          <HTMLMainSLiderDirections :is-right="true" />
         </template>
       </Navigation>
 
@@ -66,17 +66,17 @@ const { premiers } = storeToRefs(mainPage);
   overflow: hidden;
 
   & .carousel__track {
-    height: 100%;
+    block-size: 100%;
   }
 
-  .carousel__viewport {
-    height: 100%;
+  & .carousel__viewport {
+    block-size: 100%;
   }
 
   &__card {
     position: relative;
-    width: 100%;
-    height: 100%;
+    inline-size: 100%;
+    block-size: 100%;
     border-radius: 1.25rem;
 
     &::before {
@@ -92,10 +92,11 @@ const { premiers } = storeToRefs(mainPage);
     display: flex;
     justify-content: center;
     align-items: center;
+    block-size: 100%;
 
     & img {
       max-inline-size: 100%;
-      block-size: auto;
+      block-size: 100%;
       object-fit: contain;
     }
   }

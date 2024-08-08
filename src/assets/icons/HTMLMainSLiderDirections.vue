@@ -65,10 +65,8 @@ const props = defineProps({
           transform: scale(0.98) translate3d(0, 0, 0);
         }
 
-        &.next {
-          svg {
-            transform: scale(0.98) translate3d(0, 0, 0) rotate(180deg);
-          }
+        svg.right {
+          transform: scale(0.98) translate3d(0, 0, 0) rotate(180deg);
         }
       }
     }
