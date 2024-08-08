@@ -24,10 +24,17 @@ const moviesTopAwaitSliced = computed(() => moviesTopAwait.value.slice(0, listLi
   </div>
 </template>
 
-<style scoped>
+<style lang="scss">
+@import '@/assets/styles/_mixins';
+
 .right-side-bar {
   display: grid;
   grid-template-rows: [top250] auto [top100] auto [topAwait] auto;
   row-gap: clamp(30px, ((60 / 1440) * 100vw), 60px);
+  margin-inline-end: clamp(-2.5rem, -0.75rem - 1.9444vi, -1.25rem);
+
+  @include mq(565) {
+    margin-inline-end: 0;
+  }
 }
 </style>

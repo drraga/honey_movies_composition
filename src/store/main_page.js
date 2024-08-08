@@ -22,10 +22,12 @@ export const useMainPage = defineStore('main_page', {
         label: null,
       },
     ],
+    isModalOpened: false,
   }),
   getters: {
     getGenreSelectedName: state => id => state.genres.find(film => film.id === id)?.label,
     getCountriesSelectedName: state => id => state.countries?.find(film => film.id === id)?.label,
+    getModalState: state => state.isModalOpened,
   },
   actions: {
     setTop250Random(movies) {
@@ -90,6 +92,9 @@ export const useMainPage = defineStore('main_page', {
       } catch (error) {
         console.log('FetchFilters error: ', error);
       }
+    },
+    toggleModal() {
+      this.isModalOpened = !this.isModalOpened;
     },
   },
 });

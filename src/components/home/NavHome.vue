@@ -2,6 +2,13 @@
 import SearchField from '@/components/home/SearchField.vue';
 import HTMLIconAccount from '@/assets/icons/HTMLIconAccount.vue';
 import HTMLIconBurger from '@/assets/icons/HTMLIconBurger.vue';
+
+import { storeToRefs } from 'pinia';
+import { useMainPage } from '@/store/main_page';
+
+const mainPage = useMainPage();
+const { toggleModal } = mainPage;
+const { getModalState } = storeToRefs(mainPage);
 </script>
 
 <template>
@@ -22,8 +29,8 @@ import HTMLIconBurger from '@/assets/icons/HTMLIconBurger.vue';
       </button>
     </div>
 
-    <button area-label="Меню навигации" class="home-navigation__burger">
-      <HTMLIconBurger />
+    <button area-label="Меню навигации" class="home-navigation__burger" @click="toggleModal">
+      <HTMLIconBurger :is-opened="getModalState" />
     </button>
   </header>
 </template>
@@ -39,7 +46,7 @@ import HTMLIconBurger from '@/assets/icons/HTMLIconBurger.vue';
     grid-template-columns: 1fr 3fr 1.26fr;
     gap: 0.5rem;
     align-items: center;
-    padding: 0 clamp(1.25rem, 0.75rem + 1.9444vi, 2.5rem) clamp(0.75rem, 0.75rem + 2.3611vi, 2.875rem) 0;
+    padding: 0 0 clamp(0.75rem, 0.75rem + 2.3611vi, 2.875rem);
 
     @include mq(767) {
       grid-template-areas:

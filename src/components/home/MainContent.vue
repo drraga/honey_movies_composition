@@ -26,5 +26,9 @@ import MainBottom from '@/components/home/MainBottom.vue';
   @include mq(767) {
     padding: 0 clamp(1.25rem, 0.75rem + 1.9444vi, 2.5rem) 0 0;
   }
+
+  @include mq(565) {
+    padding: 0;
+  }
 }
 </style>
