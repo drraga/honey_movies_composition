@@ -9,7 +9,7 @@ import NavHome from '@/components/home/NavHome.vue';
 import LeftSideBar from '@/components/home/LeftSideBar.vue';
 import MainContent from '@/components/home/MainContent.vue';
 import RightSideBar from '@/components/home/RightSidebar.vue';
-import PreLoader from '@/components/PreLoader.vue';
+import PreLoaderBounce from '@/components/PreLoaderBounce.vue';
 
 const moviesCatalog = useMoviesCatalog();
 const mainPage = useMainPage();
@@ -51,7 +51,7 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
 <template>
   <template v-if="isLoading">
     <div class="loader">
-      <PreLoader />
+      <PreLoaderBounce />
     </div>
   </template>
 
