@@ -1,5 +1,5 @@
 <script setup>
-import HTMLHTMLIconSearch from '@/assets/icons/HTMLIconSearch.vue';
+import HTMLIconSearch from '@/assets/icons/HTMLIconSearch.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
