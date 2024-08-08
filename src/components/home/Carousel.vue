@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useMainPage } from '@/store/main_page';
 
-import IconDirections from '@/assets/icons/IconDirections.vue';
+import HTMLMainSLiderDirections from '@/assets/icons/HTMLMainSLiderDirections.vue';
 
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
@@ -18,25 +18,36 @@ const { premiers } = storeToRefs(mainPage);
 <template>
   <Carousel class="main-carousel" :wrap-around="true">
     <Slide v-for="slide in premiers.slice(0, 10)" :key="slide.kinopoiskId">
-      <RouterLink
-        :to="`films/${slide.kinopoiskId}`"
-        class="main-carousel__card"
-        :style="{ backgroundImage: `url(${slide.posterUrl})` }"
-      >
-        <p class="main-carousel__card--title">
-          {{ slide.nameRu }}
-        </p>
-      </RouterLink>
+      <div class="main-carousel__card">
+        <RouterLink :to="`films/${slide.kinopoiskId}`" class="main-carousel__card-link">
+          <img
+            :src="slide.posterUrl"
+            width="667"
+            height="1000"
+            loading="eager"
+            fetchpriority="high"
+            decoding="sync"
+            :srcset="`${slide.posterUrl} 1x`"
+            :alt="`${slide.nameRu}. ${slide?.genres?.[0]?.genre}`"
+          />
+        </RouterLink>
+
+        <div class="main-carousel__card-overlay" tabindex="-1">
+          <p>
+            {{ slide.nameRu }}
+          </p>
+        </div>
+      </div>
     </Slide>
 
     <template #addons>
       <Navigation>
         <template #prev>
-          <IconDirections />
+          <HTMLMainSLiderDirections />
         </template>
 
         <template #next>
-          <IconDirections :is-right="true" />
+          <HTMLMainSLiderDirections :is-right="true" />
         </template>
       </Navigation>
 
@@ -50,43 +61,60 @@ const { premiers } = storeToRefs(mainPage);
 @import '@/assets/styles/_mixins';
 
 .main-carousel {
-  aspect-ratio: 740/350;
+  aspect-ratio: 770/350;
   border-radius: clamp(0.625rem, 0.5rem + 0.833vi, 1.25rem);
   overflow: hidden;
 
   & .carousel__track {
-    height: 100%;
+    block-size: 100%;
   }
 
-  .carousel__viewport {
-    height: 100%;
+  & .carousel__viewport {
+    block-size: 100%;
   }
 
   &__card {
     position: relative;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    padding: clamp(0.56rem, 0.25rem + 2.5vi, 2.5rem);
+    inline-size: 100%;
+    block-size: 100%;
     border-radius: 1.25rem;
-    background: 50% / contain no-repeat;
 
-    &::after {
+    &::before {
       content: '';
       position: absolute;
       inset: 0;
       background: $primary-overlay;
+      pointer-events: none;
     }
+  }
+
+  &__card-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    block-size: 100%;
+
+    & img {
+      max-inline-size: 100%;
+      block-size: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__card-overlay {
+    position: absolute;
+    inset: 0;
+    padding: clamp(0.56rem, 0.25rem + 2.5vi, 2.5rem);
+    pointer-events: none;
 
     @include mq(390) {
       padding: 0 clamp(0.56rem, 0.25rem + 2.5vi, 2.5rem);
     }
 
-    &--title {
-      position: relative;
-      z-index: 1;
+    & p {
       font-size: clamp(0.75rem, 0.75rem + 2vi, 3.33rem);
       font-weight: 800;
+      text-align: left;
       text-overflow: ellipsis;
       white-space: nowrap;
       color: $primary-color-white;
