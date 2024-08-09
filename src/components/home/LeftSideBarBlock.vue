@@ -37,13 +37,13 @@ const categoryPath = computed(() => {
       {{ title }}
     </h3>
 
-    <div class="left-side-bar-block__items">
-      <div v-for="element in displayElementList" :key="element.id" class="left-side-bar-block__nav-link">
+    <ul class="left-side-bar-block__items">
+      <li v-for="element in displayElementList" :key="element.id" class="left-side-bar-block__nav-link">
         <RouterLink :to="`/films/${categoryPath}/${element.id}`">
           {{ element.label }}
         </RouterLink>
-      </div>
-    </div>
+      </li>
+    </ul>
 
     <div v-if="visibility" class="left-side-bar-block__expand-button" @click="display = !display" @keydown="bar">
       {{ displayText }}
@@ -66,6 +66,7 @@ const categoryPath = computed(() => {
 
   &__items {
     max-block-size: 13.375rem;
+    list-style: none;
     overflow-y: auto;
   }
 
