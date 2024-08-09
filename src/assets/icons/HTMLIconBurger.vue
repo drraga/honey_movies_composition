@@ -8,32 +8,47 @@ const props = defineProps({
 </script>
 
 <template>
-  <svg class="icon-burger" :class="{ opened: props.isOpened }" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#clip0_429_11066)">
-      <path d="M3 6.00092H21M3 12.0009H21M3 18.0009H21" stroke-linecap="round" stroke-linejoin="round" />
-    </g>
-    <defs>
-      <clipPath id="clip0_429_11066">
-        <rect width="24" height="24" fill="white" transform="translate(0 0.000915527)" />
-      </clipPath>
-    </defs>
-  </svg>
+  <label class="toggle-burger" :class="{ opened: isOpened }" for="checkbox">
+    <div class="bars bar1"></div>
+    <div class="bars bar2"></div>
+    <div class="bars bar3"></div>
+  </label>
 </template>
 
 <style lang="scss">
 @import '@/assets/styles/variables';
-.icon-burger {
-  width: 1.5rem;
-  height: 1.5rem;
-  fill: none;
 
-  & path {
-    stroke: $primary-color-white;
-    stroke-width: 2.5;
-  }
+.toggle-burger {
+  display: flex;
+  gap: 0.625rem;
+  flex-direction: column;
+  inline-size: 2.5rem;
+  justify-content: center;
+  align-items: center;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
 
-  // & .opened {
+.bars {
+  inline-size: 100%;
+  block-size: 0.25rem;
+  border-radius: 0.313rem;
+  background-color: $primary-color-white;
+  transition-duration: 0.3s;
+}
 
-  // }
+.opened.toggle-burger .bar2 {
+  transform: translateY(0.875rem) rotate(60deg);
+  transform-origin: right;
+  margin-left: 0;
+}
+
+.opened.toggle-burger .bar1 {
+  transform: translateY(1.75rem) rotate(-60deg);
+  transform-origin: left;
+}
+
+.opened.toggle-burger {
+  transform: rotate(-90deg);
 }
 </style>
