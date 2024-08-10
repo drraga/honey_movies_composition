@@ -40,7 +40,6 @@ const props = defineProps({
 .opened.toggle-burger .bar2 {
   transform: translateY(0.875rem) rotate(60deg);
   transform-origin: right;
-  margin-left: 0;
 }
 
 .opened.toggle-burger .bar1 {

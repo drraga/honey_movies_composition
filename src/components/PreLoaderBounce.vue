@@ -7,17 +7,18 @@
 
 .loader-bounce {
   position: relative;
-  width: 7.5rem;
-  height: 5.625rem;
+  inline-size: 7.5rem;
+  block-size: 5.625rem;
   margin: 0 auto;
+  transform: translate3d(0, 0, 0);
 
   &::before {
     content: '';
     position: absolute;
     bottom: 1.875rem;
     left: 3.125rem;
-    width: 1.875rem;
-    height: 1.875rem;
+    inline-size: 1.875rem;
+    block-size: 1.875rem;
     border-radius: 50%;
     background: $primary-color-yellow;
     animation: loading-bounce 0.5s ease-in-out infinite alternate;
@@ -28,8 +29,8 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 2.813rem;
-    height: 0.438rem;
+    inline-size: 2.813rem;
+    block-size: 0.438rem;
     border-radius: 0.25rem;
     box-shadow:
       0 5px 0 $primary-color-white,
