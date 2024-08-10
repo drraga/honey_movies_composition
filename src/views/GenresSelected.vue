@@ -8,7 +8,7 @@ import { useMainPage } from '@/store/main_page';
 
 import BackHomeBlock from '@/components/BackHomeBlock.vue';
 import MoviesCardList from '@/components/movies/MoviesCardList.vue';
-import PreLoader from '@/components/PreLoader.vue';
+import PreLoaderBounce from '@/components/PreLoaderBounce.vue';
 
 const moviesCatalog = useMoviesCatalog();
 const { isLoading, genresSelected: movies } = storeToRefs(moviesCatalog);
@@ -34,7 +34,7 @@ onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
 
 <template>
   <main v-if="isLoading" class="loader">
-    <PreLoader />
+    <PreLoaderBounce />
   </main>
 
   <main v-else class="genre-search">

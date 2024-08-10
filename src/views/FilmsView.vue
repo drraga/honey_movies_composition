@@ -9,7 +9,7 @@ import { useRoute } from 'vue-router';
 
 import BackHomeBlock from '@/components/BackHomeBlock.vue';
 import MoviesCardList from '@/components/movies/MoviesCardList.vue';
-import PreLoader from '@/components/PreLoader.vue';
+import PreLoaderBounce from '@/components/PreLoaderBounce.vue';
 
 const moviesCatalog = useMoviesCatalog();
 const mainPage = useMainPage();
@@ -64,7 +64,7 @@ onBeforeUnmount(() => {
 <template>
   <main v-if="isLoading">
     <div class="loader">
-      <PreLoader />
+      <PreLoaderBounce />
     </div>
   </main>
 

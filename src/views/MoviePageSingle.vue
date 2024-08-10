@@ -8,7 +8,7 @@ import { useRoute } from 'vue-router';
 
 import Vue3StarRatings from 'vue3-star-ratings';
 import BackHomeBlock from '@/components/BackHomeBlock.vue';
-import PreLoader from '@/components/PreLoader.vue';
+import PreLoaderBounce from '@/components/PreLoaderBounce.vue';
 
 const movieSingle = useMovieSingle();
 const { isLoading, movieData: getMovie } = storeToRefs(movieSingle);
@@ -42,7 +42,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
 <template>
   <main v-if="isLoading">
     <div class="loader">
-      <PreLoader />
+      <PreLoaderBounce />
     </div>
   </main>
 

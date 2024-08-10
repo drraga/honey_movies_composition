@@ -15,7 +15,7 @@ const mainPage = useMainPage();
 const { getCountriesSelectedName: countryRequestedName } = storeToRefs(mainPage);
 const { fetchFilters, resetState: resetMainPageState } = mainPage;
 
-import PreLoader from '@/components/PreLoader.vue';
+import PreLoaderBounce from '@/components/PreLoaderBounce.vue';
 import MoviesCardList from '@/components/movies/MoviesCardList.vue';
 import BackHomeBlock from '@/components/BackHomeBlock.vue';
 
@@ -35,7 +35,7 @@ onBeforeUnmount(() => {
 
 <template>
   <main v-if="isLoading" class="loader">
-    <PreLoader />
+    <PreLoaderBounce />
   </main>
 
   <main v-else class="country-search">
