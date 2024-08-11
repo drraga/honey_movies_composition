@@ -42,7 +42,7 @@ const categoryPath = computed(() => {
       {{ title }}
     </h3>
 
-    <ul class="left-side-bar-block__items">
+    <menu class="left-side-bar-block__items">
       <li v-for="element in displayElementList" :key="element.id" class="left-side-bar-block__nav-link is-active">
         <RouterLink :to="`/films/${categoryPath}/${element.id}`">
           {{ element.label }}
@@ -59,7 +59,7 @@ const categoryPath = computed(() => {
           {{ element.label }}
         </RouterLink>
       </li>
-    </ul>
+    </menu>
 
     <div v-if="visibility" class="left-side-bar-block__expand-button" @click="display = !display" @keydown="bar">
       {{ displayText }}
