@@ -22,13 +22,14 @@ const displayText = computed(() => {
   return display.value ? 'Свернуть' : 'Eщё';
 });
 
+const listLimit = 3;
+
 const displayElementList = computed(() => {
-  const listLimit = 3;
-  return props.elementsArray.slice(0, listLimit);
+  return !props.visibility ? props.elementsArray : props.elementsArray.slice(0, listLimit);
 });
 
 const displayRemainingElements = computed(() => {
-  return props.elementsArray.slice(3, -1);
+  return props.elementsArray.slice(listLimit, -1);
 });
 
 const categoryPath = computed(() => {

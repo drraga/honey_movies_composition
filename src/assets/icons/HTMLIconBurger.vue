@@ -8,11 +8,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <label class="toggle-burger" :class="{ opened: isOpened }" for="checkbox">
+  <div class="toggle-burger" :class="{ 'is-opened': isOpened }">
     <div class="bars bar1"></div>
     <div class="bars bar2"></div>
     <div class="bars bar3"></div>
-  </label>
+  </div>
 </template>
 
 <style lang="scss">
@@ -37,17 +37,17 @@ const props = defineProps({
   transition-duration: 0.3s;
 }
 
-.opened.toggle-burger .bar2 {
+.is-opened.toggle-burger .bar2 {
   transform: translateY(0.875rem) rotate(60deg);
   transform-origin: right;
 }
 
-.opened.toggle-burger .bar1 {
+.is-opened.toggle-burger .bar1 {
   transform: translateY(1.75rem) rotate(-60deg);
   transform-origin: left;
 }
 
-.opened.toggle-burger {
+.is-opened.toggle-burger {
   transform: rotate(-90deg);
 }
 </style>

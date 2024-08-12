@@ -173,11 +173,11 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
   }
 
   &__card {
+    position: relative;
     grid-area: card;
     max-inline-size: 18.75rem;
     border-radius: 0.75rem 0.75rem 0 0;
     overflow: hidden;
-    position: relative;
 
     & img {
       max-inline-size: 100%;

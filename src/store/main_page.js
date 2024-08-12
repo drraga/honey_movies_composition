@@ -96,5 +96,8 @@ export const useMainPage = defineStore('main_page', {
     toggleModal() {
       this.isModalOpened = !this.isModalOpened;
     },
+    hideModal() {
+      this.isModalOpened = false;
+    },
   },
 });
