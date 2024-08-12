@@ -8,7 +8,7 @@ import { useMainPage } from '@/store/main_page';
 
 import BackHomeBlock from '@/components/BackHomeBlock.vue';
 import MoviesCardList from '@/components/movies/MoviesCardList.vue';
-import PreLoader from '@/components/PreLoader.vue';
+import PreLoaderBounce from '@/components/PreLoaderBounce.vue';
 
 const moviesCatalog = useMoviesCatalog();
 const mainPage = useMainPage();
@@ -28,7 +28,7 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
 <template>
   <main v-if="isLoading">
     <div class="loader">
-      <PreLoader />
+      <PreLoaderBounce />
     </div>
   </main>
 
@@ -54,7 +54,7 @@ onBeforeUnmount(() => resetMainPageState(), resetCurrentPageState());
 .search-result {
   &__wrapper {
     max-width: 1440px;
-    padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) clamp(12px, (38 * 100 / 1440) * 1vw, 38px);
+    padding: clamp(1.5rem, 0.75rem + 3.6111vi, 4rem) clamp(1.5rem, 0.75rem + 2.369vi, 3.125rem);
     margin: {
       left: auto;
       right: auto;

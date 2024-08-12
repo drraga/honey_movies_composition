@@ -1,7 +1,14 @@
 <script setup>
 import SearchField from '@/components/home/SearchField.vue';
-import IconAccount from '@/assets/icons/IconAccount.vue';
-import IconBurger from '@/assets/icons/IconBurger.vue';
+import HTMLIconAccount from '@/assets/icons/HTMLIconAccount.vue';
+import HTMLIconBurger from '@/assets/icons/HTMLIconBurger.vue';
+
+import { storeToRefs } from 'pinia';
+import { useMainPage } from '@/store/main_page';
+
+const mainPage = useMainPage();
+const { toggleModal } = mainPage;
+const { getModalState } = storeToRefs(mainPage);
 </script>
 
 <template>
@@ -15,16 +22,16 @@ import IconBurger from '@/assets/icons/IconBurger.vue';
     </div>
 
     <div class="home-navigation__user">
-      <span class="home-navigation__account-text">User</span>
+      <span>User</span>
 
-      <button type="button" class="home-navigation__account-icon" aria-label="account">
-        <IconAccount />
+      <button type="button" aria-label="Account menu">
+        <HTMLIconAccount />
       </button>
     </div>
 
-    <div class="home-navigation__burger">
-      <IconBurger />
-    </div>
+    <button area-label="Меню навигации" class="home-navigation__burger" @click="toggleModal">
+      <HTMLIconBurger :is-opened="getModalState" />
+    </button>
   </header>
 </template>
 
@@ -39,7 +46,7 @@ import IconBurger from '@/assets/icons/IconBurger.vue';
     grid-template-columns: 1fr 3fr 1.26fr;
     gap: 0.5rem;
     align-items: center;
-    padding: 0 clamp(1.25rem, 0.75rem + 1.9444vi, 2.5rem) clamp(0.75rem, 0.75rem + 2.3611vi, 2.875rem) 0;
+    padding: 0 0 clamp(0.75rem, 0.75rem + 2.3611vi, 2.875rem);
 
     @include mq(767) {
       grid-template-areas:
@@ -82,62 +89,62 @@ import IconBurger from '@/assets/icons/IconBurger.vue';
     grid-area: user-icon;
     display: flex;
     justify-content: flex-end;
-  }
 
-  &__account-text {
-    display: flex;
-    align-items: center;
-    font-weight: 800;
-    color: $primary-color-white;
-    border: none;
-    background: none;
-    transform: translate3d(0, 0, 0);
-    transition:
-      transform 0.35s ease,
-      color 0.35s ease;
-    margin-inline-end: 1rem;
-    cursor: pointer;
+    & span {
+      display: flex;
+      align-items: center;
+      font-weight: 800;
+      color: $primary-color-white;
+      border: none;
+      background: none;
+      transform: translate3d(0, 0, 0);
+      transition:
+        transform 0.35s ease,
+        color 0.35s ease;
+      margin-inline-end: 1rem;
+      cursor: pointer;
 
-    @media (hover: hover) {
-      &:hover {
-        color: $primary-color-yellow;
-        transform: scale(1.05);
-      }
-    }
-
-    @media (hover: none) {
-      &:active {
-        color: $primary-color-yellow;
-        transform: scale(0.9);
-      }
-    }
-  }
-
-  &__account-icon {
-    padding: 0.75rem 0.875rem;
-    border-radius: 0.75rem;
-    background-color: $primary-background-color;
-    cursor: pointer;
-
-    @media (hover: hover) {
-      &:hover {
-        svg {
+      @media (hover: hover) {
+        &:hover {
+          color: $primary-color-yellow;
           transform: scale(1.05);
+        }
+      }
 
-          path {
-            stroke: $primary-color-yellow;
-          }
+      @media (hover: none) {
+        &:active {
+          color: $primary-color-yellow;
+          transform: scale(0.9);
         }
       }
     }
 
-    @media (hover: none) {
-      &:active {
-        svg {
-          transform: scale(0.9);
+    & button {
+      padding: 0.75rem 0.875rem;
+      border-radius: 0.75rem;
+      background-color: $primary-background-color;
+      cursor: pointer;
 
-          path {
-            stroke: $primary-color-yellow;
+      @media (hover: hover) {
+        &:hover {
+          svg {
+            transform: scale(1.05);
+
+            path {
+              stroke: $primary-color-yellow;
+            }
+          }
+        }
+      }
+
+      @media (hover: none) {
+        &:active {
+          svg {
+            transform: scale(0.9);
+
+            path {
+              stroke: $primary-color-yellow;
+            }
           }
         }
       }
@@ -151,6 +158,8 @@ import IconBurger from '@/assets/icons/IconBurger.vue';
     justify-self: start;
     align-items: center;
     padding: 0.375rem;
+    border: 0;
+    background: transparent;
 
     @include mq(768, 9999) {
       display: none;

@@ -8,7 +8,7 @@ import { useRoute } from 'vue-router';
 
 import Vue3StarRatings from 'vue3-star-ratings';
 import BackHomeBlock from '@/components/BackHomeBlock.vue';
-import PreLoader from '@/components/PreLoader.vue';
+import PreLoaderBounce from '@/components/PreLoaderBounce.vue';
 
 const movieSingle = useMovieSingle();
 const { isLoading, movieData: getMovie } = storeToRefs(movieSingle);
@@ -42,20 +42,20 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
 <template>
   <main v-if="isLoading">
     <div class="loader">
-      <PreLoader />
+      <PreLoaderBounce />
     </div>
   </main>
 
-  <main v-else :style="{ backgroundImage: `url(${getMovie.posterUrl})` }" class="single-movie__wrapper">
-    <div class="single-movie__navigation">
+  <main v-else :style="{ backgroundImage: `url(${getMovie.posterUrl})` }" class="single-movie">
+    <nav>
       <BackHomeBlock />
-    </div>
+    </nav>
 
-    <section class="single-movie__content">
-      <div class="single-movie__summary">
-        <p class="single-movie__summary--title">
+    <div class="single-movie__content">
+      <section class="single-movie__summary">
+        <h1>
           {{ getMovie.nameRu }}
-        </p>
+        </h1>
 
         <Vue3StarRatings
           :model-value="getMovie.rating"
@@ -66,23 +66,31 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
           class="single-movie__summary--star-rating"
         />
 
-        <div class="single-movie__summary--critic-rating">
+        <p class="single-movie__summary--critic-rating">
           {{ getMovie.ratingText }}
-        </div>
+        </p>
 
-        <div class="single-movie__summary--description">
+        <p class="single-movie__summary--description">
           {{ getMovie.description }}
-        </div>
-      </div>
+        </p>
+      </section>
 
       <div class="single-movie__card">
-        <div :style="{ backgroundImage: `url(${getMovie.posterUrlPreview})` }">
-          <div class="single-movie__card--rating">
-            {{ getMovie.rating }}
-          </div>
-        </div>
+        <img
+          :src="`${getMovie.posterUrlPreview}`"
+          :alt="`${getMovie.nameRu}. ${getMovie.genre}`"
+          width="300"
+          height="450"
+          fetchpriority="hight"
+          loading="eager"
+          decoding="sync"
+        />
+
+        <span>
+          {{ getMovie.rating }}
+        </span>
       </div>
-    </section>
+    </div>
   </main>
 </template>
 
@@ -91,23 +99,20 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
 @import '@/assets/styles/_mixins';
 
 .single-movie {
-  &__wrapper {
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: clamp(24px, (64 * 100 / 1440) * 1vw, 64px) clamp(25px, (50 * 100 / 1440) * 1vw, 50px);
-    background: no-repeat center / cover;
-    margin: 0 auto;
+  min-block-size: 100vh;
+  min-block-size: 100dvh;
+  padding: clamp(1.5rem, 0.75rem + 3.6111vi, 4rem) clamp(1.5rem, 0.75rem + 2.369vi, 3.125rem);
+  background: no-repeat center / cover;
+  margin: 0 auto;
 
-    &::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      display: block;
-      background-image: $primary-overlay;
-    }
+  &::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: $primary-overlay;
   }
 
-  &__navigation {
+  & nav {
     position: relative;
     z-index: 1;
   }
@@ -118,7 +123,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
     display: grid;
     grid-template-areas: 'description card';
     grid-template-columns: 2fr 1fr;
-    gap: clamp(8px, (100 * 100 / 1440) * 1vw, 100px);
+    gap: clamp(0.5rem, 0.5rem + 6.389vi, 6.25rem);
     justify-content: center;
     color: #fff;
 
@@ -132,10 +137,10 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
   &__summary {
     grid-area: description;
 
-    &--title {
+    & h1 {
       font: {
         weight: 800;
-        size: clamp(22px, (68 * 100 / 1440) * 1vw, 68px);
+        size: clamp(1.375rem, 0.75rem + 3.89vi, 4.25rem);
       }
     }
 
@@ -147,13 +152,13 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
       margin-bottom: 5.764vw;
       font: {
         weight: 600;
-        size: clamp(12px, (25 * 100 / 1440) * 1vw, 25px);
+        size: clamp(0.75rem, 0.75rem + 0.93vi, 1.563rem);
       }
     }
 
     &--description {
       font: {
-        size: clamp(13px, (30 * 100 / 1440) * 1vw, 30px);
+        size: clamp(0.813rem, 0.75rem + 1.25vi, 1.875rem);
         weight: 600;
       }
 
@@ -168,27 +173,29 @@ onUnmounted(() => window.removeEventListener('resize', handleResize));
   }
 
   &__card {
+    position: relative;
     grid-area: card;
-    max-width: 300px;
+    max-inline-size: 18.75rem;
+    border-radius: 0.75rem 0.75rem 0 0;
+    overflow: hidden;
 
-    > div {
-      position: relative;
-      width: 100%;
-      padding: calc((300 / 200) * 100%) 0 0;
-      border-radius: 12px 12px 0 0;
-      background: no-repeat center / cover;
+    & img {
+      max-inline-size: 100%;
+      block-size: auto;
+      aspect-ratio: 300 /450;
+      object-fit: cover;
     }
 
-    &--rating {
+    & span {
       position: absolute;
       top: 0;
       right: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      width: calc(100% / 3);
+      inline-size: calc(100% / 3);
       color: #fff;
-      border-radius: 0 12px;
+      border-radius: 0 0.75rem;
       background-color: $primary-color-yellow;
     }
   }

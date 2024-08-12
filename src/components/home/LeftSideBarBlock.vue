@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { RouterLink } from 'vue-router';
 
 const props = defineProps({
   elementsArray: {
@@ -21,9 +22,14 @@ const displayText = computed(() => {
   return display.value ? 'Свернуть' : 'Eщё';
 });
 
+const listLimit = 3;
+
 const displayElementList = computed(() => {
-  const listLimit = 3;
-  return display.value ? props.elementsArray : props.elementsArray.slice(0, listLimit);
+  return !props.visibility ? props.elementsArray : props.elementsArray.slice(0, listLimit);
+});
+
+const displayRemainingElements = computed(() => {
+  return props.elementsArray.slice(listLimit, -1);
 });
 
 const categoryPath = computed(() => {
@@ -37,13 +43,24 @@ const categoryPath = computed(() => {
       {{ title }}
     </h3>
 
-    <div class="left-side-bar-block__items">
-      <div v-for="element in displayElementList" :key="element.id" class="left-side-bar-block__nav-link">
+    <menu class="left-side-bar-block__items">
+      <li v-for="element in displayElementList" :key="element.id" class="left-side-bar-block__nav-link is-active">
         <RouterLink :to="`/films/${categoryPath}/${element.id}`">
           {{ element.label }}
         </RouterLink>
-      </div>
-    </div>
+      </li>
+
+      <li
+        v-for="element in displayRemainingElements"
+        :key="element.id"
+        class="left-side-bar-block__nav-link"
+        :class="{ 'is-active': display }"
+      >
+        <RouterLink :to="`/films/${categoryPath}/${element.id}`">
+          {{ element.label }}
+        </RouterLink>
+      </li>
+    </menu>
 
     <div v-if="visibility" class="left-side-bar-block__expand-button" @click="display = !display" @keydown="bar">
       {{ displayText }}
@@ -66,11 +83,15 @@ const categoryPath = computed(() => {
 
   &__items {
     max-block-size: 13.375rem;
+    list-style: none;
     overflow-y: auto;
   }
 
   &__nav-link {
     position: relative;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 1s $easeInnOutCirc;
 
     &::after {
       content: '';
@@ -83,10 +104,17 @@ const categoryPath = computed(() => {
       transition: background 0.25s ease;
     }
 
+    &.is-active {
+      grid-template-rows: 1fr;
+    }
+
+    &.is-active > a {
+      padding: 0.438rem 0;
+    }
+
     & > a {
       display: flex;
       align-items: center;
-      padding: 0.438rem 0;
       font-weight: 600;
       text-transform: capitalize;
       text-overflow: ellipsis;
@@ -95,6 +123,7 @@ const categoryPath = computed(() => {
       transform: translate3d(0, 0, 0);
       transform-origin: center left;
       transition:
+        padding 1s ease,
         color 0.35s ease,
         transform 0.35s ease;
       overflow: hidden;

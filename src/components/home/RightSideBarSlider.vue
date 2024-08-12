@@ -95,10 +95,6 @@ const settings = {
 @import '@/assets/styles/_mixins';
 
 .side-slider {
-  @include mq(565) {
-    padding: 0 clamp(1.25rem, 0.75rem + 1.9444vi, 2.5rem) 0 0;
-  }
-
   &__header {
     display: flex;
     justify-content: space-between;
@@ -222,11 +218,11 @@ const settings = {
 
   &__carousel {
     aspect-ratio: 224/100;
-    border-radius: 0.75rem;
     overflow: hidden;
 
     @include mq(565) {
       aspect-ratio: 224/60;
+      border-radius: 0.75rem;
     }
 
     & .carousel__track {

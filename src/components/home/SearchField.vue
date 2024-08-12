@@ -1,5 +1,5 @@
 <script setup>
-import IconSearch from '@/assets/icons/IconSearch.vue';
+import HTMLIconSearch from '@/assets/icons/HTMLIconSearch.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -17,7 +17,7 @@ function fetchSearch(request) {
 <template>
   <div class="search-field">
     <label for="search-field-input">
-      <IconSearch />
+      <HTMLIconSearch />
 
       <input
         id="search-field-input"
@@ -45,7 +45,7 @@ function fetchSearch(request) {
     }
 
     input {
-      border: 0.06rem solid $primary-color-yellow;
+      outline: 0.06rem solid $primary-color-yellow;
     }
   }
 
