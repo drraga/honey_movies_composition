@@ -55,7 +55,6 @@ const mainMenu = ref([
 ]);
 
 const disableModal = () => {
-  console.log(window.innerWidth);
   if (window.innerWidth > 768) {
     hideModal();
   }
