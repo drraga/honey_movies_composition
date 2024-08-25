@@ -94,6 +94,10 @@ onBeforeUnmount(() => resetCurrentPageState(), resetMainPageState());
       grid-template-columns: 1fr;
       justify-content: center;
     }
+
+    &:hover > :not(:hover) {
+      opacity: 0.5;
+    }
   }
 }
 </style>

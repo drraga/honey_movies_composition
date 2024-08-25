@@ -84,11 +84,16 @@ const amountOfMoviesToShow = computed(() =>
     @include mq(1152) {
       grid-template-columns: repeat(2, 1fr);
     }
+
+    &:hover > :not(:hover) {
+      opacity: 0.5;
+    }
   }
 
   &__card {
     position: relative;
     border-radius: clamp(0.625rem, 0.5rem + 0.833vi, 1.25rem);
+    transition: opacity 0.3s ease;
     overflow: hidden;
     aspect-ratio: 237/300;
 

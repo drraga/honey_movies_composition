@@ -64,8 +64,8 @@ onBeforeUnmount(() => {
 
   & h1 {
     display: block;
-    margin: 0 0 clamp(24px, 4.58vw, 66px);
     color: $grey;
+    margin: 0 0 clamp(24px, 4.58vw, 66px);
     font: {
       size: clamp(22px, 3.33vw, 48px);
       weight: 800;
@@ -95,6 +95,10 @@ onBeforeUnmount(() => {
     @include mq(350) {
       grid-template-columns: 1fr;
       justify-content: center;
+    }
+
+    &:hover > :not(:hover) {
+      opacity: 0.5;
     }
   }
 }

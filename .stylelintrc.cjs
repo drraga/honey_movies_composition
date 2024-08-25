@@ -12,9 +12,11 @@ module.exports = {
     },
   ],
   rules: {
+    'scss/load-no-partial-leading-underscore': null,
     'selector-class-pattern': null,
     'no-descending-specificity': null,
     'max-line-length': null,
+    'import-notation': null,
     'number-max-precision': [
       4,
       {

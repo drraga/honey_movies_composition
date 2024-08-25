@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div v-for="movieData in movies" :key="movieData?.id">
+  <template v-for="movieData in movies" :key="movieData?.id">
     <MoviesCardItem :movie-data="movieData" />
-  </div>
+  </template>
 </template>

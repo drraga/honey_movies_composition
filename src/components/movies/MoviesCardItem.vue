@@ -73,6 +73,7 @@ const starSize = computed(() => {
   box-shadow:
     rgba(0, 0, 0, 19%) 0 10px 20px,
     rgba(0, 0, 0, 23%) 0 6px 6px;
+  transition: opacity 0.3s ease;
 
   &__image {
     position: relative;
